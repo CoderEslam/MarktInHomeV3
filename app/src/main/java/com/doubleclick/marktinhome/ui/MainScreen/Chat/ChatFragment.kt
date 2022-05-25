@@ -411,13 +411,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             }
             pupMenu.show()
         }
-        //===============================PRDownloader========================
-        profile_image.setOnClickListener {
 
-            profile_image.setImageDrawable(Drawable.createFromPath("/storage/emulated/0/Download/MarketEslam/1653336837535.jpg"));
-//
-        }
-        //===============================PRDownloader========================
         return view;
     }
 
@@ -833,6 +827,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         }
     }
 
+    //===============================PRDownloader========================
     //https://github.com/MindorksOpenSource/PRDownloader
     //https://www.youtube.com/watch?v=olOCFo3mCQs&ab_channel=MAKENIQAL
     private fun PRDownloaderInit(chat: Chat, pos: Int) {
@@ -936,6 +931,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private fun getBytesToMB(bytes: Long): String {
         return String.format(Locale.ENGLISH, "%.2fMb", bytes / (1024.90 * 1824.00))
     }
+
+    //===============================PRDownloader========================
+
 
     /*
     *  TODO Store data when friend sent it to me
