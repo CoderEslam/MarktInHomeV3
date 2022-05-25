@@ -1,0 +1,155 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'realm-android'
+    id 'kotlin-android-extensions'
+//    id "androidx.navigation.safeargs.kotlin" غلط
+    id("androidx.navigation.safeargs")
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'// دي صح
+    // for Java
+//    id 'androidx.navigation.safeargs'
+    // TODO butterknife
+//    id 'com.jakewharton.butterknife'
+}
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.doubleclick.marktinhome"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+        vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-database:20.0.3'
+    implementation 'com.google.firebase:firebase-firestore:24.0.1'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+//    implementation 'androidx.room:room-common:2.4.2'
+//    implementation 'androidx.room:room-runtime:2.4.2'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0-alpha1"
+    implementation "androidx.room:room-runtime:2.0.0-alpha1"
+    kapt "androidx.room:room-compiler:2.0.0-alpha1"
+//    implementation project(path: ':RichEditor')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    annotationProcessor 'androidx.room:room-compiler:2.4.2'
+
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+//    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    implementation "androidx.multidex:multidex:2.0.1"
+
+    //add this library and this
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.karumi:dexter:6.2.3'
+
+    implementation 'com.mxn.soul:flowingdrawer-core:2.1.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+
+    implementation 'com.firebaseui:firebase-ui-database:6.0.2'
+
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+
+    implementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
+
+    implementation 'com.github.anastr:speedviewlib:1.6.0'
+
+    // PayPal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+
+    // Rich Editor
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'com.lzy.widget:imagepicker:0.5.5'
+    implementation 'com.blankj:utilcodex:1.29.0'
+    // TODO butterknife
+//    implementation 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.todkars:shimmer-recyclerview:0.4.1'
+
+//for AppCompat use:
+    //appcompat v26+ is higly recommended to support older APIs
+    implementation 'com.devlomi.record-view:record-view:2.0.1'
+
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    implementation 'com.vanniktech:emoji:0.8.0'
+    implementation "com.vanniktech:emoji-google:0.8.0"
+    implementation 'com.firebaseui:firebase-ui-database:6.2.0'
+    implementation('io.realm:android-adapters:3.0.0')
+
+//    implementation 'id.zelory:compressor:3.0.1'
+    implementation 'id.zelory:compressor:2.1.1'
+//    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
+
+
+    implementation 'com.nex3z:toggle-button-group:1.2.3'
+
+
+//    implementation 'com.github.sparrow007:carouselrecyclerview:1.2.4'
+
+//    implementation 'com.github.mohammadatif:Animatoo:master'
+
+    // Picker Color
+    implementation 'com.github.duanhong169:colorpicker:1.1.6'
+
+    // for qr genearator
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
+
+
+
+}

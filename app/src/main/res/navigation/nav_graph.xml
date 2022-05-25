@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/menu_Cart"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Frgments.CartFragment"
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_menu_Cart_to_menu_profile"
+            app:destination="@id/menu_profile"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/menu_profile"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Frgments.Profile.menu_profileFragment"
+        tools:layout="@layout/fragment_menu_profile">
+
+        <action
+            android:id="@+id/action_menu_profile_to_groupFragment"
+            app:destination="@id/menu_group" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Frgments.HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_menu_Cart"
+            app:destination="@id/menu_Cart"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/menu_group"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Groups.GroupFragment"
+        android:label="fragment_group"
+        tools:layout="@layout/fragment_group" />
+
+</navigation>

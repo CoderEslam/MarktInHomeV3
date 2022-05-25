@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_nav"
+    app:startDestination="@id/chatListFragment">
+
+
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Chat.ChatListFragment"
+        android:label="ChatListFragment"
+        tools:layout="@layout/fragment_chat_list">
+        <action
+            android:id="@+id/action_chatListFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+        <action
+            android:id="@+id/action_chatListFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+    </fragment>
+    <fragment
+        android:id="@+id/allUsersFragment"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Chat.AllUsersFragment"
+        android:label="fragment_all_users"
+        tools:layout="@layout/fragment_all_users">
+        <action
+            android:id="@+id/action_allUsersFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat">
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
+
+</navigation>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rich_nav"
+    app:startDestination="@layout/fragment_rich">
+
+    <fragment
+        android:id="@+id/RichFragment"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.RichFragment"
+        tools:layout="@layout/fragment_rich">
+        <action
+            android:id="@+id/action_RichFragment_to_TableFragment"
+            app:destination="@id/TableFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+        <action
+            android:id="@+id/action_RichFragment_to_LinkFragment"
+            app:destination="@id/LinkFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TableFragment"
+        android:name="com.doubleclick.RichEditor.sample.fragment.EditTableFragment"
+        tools:layout="@layout/fragment_edit_table">
+        <action
+            android:id="@+id/action_TableFragment_to_RichFragment"
+            app:destination="@id/RichFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/LinkFragment"
+        android:name="com.doubleclick.RichEditor.sample.fragment.EditHyperlinkFragment"
+        tools:layout="@layout/fragment_edit_hyperlink">
+
+        <action
+            android:id="@+id/action_LinkFragment_to_RichFragment"
+            app:destination="@id/RichFragment"
+            app:enterAnim="@anim/lefttoright"
+            app:exitAnim="@anim/righttoleft"
+            app:popEnterAnim="@anim/lefttoright"
+            app:popExitAnim="@anim/righttoleft" />
+    </fragment>
+</navigation>

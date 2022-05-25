@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LiquidPager">
+        <attr name="button_drawable" format="reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="SmoothBottomBar">
+        <attr name="menu" format="reference" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="indicatorColor" format="color" />
+        <attr name="indicatorRadius" format="dimension" />
+        <attr name="sideMargins" format="dimension" />
+        <attr name="itemPadding" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="itemFontFamily" format="reference" />
+        <attr name="textSize" format="dimension" />
+        <attr name="iconSize" format="dimension" />
+        <attr name="iconMargin" format="dimension" />
+        <attr name="iconTint" format="color" />
+        <attr name="iconTintActive" format="color" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="activeItem" format="integer" />
+        <attr name="duration" format="integer" />
+        <attr name="corners">
+            <flag name="none" value="0" />
+            <flag name="top_left" value="1" />
+            <flag name="top_right" value="2" />
+            <flag name="bottom_right" value="4" />
+            <flag name="bottom_left" value="8" />
+            <flag name="all" value="15" />
+        </attr>
+    </declare-styleable>
+
+    <attr name="SmoothBottomBarStyle" format="reference" />
+
+    <declare-styleable name="SNavigationDrawer">
+        <attr name="appbarColor" format="color" />
+        <attr name="appbarTitleTextColor" format="color" />
+        <attr name="appbarTitleTextSize" format="dimension" />
+        <attr name="HamMenuIconTintColor" format="color" />
+        <attr name="HamMenuIconSize" format="dimension" />
+        <attr name="HamMenuItemSemiTransparentColor" format="color" />
+        <attr name="navigationDrawerBackgroundColor" format="color" />
+        <attr name="primaryMenuItemTextColor" format="color" />
+        <attr name="secondaryMenuItemTextColor" format="color" />
+        <attr name="primaryMenuItemTextSize" format="dimension" />
+        <attr name="secondaryMenuItemTextSize" format="dimension" />
+    </declare-styleable>
+
+    <!-- Reference to a style for the menu drawer. -->
+    <attr name="elasticDrawerStyle" format="reference" />
+
+    <!-- Styleables used for styling the menu drawer. -->
+    <declare-styleable name="ElasticDrawer">
+
+        <!-- Drawable to use for the background of the menu. -->
+        <attr name="edMenuBackground" format="color" />
+
+        <!-- The size of the menu. -->
+        <attr name="edMenuSize" format="dimension" />
+
+        <!-- The touch bezel size. -->
+        <attr name="edTouchBezelSize" format="dimension" />
+
+        <!-- The maximum animation duration -->
+        <attr name="edMaxAnimationDuration" format="integer" />
+
+        <!-- The position of the drawer -->
+        <attr name="edPosition" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ColorPickerView">
+        <!-- sets a drawable of the palette. the default palette is HSV drawable palette built by HSV (hue, saturation, value) color model. -->
+        <attr name="palette" format="reference" />
+        <!-- sets a drawable of the selector. -->
+        <attr name="selector" format="integer" />
+        <!-- sets a width/height square size of the selector. -->
+        <attr name="selector_size" format="dimension" />
+        <!-- sets an alpha of thr selector. -->
+        <attr name="selector_alpha" format="float" />
+        <!-- sets an alpha of the flag. -->
+        <attr name="flag_alpha" format="float" />
+        <!-- sets a is flip-able or not of the flag. -->
+        <attr name="flag_isFlipAble" format="boolean" />
+        <!-- sets a preference name for persisting and restoring status of the selector and slideBars. -->
+        <attr name="preferenceName" format="string" />
+        <!-- sets a debounce duration of the invoking color listener. -->
+        <attr name="debounceDuration" format="integer" />
+        <!-- set an initial position of the selector using a specific color. This attribute will work with only a default HSV palette. -->
+        <attr name="initialColor" format="color" />
+        <!-- sets the color listener's trigger action mode. -->
+        <attr name="actionMode" format="enum">
+            <!-- trigger the listener always when tapped by a user.  -->
+            <enum name="always" value="0" />
+            <!-- trigger the listener only the last color when user release tapping. -->
+            <enum name="last" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="AlphaSlideBar">
+        <!-- sets a customized selector drawable. -->
+        <attr name="selector_AlphaSlideBar" format="integer" />
+        <!-- sets a color of the border. -->
+        <attr name="borderColor_AlphaSlideBar" format="color" />
+        <!-- sets a size of the border. -->
+        <attr name="borderSize_AlphaSlideBar" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="BrightnessSlideBar">
+        <!-- sets a customized selector drawable. -->
+        <attr name="selector_BrightnessSlider" format="integer" />
+        <!-- sets a color of the border. -->
+        <attr name="borderColor_BrightnessSlider" format="color" />
+        <!-- sets a size of the border. -->
+        <attr name="borderSize_BrightnessSlider" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="AlphaTileView">
+        <!-- sets width/height square size of the title. -->
+        <attr name="tileSize" format="integer" />
+        <!-- a color of the odd location in patterns. -->
+        <attr name="tileOddColor" format="color" />
+        <!-- a color of the even location in patterns. -->
+        <attr name="tileEvenColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="roundView">
+        <attr name="BackgroundColor" format="reference|color" />
+    </declare-styleable>
+    <declare-styleable name="ActionImageView">
+        <attr name="actionType">
+            <enum name="none" value="0" />
+            <enum name="family" value="1" />
+            <enum name="size" value="2" />
+            <enum name="lineHeight" value="3" />
+            <enum name="foreColor" value="4" />
+            <enum name="backColor" value="5" />
+
+            <enum name="bold" value="6" />
+            <enum name="italic" value="7" />
+            <enum name="underline" value="8" />
+            <enum name="subscript" value="9" />
+            <enum name="superscript" value="10" />
+            <enum name="strikethrough" value="11" />
+
+            <enum name="normal" value="12" />
+            <enum name="h1" value="13" />
+            <enum name="h2" value="14" />
+            <enum name="h3" value="15" />
+            <enum name="h4" value="16" />
+            <enum name="h5" value="17" />
+            <enum name="h6" value="18" />
+
+            <enum name="justifyLeft" value="19" />
+            <enum name="justifyCenter" value="20" />
+            <enum name="justifyRight" value="21" />
+            <enum name="justifyFull" value="22" />
+
+            <enum name="ordered" value="23" />
+            <enum name="unordered" value="24" />
+
+            <enum name="indent" value="25" />
+            <enum name="outdent" value="26" />
+
+            <enum name="image" value="27" />
+            <enum name="link" value="28" />
+            <enum name="table" value="29" />
+            <enum name="line" value="30" />
+
+            <enum name="blockQuote" value="31" />
+            <enum name="blockCode" value="32" />
+
+            <enum name="codeView" value="33" />
+
+        </attr>
+    </declare-styleable>
+
+
+    <attr name="linkModes">
+        <flag name="hashtag" value="1" />
+        <flag name="mention" value="2" />
+        <flag name="phone" value="4" />
+        <flag name="email" value="8" />
+        <flag name="url" value="16" />
+    </attr>
+
+    <declare-styleable name="SocialTextView">
+        <attr name="android:text" />
+        <attr name="android:hint" />
+        <attr name="underlineEnabled" format="boolean" />
+        <attr name="hashtagColor" format="color" />
+        <attr name="mentionColor" format="color" />
+        <attr name="phoneColor" format="color" />
+        <attr name="emailColor" format="color" />
+        <attr name="urlColor" format="color" />
+        <attr name="selectedColor" format="color" />
+        <attr name="linkModes" />
+    </declare-styleable>
+
+
+    <declare-styleable name="SocialViewStyle">
+        <attr name="socialViewStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SocialView">
+        <!-- Determine whether each feature should be turned on/off.
+             Default is `hashtag|mention|hyperlink`. -->
+        <attr name="socialFlags">
+            <flag name="hashtag" value="1" />
+            <flag name="mention" value="2" />
+            <flag name="hyperlink" value="4" />
+        </attr>
+
+        <!-- Color of each feature.
+             If particular feature is not enabled, this value will be ignored.
+             Default is color accent of current theme. -->
+        <attr name="HashtagColor" format="color" />
+        <attr name="MentionColor" format="color" />
+        <attr name="HyperlinkColor" format="color" />
+    </declare-styleable>
+
+
+    <attr name="reflect_relativeDepth" format="float" />
+    <attr name="reflect_gap" format="dimension" />
+
+    <declare-styleable name="ReflectionViewContainer">
+        <attr name="reflect_relativeDepth" />
+        <attr name="reflect_gap" />
+    </declare-styleable>
+
+    <declare-styleable name="ReflectionViewContainer_Layout">
+        <attr name="reflect_relativeDepth" />
+        <attr name="reflect_gap" />
+    </declare-styleable>
+
+    <attr name="reflect_reflectionLayoutStyle" format="reference" />
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="zxing_view">
+        <attr name="zxing_scanner_layout" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="zxing_camera_preview">
+        <attr name="zxing_framing_rect_width" format="dimension" />
+        <attr name="zxing_framing_rect_height" format="dimension" />
+        <attr name="zxing_use_texture_view" format="boolean" />
+        <attr name="zxing_preview_scaling_strategy" format="enum">
+            <enum name="centerCrop" value="1" />
+            <enum name="fitCenter" value="2" />
+            <enum name="fitXY" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="zxing_finder">
+        <attr name="zxing_possible_result_points" format="color"/>
+        <attr name="zxing_result_view" format="color"/>
+        <attr name="zxing_viewfinder_laser" format="color"/>
+        <attr name="zxing_viewfinder_mask" format="color"/>
+        <attr name="zxing_viewfinder_laser_visibility" format="boolean"/>
+    </declare-styleable>
+</resources>

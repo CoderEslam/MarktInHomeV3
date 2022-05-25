@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "301662975271",
+    "project_id": "marketinhome-99d25",
+    "storage_bucket": "marketinhome-99d25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301662975271:android:f76d776a9b4d212737e502",
+        "android_client_info": {
+          "package_name": "com.doubleclick.marktinhome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301662975271-gqq039c035hnbncd5ss71psdhg97b8e2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo9J-jh1RXGFf8d0wguDOCLHbedYzVHPc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301662975271-gqq039c035hnbncd5ss71psdhg97b8e2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout12"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/search_users"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_white"
+            android:gravity="center"
+            android:hint="Search....."
+            android:inputType="textMultiLine|textCapSentences|textNoSuggestions|text"
+            android:maxEms="5"
+            android:maxLines="5"
+            android:paddingStart="@dimen/padding46"
+            android:paddingLeft="@dimen/padding46"
+            android:paddingTop="@dimen/padding8"
+            android:paddingEnd="@dimen/padding12"
+            android:paddingRight="@dimen/padding12"
+            android:paddingBottom="@dimen/padding10"
+            android:text=""
+            android:textAlignment="viewStart"
+            android:textColorHint="#929292"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlCompat" />
+
+        <com.todkars.shimmer.ShimmerRecyclerView
+            android:id="@+id/allUser"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/search_users"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_users"
+            app:shimmer_recycler_item_count="20"
+            app:shimmer_recycler_layout="@layout/user_chat_layout_shimmer"
+            tools:listitem="@layout/user_chat_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.doubleclick.marktinhome">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" /> <!-- TODO replace above two with next line after Android 4.2 -->
+    <!-- <uses-feature android:name="android.hardware.camera.any"/> -->
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/shopping_cart"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/shopping_cart"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MarktInHome">
+
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".ui.MainScreen.Groups.ViewPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Groups.EditPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.FilterParent.FilterParentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.ViewMore.ViewMoreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.RecentOrderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Groups.ViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Parents.ParentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Groups.Comments.CommentGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Groups.CreateGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Groups.CreatePostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Groups.GroupsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MarktInHome.NoActionBar" />
+        <activity
+            android:name=".ui.Advertisement.EditAdvertisementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Trademark.EditTradmarkActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.doubleclick.DashBoard.DashBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.Comments.CommentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ProductActivity.productActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Filter.FilterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.doubleclick.Address.AddressActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Trademark.TrademarkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Advertisement.AdvertisementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Seller.SellerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainScreen.MainScreenActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.ReadQRCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.market.doublethink.com"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.doubleclick.RichEditor.sample.RichEditorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.Add.AddActivity"
+            android:exported="false"
+            android:hardwareAccelerated="false" />
+        <activity
+            android:name=".ui.Trademark.FilterTradmarkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Views.ReadQRCode.journeyapps.barcodescanner.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:screenOrientation="sensorLandscape"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".Notifications.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.doubleclick.Servies.NotificationReceiver" />
+    </application>
+
+</manifest>
