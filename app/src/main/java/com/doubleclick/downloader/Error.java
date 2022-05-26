@@ -61,4 +61,16 @@ public class Error {
     public int getResponseCode() {
         return responseCode;
     }
+
+    @Override
+    public String toString() {
+        return "Error{" +
+                "isServerError=" + isServerError +
+                ", isConnectionError=" + isConnectionError +
+                ", serverErrorMessage='" + serverErrorMessage + '\'' +
+                ", headerFields=" + headerFields +
+                ", connectionException=" + connectionException +
+                ", responseCode=" + responseCode +
+                '}';
+    }
 }

@@ -3,6 +3,7 @@ package com.doubleclick.ViewHolder;
 import static android.content.Context.DOWNLOAD_SERVICE;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -34,49 +35,52 @@ import com.doubleclick.OnMessageClick;
 import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.Model.Chat;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Views.visualizer.AudioInputReader;
+import com.doubleclick.marktinhome.Views.visualizer.VisualizerView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+import ak.sh.ay.musicwave.MusicWave;
+
 /**
  * Created By Eslam Ghazy on 2/7/2022
  */
-public class VoiceViewHolder extends BaseViewHolder {
+public class VoiceViewHolder extends BaseViewHolder implements AudioInputReader.AudioListner {
 
-    private VideoView voice;
-    private ImageView downloadVoice, playVoice;
+    private ImageView playVoice;
     private boolean isPlay = false;
     private ProgressBar progress;
     private OnMessageClick onMessageClick;
     private String myId;
     private ImageView seen;
-    private ProgressBar progressBar;
     private TextView time;
     private SeekBar seekBar;
     private int duration = 0, current = 0;
+    private VisualizerView mVisualizerView;
+    private AudioInputReader mAudioInputReader;
 
     public VoiceViewHolder(@NonNull View itemView, OnMessageClick onMessageClick, String myId) {
         super(itemView);
         this.onMessageClick = onMessageClick;
         this.myId = myId;
-        voice = itemView.findViewById(R.id.video);
-        downloadVoice = itemView.findViewById(R.id.downloadVoice);
         progress = itemView.findViewById(R.id.progress);
         playVoice = itemView.findViewById(R.id.playVoice);
         seen = itemView.findViewById(R.id.seen);
-        progressBar = itemView.findViewById(R.id.progressBar);
         time = itemView.findViewById(R.id.time);
         seekBar = itemView.findViewById(R.id.seekBar);
-
+        mVisualizerView = itemView.findViewById(R.id.visualizer);
+        mAudioInputReader = new AudioInputReader(mVisualizerView, this, itemView.getContext());
+        SetupSharedPrefrences();
     }
 
     @SuppressLint({"UseCompatLoadingForDrawables", "SimpleDateFormat"})
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void Play(Chat chat, int position) {
         time.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
-        if (!chat.getMessage().equals("")) {
+        if (!chat.getUri().equals("")) {
             if (chat.getReceiver().equals(myId)) {
                 seen.setVisibility(View.INVISIBLE);
             } else {
@@ -84,89 +88,36 @@ public class VoiceViewHolder extends BaseViewHolder {
             }
             progress.setVisibility(View.GONE);
             playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.play));
-            voice.setVideoURI(Uri.parse(chat.getMessage())); //the string of the URL mentioned above
-            voice.stopPlayback();
-            voice.pause();
-        }
-
-//        else {
-//            downloadVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.download));
-//        }
-        voice.setOnCompletionListener(mp -> playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.play)));
-        voice.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                new Thread(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void run() {
-                        duration = mp.getDuration();
-                        do {
-                            try {
-                                current = voice.getCurrentPosition();
-                                seekBar.setProgress((int) ((current * 100) / duration), true);
-                            } catch (Exception e) {
-
-                            }
-                        } while (seekBar.getProgress() <= 100);
+            playVoice.setOnClickListener(v -> {
+                if (!chat.getUri().equals("")) {
+                    if (isPlay) {
+                        mAudioInputReader.shutdown(true);
+                        mVisualizerView.setVisibility(View.INVISIBLE);
+                        playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.play));
+                        isPlay = false;
+                    } else {
+                        mAudioInputReader.initVisualizer(Uri.parse(chat.getUri()));
+                        mVisualizerView.setVisibility(View.VISIBLE);
+                        playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.pause));
+                        isPlay = true;
                     }
-                }).start();
-            }
-        });
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        MediaController mediaController = new MediaController(itemView.getContext());
-        mediaController.setMediaPlayer(voice);
-        mediaController.findFocus();
-        mediaController.show(0);
-//        mediaController.setAnchorView(voice);
-        mediaController.setEnabled(true);
-        voice.setMediaController(mediaController);
-        voice.requestFocus();
-        downloadVoice.setOnClickListener(v -> {
-            onMessageClick.download(chat, getAdapterPosition(), progressBar);
-        });
-
-        playVoice.setOnClickListener(v -> {
-            if (!chat.getMessage().equals("")) {
-                if (isPlay) {
-                    playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.play));
-                    voice.pause();
-                    voice.stopPlayback();
-                    isPlay = false;
-                } else {
-                    playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.pause));
-                    voice.setVideoURI(Uri.parse(chat.getMessage()));
-                    voice.start();
-                    isPlay = true;
                 }
+            });
+        } else {
+            if (!chat.getMessage().equals("")) {
+                if (chat.getReceiver().equals(myId)) {
+                    seen.setVisibility(View.INVISIBLE);
+                } else {
+                    seen.setImageDrawable(chat.isSeen() ? itemView.getContext().getResources().getDrawable(R.drawable.done_all) : itemView.getContext().getResources().getDrawable(R.drawable.done));
+                }
+                playVoice.setImageDrawable(itemView.getContext().getResources().getDrawable(R.drawable._download_));
             }
-
-            /*if (!chat.getUri().equals("") && chat.getSender().equals(myId)){
-
-            }*/
-        });
+        }
         itemView.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), v);
             popupMenu.getMenuInflater().inflate(R.menu.text_chat_option, popupMenu.getMenu());
             popupMenu.getMenu().findItem(R.id.copy).setVisible(false);
-            popupMenu.getMenu().findItem(R.id.open).setVisible(false);
+            popupMenu.getMenu().findItem(R.id.open).setTitle("download");
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -180,6 +131,10 @@ public class VoiceViewHolder extends BaseViewHolder {
                             Toast.makeText(itemView.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
                         }
                         return true;
+                    } else if (R.id.open == item.getItemId()) {
+                        progress.setVisibility(View.VISIBLE);
+                        onMessageClick.download(chat, getAdapterPosition());
+                        return true;
                     } else {
                         return false;
                     }
@@ -189,4 +144,37 @@ public class VoiceViewHolder extends BaseViewHolder {
         });
     }
 
+    private void SetupSharedPrefrences() {
+        mVisualizerView.setShowBass(true);
+        mVisualizerView.setMinSizeScale(1);
+        loadColorFromPreferences();
+    }
+
+    private void loadColorFromPreferences() {
+        mVisualizerView.setColor(R.color.offwhite, R.color.blue, R.color.black);
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void onComplete(MediaPlayer mp) {
+        mVisualizerView.setVisibility(View.INVISIBLE);
+        playVoice.setImageDrawable(itemView.getResources().getDrawable(R.drawable.play));
+        mAudioInputReader.shutdown(true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void OnPreparedListener(MediaPlayer mp) {
+        new Thread(() -> {
+            duration = mp.getDuration();
+            do {
+                try {
+                    current = mp.getCurrentPosition();
+                    seekBar.setProgress((int) ((current * 100) / duration), true);
+                } catch (Exception ignored) {
+
+                }
+            } while (seekBar.getProgress() <= 100);
+        }).start();
+    }
 }

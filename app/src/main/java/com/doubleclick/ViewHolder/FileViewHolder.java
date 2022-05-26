@@ -57,7 +57,7 @@ public class FileViewHolder extends BaseViewHolder {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onMessageClick.download(chat, getAdapterPosition(), progressBar);
+                onMessageClick.download(chat, getAdapterPosition());
             }
         });
         itemView.setOnClickListener(v -> {
@@ -78,9 +78,10 @@ public class FileViewHolder extends BaseViewHolder {
                         }
                         return true;
                     } else if (item.getItemId() == R.id.open) {
-                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(chat.getMessage()));
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setDataAndType(Uri.parse(chat.getUri()), "application/*");
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.setPackage("com.android.chrome");
+//                        i.setPackage("com.android.chrome");
                         try {
                             itemView.getContext().startActivity(i);
                         } catch (ActivityNotFoundException e) {

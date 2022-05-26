@@ -47,10 +47,10 @@
 
 
             <VideoView
-                android:backgroundTint="@color/white"
                 android:id="@+id/video"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -86,16 +86,6 @@
                     android:max="100" />
 
                 <ImageView
-                    android:id="@+id/downloadVoice"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_text_chat"
-                    android:elevation="6dp"
-                    android:src="@drawable/_download_"
-                    android:visibility="gone" />
-
-                <ImageView
                     android:id="@+id/playVoice"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -103,6 +93,12 @@
                     android:background="@drawable/bg_text_chat"
                     android:elevation="6dp"
                     android:src="@drawable/play" />
+
+                <com.doubleclick.marktinhome.Views.visualizer.VisualizerView
+                    android:id="@+id/visualizer"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center" />
 
 
             </LinearLayout>

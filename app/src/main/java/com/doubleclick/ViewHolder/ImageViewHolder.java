@@ -78,7 +78,7 @@ public class ImageViewHolder extends BaseViewHolder {
                             onMessageClick.deleteForMe(chat, position);
                         }
                         if (R.id.download == item.getItemId()) {
-                            onMessageClick.download(chat, position, progressBar);
+                            onMessageClick.download(chat, position);
 //                            progressBar.setVisibility(View.VISIBLE);
                         }
                         return true;

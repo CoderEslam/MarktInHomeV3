@@ -102,17 +102,12 @@ public class VideoViewHolder extends BaseViewHolder {
                     if (R.id.download == id) {
                         download.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.VISIBLE);
-                        onMessageClick.download(chat, getAdapterPosition(), progressBar);
+                        onMessageClick.download(chat, getAdapterPosition());
                     }
                     return true;
                 }
             });
             popupMenu.show();
-        });
-
-        download.setOnClickListener(v -> {
-            progressBar.setVisibility(View.VISIBLE);
-            onMessageClick.download(chat, getAdapterPosition(), progressBar);
         });
     }
 

@@ -88,7 +88,7 @@ public class BaseMessageAdapter extends RecyclerView.Adapter {
         try {
             switch (chats.get(position).getType()) {
                 case "voice":
-                    ((VoiceViewHolder) holder).Play(chats.get(holder.getAdapterPosition()), position);
+                    ((VoiceViewHolder) holder).Play(chats.get(position), position);
                     break;
                 case "text":
                     ((MessageTextViewHolder) holder).SetTextMessage(chats.get(position), position);

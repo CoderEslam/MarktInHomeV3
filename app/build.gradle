@@ -150,6 +150,8 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.1'
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
 
+    //https://github.com/akshay2211/MusicWave
+    implementation 'com.fxn769:musicwave:1.0'
 
 
 }

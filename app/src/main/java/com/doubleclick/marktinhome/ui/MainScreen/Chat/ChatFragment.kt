@@ -373,6 +373,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                 }
                 layout_text.visibility = View.VISIBLE
                 sendText.visibility = View.VISIBLE
+                status("online")
             }
         })
         recordView.setOnBasketAnimationEndListener {
@@ -544,7 +545,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         progressDialog.show()
         if (audioPath != null) {
             val storageReference = FirebaseStorage.getInstance()
-                .getReference("/Media/Recording/" + myId + ":" + userId.toString() + System.currentTimeMillis())
+                .getReference("/ChatData/Recording/" + myId + ":" + userId.toString() + System.currentTimeMillis())
             Log.e("audio path", audioPath)
             val audioFile = Uri.fromFile(File(audioPath))
             Log.e("audioFile = ", audioFile.toString())
@@ -564,6 +565,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                             map["id"] = id
                             map["date"] = time
                             map["StatusMessage"] = "Uploaded" // "Stored" , "beenSeen"
+                            map["uri"] = audioPath;
                             val chat = Chat(
                                 url,
                                 audioPath,
@@ -694,7 +696,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         progressDialog.show()
         if (uri.toString() != "") {
             storageReference =
-                FirebaseStorage.getInstance().getReference("/Media/Recording/ChatData")
+                FirebaseStorage.getInstance().getReference("/ChatData/Files")
             val fileReference = storageReference.child(
                 System.currentTimeMillis().toString() + "." + getFileExtension(uri)
             )
@@ -713,6 +715,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                         map["id"] = id
                         map["date"] = time
                         map["StatusMessage"] = "Uploaded" // "Stored" , "beenSeen"
+                        map["uri"] = uri.toString()
                         val chat =
                             Chat(
                                 url,
@@ -725,8 +728,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                                 "Uploaded",
                                 false
                             );
+                        //Chat{id='-N30jeKZgiyyHFSSKP6H1653591678996', message='https://firebasestorage.googleapis.com/v0/b/marketinhome-99d25.appspot.com/o/ChatData%2FFiles%2F1653591666788.mp4?alt=media&token=bca7773d-f434-48ee-8a1f-e273593906ca', type='video', sender='WoWDlmZx7lUwRr9ZD2LAkHRwkoi1', receiver='FkyB9ppQAlQcPQZ3F8tN24kLzbg1', date=1653591678996, StatusMessage='Uploaded', seen=false, uri='content://com.android.providers.media.documents/document/video%3A380701'}
+                        Log.e("FileSent", chat.toString());
                         chatViewModelDatabase.insert(chat);
-//                    reference.child(CHATS).child(id).setValue(hashMap)
                         upload(id, map);
                         progressDialog.dismiss()
                         makeChatList()
@@ -752,7 +756,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private fun sendNotifiaction(message: String) {
         val data = Data(
             myId,
-            R.mipmap.ic_launcher,
+            R.drawable.shopping_cart,
             "${user!!.name.toString()}: $message",
             "New Message",
             userId.toString()
@@ -780,41 +784,42 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     @SuppressLint("NotifyDataSetChanged")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Throws(java.lang.Exception::class)
-    override fun download(chat: Chat, pos: Int, progressBar: ProgressBar) {
+    override fun download(chat: Chat, pos: Int) {
         try {
+            Log.e("CHATTTTTTTT", chat.toString() + "    " + pos);
             PRDownloaderInit(chat, pos)
             //=============================another way to download=======================================
-            /*request = DownloadManager.Request(Uri.parse(chat.message))
-            request!!.setDestinationInExternalPublicDir(
-                Environment.DIRECTORY_DOWNLOADS,
-                "" + chat.type + Date().time
-            )
-            request!!.setTitle(requireContext().resources.getString(R.string.app_name))
-            request!!.setDescription("Downloading..." + chat.type)
-            request!!.allowScanningByMediaScanner() // if you want to be available from media players
-            request!!.setVisibleInDownloadsUi(true)
-            request!!.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) // to notify when download is complete
-            manager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            id = manager!!.enqueue(request)
-            requireContext().registerReceiver(
-                broadcastReceiver,
-                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-            )
-            broadcastReceiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    val ID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-                    if (id == ID) {
-                        Log.e("LOOOP", "Loop");
-                        val c = chat;
-                        c.uri =
-                            manager!!.getUriForDownloadedFile(manager!!.enqueue(request)).toString()
-                        chatViewModelDatabase.update(c)
-                        chats[pos] = c;
-                        chatAdapter.notifyItemChanged(pos);
-                        chatAdapter.notifyDataSetChanged()
-                    }
-                }
-            }*/
+            /* request = DownloadManager.Request(Uri.parse(chat.message))
+             request!!.setDestinationInExternalPublicDir(
+                 Environment.DIRECTORY_DOWNLOADS,
+                 "" + chat.type + Date().time
+             )
+             request!!.setTitle(requireContext().resources.getString(R.string.app_name))
+             request!!.setDescription("Downloading..." + chat.type)
+             request!!.allowScanningByMediaScanner() // if you want to be available from media players
+             request!!.setVisibleInDownloadsUi(true)
+             request!!.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) // to notify when download is complete
+             manager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+             id = manager!!.enqueue(request)
+             requireContext().registerReceiver(
+                 broadcastReceiver,
+                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+             )
+             broadcastReceiver = object : BroadcastReceiver() {
+                 override fun onReceive(context: Context, intent: Intent) {
+                     val ID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+                     if (id == ID) {
+                         Log.e("LOOOP", "Loop");
+                         val c = chat;
+                         c.uri =
+                             manager!!.getUriForDownloadedFile(manager!!.enqueue(request)).toString()
+                         chatViewModelDatabase.update(c)
+                         chats[pos] = c;
+                         chatAdapter.notifyItemChanged(pos);
+                         chatAdapter.notifyDataSetChanged()
+                     }
+                 }
+             }*/
             //=============================another way to download=======================================
 
 
@@ -852,9 +857,11 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             .setDatabaseEnabled(true)
             .build()
         PRDownloader.initialize(requireContext(), config)
-
-
-        downloadId = PRDownloader.download(chat.message, directory(), fileName(chat))
+        downloadId = PRDownloader.download(
+            chat.message,
+            directory(),
+            fileName(chat)
+        )
             .build()
             .setOnStartOrResumeListener {
                 dialog.setTitle("Download Started")
@@ -889,7 +896,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
 
                     val c = chat;
                     c.uri = directory() + fileName(chat)
-                    Log.e("CHAT", c.toString());
                     chatViewModelDatabase.update(c)
                     chats[pos] = c;
                     chatAdapter.notifyItemChanged(pos);
@@ -901,8 +907,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                         requireContext(),
                         "Download Error " + error.toString(),
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                 }
             })
     }
@@ -910,22 +915,25 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private fun directory(): String {
         var file =
             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/MarketEslam/");
-
 //        return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/MarketEslam";
         return file.toString()
     }
 
     private fun fileName(chat: Chat): String {
-        return "/" + chat.type + URLUtil.guessFileName(
-            chat.message,
-            chat.message,
-            requireContext().contentResolver.getType(Uri.parse(chat.message))
-        );
+        if (chat.type.equals("voice")) {
+            return "/" + chat.type + chat.date;
+        } else {
+            return "/" + chat.type + URLUtil.guessFileName(
+                chat.message,
+                chat.message,
+                requireContext().contentResolver.getType(Uri.parse(chat.message))
+            );
+        }
     }
 
     // private directory
     fun privateDirectory(): String {
-        return requireActivity().filesDir.absolutePath;
+        return requireActivity().filesDir.absolutePath + "/MarketEslam/";
     }
 
     private fun getBytesToMB(bytes: Long): String {
@@ -955,6 +963,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     *  بتتنفذ لمه انا ابعت الرساله و صاحبي يشوفها
     * */
     override fun BeenSeenForMe(chat: Chat?) {
+
         chatViewModelDatabase.update(chat!!)
         try {
             // TODO update in ArrayList
@@ -1043,7 +1052,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             c!!.message = "this message deleted";
             c.type = "text"
             chatViewModelDatabase.update(c!!)
-//            chats.remove(c)
             chats[chats.indexOf(c)] = c
             chatAdapter.notifyItemChanged(
                 chats.indexOf(c)
