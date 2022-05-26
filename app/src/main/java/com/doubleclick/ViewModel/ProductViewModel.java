@@ -46,7 +46,6 @@ public class ProductViewModel extends ViewModel implements Products {
             productRepository.getChild();
             productRepository.getProduct();
             productRepository.TopDeals();
-//            productRepository.Classification();
         }
     }
 

@@ -440,6 +440,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private fun upload(id: String, map: HashMap<String, Any>) {
         reference.child(CHATS).child(myId).child(userId.toString())
             .child(id).updateChildren(map);
+        map.remove("uri");
         reference.child(CHATS).child(userId.toString()).child(myId)
             .child(id).updateChildren(map);
     }

@@ -355,7 +355,7 @@ public class ProductRepository extends BaseRepository {
 
     // filter with tradmark
     public void ProductWithTrademark(String name) {
-        reference.child(PRODUCT).equalTo(name).limitToLast(1000).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(PRODUCT).limitToLast(1000).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 try {

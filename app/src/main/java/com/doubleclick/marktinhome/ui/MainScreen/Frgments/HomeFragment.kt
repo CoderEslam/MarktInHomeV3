@@ -140,7 +140,7 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
 
     override fun OnItemTradmark(tradmark: Trademark) {
         val intent = Intent(requireContext(), FilterTradmarkActivity::class.java)
-        intent.putExtra("tradmark", tradmark);
+        intent.putExtra("trademark", tradmark);
         startActivity(intent)
     }
 

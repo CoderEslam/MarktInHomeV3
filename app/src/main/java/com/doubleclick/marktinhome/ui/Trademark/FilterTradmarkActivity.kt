@@ -24,14 +24,14 @@ class FilterTradmarkActivity : AppCompatActivity(), OnProduct {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tradmark)
         productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
-        trademark = intent.getSerializableExtra("tradmark") as Trademark
+        trademark = intent.getSerializableExtra("trademark") as Trademark
         productViewModel.ProductWithTrademark(trademark.name)
         trademarkRecycler = findViewById(R.id.trademarkRecycler);
         trademarkRecycler.showShimmer()
         productViewModel.ProductWithTrademarkLiveDate().observe(this, Observer {
             if (it.size != 0) {
                 trademarkRecycler.hideShimmer()
-                var productAdapter = ProductAdapter(it, this);
+                val productAdapter = ProductAdapter(it, this);
                 trademarkRecycler.adapter = productAdapter
             }
         })
