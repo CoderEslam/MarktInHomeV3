@@ -619,6 +619,7 @@ public class RichFragment extends BaseFragment {
                                 map.put("colors", product.getColors());
                                 map.put("colorsName", product.getColorsName());
                                 map.put("keywords", product.getKeywords());
+                                map.put("type", product.getType());
                                 reference.child(PRODUCT).child(push).updateChildren(map);
                                 progressDialog.dismiss();
                             }

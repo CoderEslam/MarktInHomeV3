@@ -81,7 +81,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/productPrice" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/used"
+                    android:id="@+id/type"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="16dp"
@@ -114,7 +114,7 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/used">
+                    app:layout_constraintTop_toBottomOf="@+id/type">
 
                     <TextView
                         android:id="@+id/textView18"

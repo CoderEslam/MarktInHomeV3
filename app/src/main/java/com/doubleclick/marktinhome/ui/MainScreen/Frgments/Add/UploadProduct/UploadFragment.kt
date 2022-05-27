@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import com.nex3z.togglebuttongroup.button.CircularToggle
+import kotlinx.android.synthetic.main.fragment_upload.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -52,7 +53,7 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
     private lateinit var productPrice: EditText;
     private lateinit var productLastPrice: EditText;
     private lateinit var trademark: AppCompatSpinner;
-    private lateinit var used: AppCompatSpinner
+    private lateinit var type: AppCompatSpinner
     private lateinit var Upload: Button;
     private lateinit var tradmarkViewModel: TradmarkViewModel
     private lateinit var ratingSeller: RatingBar
@@ -96,7 +97,7 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
         addColor = view.findViewById(R.id.addColor);
         trademark = view.findViewById(R.id.trademark);
         Upload = view.findViewById(R.id.Upload);
-        used = view.findViewById(R.id.used);
+        type = view.findViewById(R.id.type);
         ratingSeller = view.findViewById(R.id.ratingSeller);
         groupSize = view.findViewById(R.id.groupSize);
         addSizes = view.findViewById(R.id.addSizes);
@@ -262,7 +263,8 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
             Sizes.toString(),
             colors.toString(),
             colorsName.toString(),
-            rate
+            rate,
+            usedOrnew
         );
         findNavController().navigate(
             UploadFragmentDirections.actionUploadFragmentToUploadStep2Fragment(
@@ -292,7 +294,7 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
         var used_new: ArrayList<String> = ArrayList()
         used_new.add("used")
         used_new.add("new")
-        used.onItemSelectedListener = object :
+        type.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -310,7 +312,7 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
             }
         }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, used_new)
-        used.adapter = adapter
+        type.adapter = adapter
 
     }
 

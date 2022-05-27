@@ -18,26 +18,42 @@ import kotlinx.android.parcel.Parcelize;
 @Parcelize
 public class Product implements Parcelable {
 
+    @NonNull
     private String productId;
     private double price;
+    @NonNull
     private String description;
     private long date;
+    @NonNull
     private String adminId;
+    @NonNull
     private String productName;
     private double lastPrice;
+    @NonNull
     private String tradeMark;
+    @NonNull
     private String parentCategoryName;
+    @NonNull
     private String childCategoryName;
+    @NonNull
     private String parentCategoryId;
+    @NonNull
     private String childCategoryId;
     private int totalRating;
     private double discount;
+    @NonNull
     private String keywords;
+    @NonNull
     private String images;
+    @NonNull
     private String sizes;
+    @NonNull
     private String colors;
+    @NonNull
     private String colorsName;
     private float ratingSeller;
+    @NonNull
+    private String type;
 
 
     public Product(String productId, double price, String description, long date, String adminId, String productName, double lastPrice, String tradeMark, String parentCategoryName, String childCategoryName, String parentCategoryId, String childCategoryId, int totalRating, double discount, String keywords, String images, String sizes, float ratingSeller) {
@@ -83,6 +99,7 @@ public class Product implements Parcelable {
         colors = in.readString();
         colorsName = in.readString();
         ratingSeller = in.readFloat();
+        type = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -97,7 +114,7 @@ public class Product implements Parcelable {
         }
     };
 
-    public Product(String productId, double price, String description, long date, String adminId, String productName, double lastPrice, String tradeMark, String parentCategoryName, String childCategoryName, String parentCategoryId, String childCategoryId, int totalRating, double discount, String keywords, String images, String sizes, String colors, String colorsName, float ratingSeller) {
+    public Product(String productId, double price, String description, long date, String adminId, String productName, double lastPrice, String tradeMark, String parentCategoryName, String childCategoryName, String parentCategoryId, String childCategoryId, int totalRating, double discount, String keywords, String images, String sizes, String colors, String colorsName, float ratingSeller, String type) {
         this.productId = productId;
         this.price = price;
         this.description = description;
@@ -118,6 +135,7 @@ public class Product implements Parcelable {
         this.colors = colors;
         this.colorsName = colorsName;
         this.ratingSeller = ratingSeller;
+        this.type = type;
     }
 
     public String getOnlyImage() {
@@ -131,6 +149,21 @@ public class Product implements Parcelable {
 
 
     public Product() {
+        productId = "";
+        description = "";
+        adminId = "";
+        type = "";
+        productName = "";
+        tradeMark = "";
+        parentCategoryName = "";
+        childCategoryName = "";
+        parentCategoryId = "";
+        childCategoryId = "";
+        keywords = "";
+        images = "";
+        sizes = "";
+        colors = "";
+        colorsName = "";
     }
 
 
@@ -161,6 +194,7 @@ public class Product implements Parcelable {
         dest.writeString(colors);
         dest.writeString(colorsName);
         dest.writeFloat(ratingSeller);
+        dest.writeString(type);
     }
 
     public String getProductId() {
@@ -322,6 +356,15 @@ public class Product implements Parcelable {
     public void setRatingSeller(float ratingSeller) {
         this.ratingSeller = ratingSeller;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 
     @Override
     public String toString() {
