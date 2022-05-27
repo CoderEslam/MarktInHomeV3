@@ -106,6 +106,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
             holder.playVideo.setVisibility(View.GONE);
         } else if (postsData.get(holder.getAdapterPosition()).getPostsGroup().getType().equals("video")) {
             holder.video.setVisibility(View.VISIBLE);
+            Glide.with(holder.itemView.getContext()).load(postsData.get(holder.getAdapterPosition()).getPostsGroup().getMeme()).into(holder.video);
             holder.images.setVisibility(View.GONE);
             holder.playVideo.setVisibility(View.VISIBLE);
         } else {
@@ -143,21 +144,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
         holder.setLike(postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
         holder.caption.setText(postsData.get(holder.getAdapterPosition()).getPostsGroup().getText());
 
-//        holder.comment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(holder.itemView.getContext(), CommentGroupActivity.class);
-//                intent.putExtra("postId", postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
-//                intent.putExtra("groupId", postsData.get(holder.getAdapterPosition()).getPostsGroup().getGroupId());
-//                holder.itemView.getContext().startActivity(intent);
-//            }
-//        });
         holder.ConstraintLayoutimage_name.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), ChatActivity.class);
             intent.putExtra("userId", postsData.get(holder.getAdapterPosition()).getUser().getId());
             holder.itemView.getContext().startActivity(intent);
         });
-        holder.playVideo.setOnClickListener(v -> {
+        holder.video.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), ViewActivity.class);
             intent.putExtra("url", postsData.get(holder.getAdapterPosition()).getPostsGroup().getMeme());
             intent.putExtra("type", "video");

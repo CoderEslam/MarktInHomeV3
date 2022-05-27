@@ -153,5 +153,6 @@ dependencies {
     //https://github.com/akshay2211/MusicWave
     implementation 'com.fxn769:musicwave:1.0'
 
+    implementation 'com.devbrackets.android:exomedia:4.3.0'
 
 }

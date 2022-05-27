@@ -61,7 +61,6 @@ public class ImagesGroupAdapter extends RecyclerView.Adapter<ImagesGroupAdapter.
     @Override
     public void onBindViewHolder(@NonNull ImagesGroupViewHolder holder, int position) {
         if (type.equals("uri")) {
-            Log.e("clipDataII", uris.toString());
             holder.image.setImageURI(uris.get(holder.getAdapterPosition()));
         } else {
             Glide.with(holder.itemView.getContext()).load(images.get(holder.getAdapterPosition())).into(holder.image);

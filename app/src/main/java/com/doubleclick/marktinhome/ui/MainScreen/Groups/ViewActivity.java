@@ -6,13 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.MediaController;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.devbrackets.android.exomedia.listener.OnPreparedListener;
+import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.PhotoView.PhotoView;
 
-public class ViewActivity extends AppCompatActivity {
+public class ViewActivity extends AppCompatActivity implements OnPreparedListener {
 
     private VideoView video;
     private String url;
@@ -29,11 +30,12 @@ public class ViewActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("type");
         if (type.equals("video")) {
             image.setVisibility(View.GONE);
+            video.setOnPreparedListener(this);
             video.setVideoURI(Uri.parse(url));
-            MediaController ctlr = new MediaController(this);
-            ctlr.setMediaPlayer(video);
-            video.setMediaController(ctlr);
-            video.requestFocus();
+//            MediaController ctlr = new MediaController(this);
+//            ctlr.setMediaPlayer(video);
+//            video.setMediaController(ctlr);
+//            video.requestFocus();
         }
         if (type.equals("image")) {
             video.setVisibility(View.GONE);
@@ -41,5 +43,10 @@ public class ViewActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public void onPrepared() {
+        video.start();
     }
 }
