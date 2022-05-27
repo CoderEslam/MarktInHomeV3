@@ -15,6 +15,7 @@ import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
@@ -23,6 +24,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created By Eslam Ghazy on 3/1/2022
@@ -61,6 +63,7 @@ public class UserRepository extends BaseRepository {
         });
     }
 
+
     public void getInfoUserById(String id) {
         try {
             reference.child(USER).child(id).addValueEventListener(new ValueEventListener() {
@@ -91,9 +94,8 @@ public class UserRepository extends BaseRepository {
 
     }
 
-    public void getAllUser(String s) {
-        Query query = FirebaseDatabase.getInstance().getReference(USER).orderByChild("name").startAt(s).endAt(s + "\uf8ff");
-        query.addValueEventListener(new ValueEventListener() {
+    public void getAllUser(String name) {
+        reference.child(USER).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
@@ -103,7 +105,7 @@ public class UserRepository extends BaseRepository {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 User user = snapshot.getValue(User.class);
                                 assert user != null;
-                                if (!user.getId().equals(myId)) {
+                                if (!user.getId().equals(myId) || user.getName().toLowerCase().equals(name.toLowerCase())) {
                                     userArrayList.add(user);
                                 }
                             }

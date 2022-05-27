@@ -76,7 +76,7 @@ public class GroupFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                groupViewModel.SearchGroup(s.toString());
             }
 
             @Override

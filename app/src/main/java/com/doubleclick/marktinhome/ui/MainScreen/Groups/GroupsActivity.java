@@ -33,10 +33,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.doubleclick.ViewModel.GroupViewModel;
 import com.doubleclick.ViewModel.PostsViewModel;
+import com.doubleclick.ViewModel.UserViewModel;
 import com.doubleclick.marktinhome.Adapters.GroupsAdapter;
 import com.doubleclick.marktinhome.Model.GroupData;
 import com.doubleclick.marktinhome.Model.PostData;
 import com.doubleclick.marktinhome.Model.PostsGroup;
+import com.doubleclick.marktinhome.Model.User;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.CircleImageView;
 import com.doubleclick.marktinhome.Views.ReadQRCode.google.zxing.client.android.Intents;
@@ -75,6 +77,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     private static final int IMAGE_REQUEST = 100;
     private String id; /* Group id */
     private ImageView back, cover, QRCode;
+    private CircleImageView imageCreator;
     private CircleImageView imageGroup, selectImage;
     private LinearProgressIndicator progressIndicator;
     private TextView name, username, history, nothing;
@@ -89,6 +92,8 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     private ArrayList<PostData> postDataArrayList = new ArrayList<>();
     private Uri imageUri;
     private String type = "";
+    private UserViewModel userViewModel;
+    private LinearLayout creatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +107,11 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
         progressIndicator = findViewById(R.id.progressBar);
         name = findViewById(R.id.name);
         username = findViewById(R.id.username);
+        creatorLayout = findViewById(R.id.creatorLayout);
         history = findViewById(R.id.history);
         option = findViewById(R.id.option);
         selectImage = findViewById(R.id.selectImage);
+        imageCreator = findViewById(R.id.imageCreator);
         reference = FirebaseDatabase.getInstance().getReference();
         // todo show when there is nothing to show
         nothing = findViewById(R.id.nothing);
@@ -114,6 +121,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
         create_post = findViewById(R.id.create_post);
         groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         postsViewModel = new ViewModelProvider(this).get(PostsViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         postsViewModel.loadPosts(id /*  Group Id */, 1000);
         groupViewModel.getGroupDataById(id);
         groupViewModel.GroupData().observe(this, new Observer<GroupData>() {
@@ -123,10 +131,15 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
                 Glide.with(GroupsActivity.this).load(groupData.getGroup().getCover()).into(cover);
                 name.setText(groupData.getGroup().getName());
                 username.setText(groupData.getUser().getName());
-                Glide.with(GroupsActivity.this).load(groupData.getUser().getImage()).into(selectImage);
+                Glide.with(GroupsActivity.this).load(groupData.getUser().getImage()).into(imageCreator);
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, dd/MM/yyyy HH:mm aa");
                 history.setText(String.format("Created By %s at %s ", groupData.getUser().getName(), simpleDateFormat.format(groupData.getGroup().getTime())));
                 discription.setText(groupData.getGroup().getDetails());
+                creatorLayout.setOnClickListener(v -> {
+                    Intent intent = new Intent(GroupsActivity.this, ChatActivity.class);
+                    intent.putExtra("userId", groupData.getUser().getId());
+                    startActivity(intent);
+                });
             }
         });
         post.showShimmer();
@@ -140,11 +153,16 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
             }
         });
 
+        userViewModel.getUser().observe(this, user -> {
+            Glide.with(GroupsActivity.this).load(user.getImage()).into(selectImage);
+        });
+
         create_post.setOnClickListener(v -> {
             Intent intent = new Intent(GroupsActivity.this, CreatePostActivity.class);
             intent.putExtra("id", id);
             startActivity(intent);
         });
+
         back.setOnClickListener(v -> {
             startActivity(new Intent(GroupsActivity.this, MainScreenActivity.class));
             finish();

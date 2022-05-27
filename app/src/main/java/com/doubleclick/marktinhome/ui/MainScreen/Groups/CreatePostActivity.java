@@ -68,11 +68,11 @@ public class CreatePostActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private UserViewModel userViewModel;
     private User user;
-    private StorageTask uploadTask;
+    private StorageTask<UploadTask.TaskSnapshot> uploadTask;
     private StorageReference storageReference;
     private String type = "";
     private ArrayList<String> urls = new ArrayList<>();
-    private Uri videoUri;
+    private Uri videoUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,7 +215,7 @@ public class CreatePostActivity extends AppCompatActivity {
         } else {
             Toast.makeText(CreatePostActivity.this, "No image selected", Toast.LENGTH_SHORT).show();
         }
-        if (!videoUri.toString().equals("")) {
+        if (videoUri != null) {
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(videoUri));
             uploadTask = fileReference.putFile(videoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

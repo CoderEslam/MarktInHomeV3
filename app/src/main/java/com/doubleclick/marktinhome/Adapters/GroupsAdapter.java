@@ -2,6 +2,8 @@ package com.doubleclick.marktinhome.Adapters;
 
 import static com.doubleclick.marktinhome.Model.Constantes.LIKES;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -143,7 +146,22 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
         });
         holder.setLike(postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
         holder.caption.setText(postsData.get(holder.getAdapterPosition()).getPostsGroup().getText());
-
+        holder.caption.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
+            popupMenu.getMenuInflater().inflate(R.menu.copy, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.copy) {
+                        ClipboardManager clipboardManager = (ClipboardManager) holder.itemView.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                        clipboardManager.setText(holder.caption.getText());
+                        Toast.makeText(holder.itemView.getContext(), holder.itemView.getResources().getString(R.string.text_copied), Toast.LENGTH_SHORT).show();
+                    }
+                    return false;
+                }
+            });
+            popupMenu.show();
+        });
         holder.ConstraintLayoutimage_name.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), ChatActivity.class);
             intent.putExtra("userId", postsData.get(holder.getAdapterPosition()).getUser().getId());

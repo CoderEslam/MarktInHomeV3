@@ -155,4 +155,8 @@ dependencies {
 
     implementation 'com.devbrackets.android:exomedia:4.3.0'
 
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+
+
 }

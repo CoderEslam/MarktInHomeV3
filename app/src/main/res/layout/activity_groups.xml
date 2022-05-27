@@ -214,12 +214,15 @@
                             app:layout_constraintTop_toBottomOf="@+id/discription">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:id="@+id/creatorLayout"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:orientation="horizontal"
                                 tools:ignore="UseCompoundDrawables">
 
-                                <ImageView
+                                <com.doubleclick.marktinhome.Views.CircleImageView
+                                    android:id="@+id/imageCreator"
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:padding="6dp"
@@ -244,9 +247,10 @@
 
                             <LinearLayout
                                 android:id="@+id/location_layout"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
+                                android:layout_weight="1"
                                 android:orientation="horizontal"
                                 tools:ignore="UseCompoundDrawables">
 

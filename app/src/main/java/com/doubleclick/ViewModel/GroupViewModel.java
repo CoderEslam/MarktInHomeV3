@@ -26,7 +26,11 @@ public class GroupViewModel extends ViewModel implements GroupInterface {
 
     public GroupViewModel() {
 //        repository.MyGroup();
-        repository.AllGroup();
+        repository.AllGroup("");
+    }
+
+    public void SearchGroup(String name) {
+        repository.AllGroup(name);
     }
 
     public void getGroupDataById(String id) {
@@ -46,13 +50,6 @@ public class GroupViewModel extends ViewModel implements GroupInterface {
         return mutableLiveGroupData;
     }
 
-//    @Override
-//    public void myGroups(@NonNull ArrayList<Group> groups) {
-//    }
-//
-//    @Override
-//    public void allGroups(@NonNull ArrayList<Group> groups) {
-//    }
 
     @Override
     public void groupData(@NonNull GroupData group) {

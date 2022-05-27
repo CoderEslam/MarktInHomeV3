@@ -69,20 +69,20 @@ class ChatListFragment : BaseFragment(), UserInter {
 
     override fun AllUser(user: ArrayList<User>?) {}
 
-    override fun OnUserLisitner(user: User) {
+    override fun OnUserLisitner(user: User?) {
         try {
             if (sharePost != "null") {
                 val chatFragment = ChatFragment();
                 val bundle = Bundle();
                 bundle.putString("sharePost", sharePost);
-                bundle.putString("userId", user.id);
+                bundle.putString("userId", user!!.id);
                 chatFragment.arguments = bundle
                 requireActivity().supportFragmentManager.beginTransaction()
                     .replace(R.id.main_fragment_Chat, chatFragment).commit()
             } else {
                 findNavController().navigate(
                     ChatListFragmentDirections.actionChatListFragmentToChatFragment(
-                        user.id
+                        user!!.id
                     )
                 )
             }

@@ -79,7 +79,7 @@ public class GroupRepository extends BaseRepository {
 
     }*/
 
-    public void AllGroup() {
+    public void AllGroup(String name) {
         reference.child(GROUPS).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -87,7 +87,6 @@ public class GroupRepository extends BaseRepository {
                     if (isNetworkConnected()) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Group group = dataSnapshot.getValue(Group.class);
-                            assert group != null;
                             allGroups.add(group);
                         }
                         groupInterface.allGroups(allGroups);

@@ -21,6 +21,7 @@ import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.Model.Chat;
 import com.doubleclick.marktinhome.R;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 
@@ -36,6 +37,7 @@ public class VideoViewHolder extends BaseViewHolder {
     private ProgressBar progressBar;
     private String myId;
     private TextView time;
+    private File file;
 
     public VideoViewHolder(@NonNull View itemView, OnMessageClick onMessageClick, String myId) {
         super(itemView);
@@ -54,6 +56,7 @@ public class VideoViewHolder extends BaseViewHolder {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void play(Chat chat, int position) {
         time.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
+        file = new File(chat.getUri());
         if (!chat.getUri().equals("")) {
             progressBar.setVisibility(View.GONE);
             download.setVisibility(View.GONE);
@@ -85,6 +88,12 @@ public class VideoViewHolder extends BaseViewHolder {
         options.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(itemView.getContext(), v);
             popupMenu.getMenuInflater().inflate(R.menu.menu_chat_image_video, popupMenu.getMenu());
+            if (!chat.getUri().toString().equals("")) {
+                popupMenu.getMenu().findItem(R.id.download).setVisible(false);
+                if (!file.exists()) {
+                    popupMenu.getMenu().findItem(R.id.download).setVisible(true);
+                }
+            }
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {

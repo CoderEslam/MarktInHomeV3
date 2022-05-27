@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.doubleclick.ViewModel.CommentsGroupViewModel;
@@ -122,6 +125,22 @@ public class ViewPostActivity extends AppCompatActivity {
             }
         });
 
+        caption.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(ViewPostActivity.this, v);
+            popupMenu.getMenuInflater().inflate(R.menu.copy, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.copy) {
+                        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        clipboardManager.setText(caption.getText());
+                        Toast.makeText(ViewPostActivity.this, getResources().getString(R.string.text_copied), Toast.LENGTH_SHORT).show();
+                    }
+                    return false;
+                }
+            });
+            popupMenu.show();
+        });
         send.setOnClickListener(v -> {
             if (!textComment.getText().toString().equals("")) {
                 HashMap<String, Object> map = new HashMap<>();

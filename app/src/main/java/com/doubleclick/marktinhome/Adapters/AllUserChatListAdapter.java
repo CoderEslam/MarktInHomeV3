@@ -59,10 +59,14 @@ public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatList
             holder.name.setText(userArrayList.get(position).getName());
             Glide.with(holder.itemView.getContext()).load(userArrayList.get(position).getImage()).into(holder.image);
             holder.itemView.setOnClickListener(v -> {
-                onUser.OnUserLisitner(userArrayList.get(position));
+                if (userArrayList.get(position)!=null){
+                    onUser.OnUserLisitner(userArrayList.get(position));
+                }
             });
         }
-        holder.Messageunread(userArrayList.get(holder.getAdapterPosition()).getId());
+        if (userArrayList.get(holder.getAdapterPosition()).getId() != null) {
+            holder.Messageunread(userArrayList.get(holder.getAdapterPosition()).getId());
+        }
     }
 
     @Override
@@ -83,32 +87,38 @@ public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatList
         }
 
         private void Messageunread(String id) {
-            reference.child(myId).child(id).addValueEventListener(new ValueEventListener() {
-                @SuppressLint({"DefaultLocale", "UseCompatLoadingForDrawables"})
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    try {
-                        int i = 0;
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Chat chat = snapshot.getValue(Chat.class);
-                            assert chat != null;
-                            if (chat.getStatusMessage().equals("Uploaded") && !chat.getSender().equals(myId) && !chat.isSeen()) {
-                                i++;
-                                countMessage.setText(String.format("%d", i));
-                                countMessage.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.bg_green));
+            try {
+                if (!id.equals("")) {
+                    reference.child(myId).child(id).addValueEventListener(new ValueEventListener() {
+                        @SuppressLint({"DefaultLocale", "UseCompatLoadingForDrawables"})
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                int i = 0;
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    Chat chat = snapshot.getValue(Chat.class);
+                                    assert chat != null;
+                                    if (chat.getStatusMessage().equals("Uploaded") && !chat.getSender().equals(myId) && !chat.isSeen()) {
+                                        i++;
+                                        countMessage.setText(String.format("%d", i));
+                                        countMessage.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.bg_green));
+                                    }
+                                }
+                            } catch (Exception e) {
+
                             }
+
                         }
-                    } catch (Exception e) {
 
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
+                        }
+                    });
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            } catch (NullPointerException e) {
+                Log.e("NullPointerException", e.getMessage());
+            }
 
         }
     }

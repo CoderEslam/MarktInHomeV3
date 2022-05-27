@@ -20,6 +20,7 @@ import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.Model.Chat;
 import com.doubleclick.marktinhome.R;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 
@@ -54,10 +55,21 @@ public class FileViewHolder extends BaseViewHolder {
         } else {
             seen.setImageDrawable(chat.isSeen() ? itemView.getContext().getResources().getDrawable(R.drawable.done_all) : itemView.getContext().getResources().getDrawable(R.drawable.done));
         }
+        if (!chat.getUri().equals("")) {
+            progressBar.setVisibility(View.GONE);
+            download.setVisibility(View.GONE);
+        } else {
+            if (!chat.getMessage().equals("")) {
+                download.setVisibility(View.VISIBLE);
+
+            }
+        }
+
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onMessageClick.download(chat, getAdapterPosition());
+                progressBar.setVisibility(View.VISIBLE);
             }
         });
         itemView.setOnClickListener(v -> {
@@ -79,16 +91,12 @@ public class FileViewHolder extends BaseViewHolder {
                         return true;
                     } else if (item.getItemId() == R.id.open) {
                         Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setDataAndType(Uri.parse(chat.getUri()), "application/*");
+                        i.setData(Uri.fromFile(new File(chat.getUri())));
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        i.setPackage("com.android.chrome");
                         try {
                             itemView.getContext().startActivity(i);
                         } catch (ActivityNotFoundException e) {
-                            // Chrome is probably not installed
-                            // Try with the default browser
-                            i.setPackage(null);
-                            itemView.getContext().startActivity(i);
+
                         }
                         return true;
                     } else {
@@ -99,4 +107,5 @@ public class FileViewHolder extends BaseViewHolder {
             popupMenu.show();
         });
     }
+
 }
