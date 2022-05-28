@@ -221,7 +221,7 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
 //            })
             builder.setTitle("Add Colors")
             builder.setPositiveButton("ok", DialogInterface.OnClickListener { dialog, which ->
-                circuleToggle.setText("" + editorder.text.toString().trim())
+                circuleToggle.text = "" + editorder.text.toString().trim()
                 circuleToggle.markerColor = colorToggle
                 colors.add(colorToggle)
                 colorsName.add(editorder.text.toString().trim())
