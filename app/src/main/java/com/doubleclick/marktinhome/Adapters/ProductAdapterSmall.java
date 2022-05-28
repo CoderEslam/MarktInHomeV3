@@ -1,5 +1,6 @@
 package com.doubleclick.marktinhome.Adapters;
 
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.doubleclick.OnProduct;
 import com.doubleclick.marktinhome.Model.Product;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Views.viewmoretextview.ViewMoreTextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +46,7 @@ public class ProductAdapterSmall extends RecyclerView.Adapter<ProductAdapterSmal
         return new ProductViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_small_product, parent, false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull ProductAdapterSmall.ProductViewHolder holder, int position) {
         holder.productName.setText(products.get(position).getProductName());
@@ -55,6 +60,11 @@ public class ProductAdapterSmall extends RecyclerView.Adapter<ProductAdapterSmal
         holder.itemView.setOnClickListener(v -> {
             onProduct.onItemProduct(products.get(position));
         });
+
+
+        holder.productName.setOnClickListener(v -> {
+            holder.productName.toggle();
+        });
     }
 
     @Override
@@ -65,7 +75,7 @@ public class ProductAdapterSmall extends RecyclerView.Adapter<ProductAdapterSmal
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageProduct;
-        public TextView productName;
+        public ViewMoreTextView productName;
         public TextView description;
         public TextView productPrice;
         public TextView productLastPrice;
@@ -81,6 +91,11 @@ public class ProductAdapterSmall extends RecyclerView.Adapter<ProductAdapterSmal
             productLastPrice = itemView.findViewById(R.id.productLastPrice);
             trademark = itemView.findViewById(R.id.trademark);
             ratingBar = itemView.findViewById(R.id.ratingBar);
+            productName.setAnimationDuration(500)
+                    .setEllipsizedText("View More")
+                    .setVisibleLines(2)
+                    .setIsExpanded(false)
+                    .setEllipsizedTextColor(ContextCompat.getColor(itemView.getContext(), R.color.blueDark));
         }
     }
 }

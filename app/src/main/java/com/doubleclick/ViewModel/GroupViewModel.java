@@ -26,12 +26,9 @@ public class GroupViewModel extends ViewModel implements GroupInterface {
 
     public GroupViewModel() {
 //        repository.MyGroup();
-        repository.AllGroup("");
+        repository.AllGroup();
     }
 
-    public void SearchGroup(String name) {
-        repository.AllGroup(name);
-    }
 
     public void getGroupDataById(String id) {
         repository.getGroupDataById(id);

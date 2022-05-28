@@ -4,46 +4,40 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.AppCompatToggleButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.doubleclick.ViewModel.RateViewModel
 import com.doubleclick.marktinhome.Adapters.ProductSliderAdapter
 import com.doubleclick.marktinhome.BaseApplication.ShowToast
-import com.doubleclick.marktinhome.BaseApplication.context
 import com.doubleclick.marktinhome.Model.Constantes
 import com.doubleclick.marktinhome.Model.Product
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.myId
 import com.doubleclick.marktinhome.Repository.BaseRepository.reference
+import com.doubleclick.marktinhome.Views.viewmoretextview.ViewMoreTextView
 import com.doubleclick.marktinhome.ui.MainScreen.Comments.CommentsActivity
 import com.github.anastr.speedviewlib.AwesomeSpeedometer
-import com.github.anastr.speedviewlib.SpeedView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import com.nex3z.togglebuttongroup.button.CircularToggle
-import com.paypal.android.sdk.v
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView
-import java.lang.NumberFormatException
-import java.util.ArrayList
-import java.util.HashMap
 
 class productActivity : AppCompatActivity() {
 
     private lateinit var fab: FloatingActionButton
     private lateinit var banner_slier_view_pager: ViewPager
-    private lateinit var productName: TextView
+    private lateinit var productName: ViewMoreTextView
     private lateinit var trarmark: TextView
     private lateinit var price: TextView
     private lateinit var lastPrice: TextView
@@ -108,6 +102,16 @@ class productActivity : AppCompatActivity() {
             "utf-8",
             null
         );
+
+        productName.setAnimationDuration(500)
+            .setEllipsizedText("View More")
+            .setVisibleLines(2)
+            .setIsExpanded(false)
+            .setEllipsizedTextColor(ContextCompat.getColor(this, R.color.blueDark))
+
+        productName.setOnClickListener {
+            productName.toggle();
+        }
 
         val spliterSizes =
             product.sizes.toString().replace("[", "").replace("]", "").replace(" ", "").split(",")

@@ -2,46 +2,35 @@ package com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct
 
 
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.DialogInterface
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.divyanshu.colorseekbar.ColorSeekBar
 import com.doubleclick.ViewModel.TradmarkViewModel
-import com.doubleclick.marktinhome.Adapters.ImageAdapter
 import com.doubleclick.marktinhome.Adapters.KeywordAdapter
 import com.doubleclick.marktinhome.BaseFragment
-import com.doubleclick.marktinhome.Model.Constantes.PRODUCT
 import com.doubleclick.marktinhome.Model.Product
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.KeywordBottomSheet
-import com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.RichFragment
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageTask
-import com.google.firebase.storage.UploadTask
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import com.nex3z.togglebuttongroup.button.CircularToggle
-import kotlinx.android.synthetic.main.fragment_upload.*
+import top.defaults.colorpicker.ColorPickerPopup
+import top.defaults.colorpicker.ColorPickerView
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomSheet.Keywords {
@@ -169,8 +158,10 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
             val radio = CircularToggle(requireContext())
             val view = LayoutInflater.from(context).inflate(R.layout.add_toggal, null, false)
             val editorder: TextInputEditText = view.findViewById(R.id.editname)
-            val color_seek_bar: ColorSeekBar = view.findViewById(R.id.color_seek_bar);
-            color_seek_bar.visibility = View.GONE
+            val colorPickerView: ColorPickerView = view.findViewById(R.id.colorPicker);
+            colorPickerView.visibility = View.GONE
+//            val color_seek_bar: ColorSeekBar = view.findViewById(R.id.color_seek_bar);
+//            color_seek_bar.visibility = View.GONE
             builder.setTitle("Add Sizes")
             builder.setPositiveButton("ok") { dialog, which ->
                 radio.text = "" + editorder.text.toString().trim()
@@ -190,17 +181,44 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
             builder = AlertDialog.Builder(requireContext())
             val circuleToggle = CircularToggle(requireContext())
             val view = LayoutInflater.from(context).inflate(R.layout.add_toggal, null, false)
-            val cardView: CardView = view.findViewById(R.id.cardView);
+//            val cardView: CardView = view.findViewById(R.id.cardView);
             val editorder: TextInputEditText = view.findViewById(R.id.editname)
-            val color_seek_bar: ColorSeekBar = view.findViewById(R.id.color_seek_bar);
-            color_seek_bar.visibility = View.VISIBLE
-            color_seek_bar.setOnColorChangeListener(object : ColorSeekBar.OnColorChangeListener {
-                override fun onColorChangeListener(color: Int) {
-                    //gives the selected color
-                    colorToggle = color;
-                    cardView.setBackgroundColor(color)
-                }
-            })
+            val colorPickerView: ColorPickerView = view.findViewById(R.id.colorPicker);
+            colorPickerView.subscribe { color: Int, fromUser: Boolean, shouldPropagate: Boolean ->
+                colorPickerView.setBackgroundColor(color)
+                Log.e("COLOR", color.toString());
+                colorToggle = color;
+//                editorder.setText(colorHex(color))
+                requireActivity().window.statusBarColor = color
+            }
+            // to the same work
+            /*ColorPickerPopup.Builder(requireContext())
+                .initialColor(colorPickerView.color) // Set initial color
+                .enableBrightness(true) // Enable brightness slider or not
+                .enableAlpha(true) // Enable alpha slider or not
+                .okTitle("Choose")
+                .cancelTitle("Cancel")
+                .showIndicator(true)
+                .showValue(true)
+                .build()
+                .show(object : ColorPickerPopup.ColorPickerObserver() {
+                    override fun onColorPicked(color: Int) {
+                        colorPickerView.setBackgroundColor(color);
+//                        colorToggle = color;
+                    }
+
+                    fun onColor(color: Int, fromUser: Boolean) {
+
+                    }
+                })*/
+//            color_seek_bar.visibility = View.VISIBLE
+//            color_seek_bar.setOnColorChangeListener(object : ColorSeekBar.OnColorChangeListener {
+//                override fun onColorChangeListener(color: Int) {
+//                    //gives the selected color
+//                    colorToggle = color;
+//                    cardView.setBackgroundColor(color)
+//                }
+//            })
             builder.setTitle("Add Colors")
             builder.setPositiveButton("ok", DialogInterface.OnClickListener { dialog, which ->
                 circuleToggle.setText("" + editorder.text.toString().trim())
@@ -218,6 +236,17 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
         }
         Used()
         return view;
+    }
+
+    /*
+    * to transrafar color to hex color
+    * */
+    private fun colorHex(color: Int): String? {
+        val a = Color.alpha(color)
+        val r = Color.red(color)
+        val g = Color.green(color)
+        val b = Color.blue(color)
+        return String.format(Locale.getDefault(), "0x%02X%02X%02X%02X", a, r, g, b)
     }
 
 

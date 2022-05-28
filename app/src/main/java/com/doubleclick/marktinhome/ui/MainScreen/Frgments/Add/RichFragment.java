@@ -51,6 +51,7 @@ import com.doubleclick.RichEditor.sample.interfaces.OnActionPerformListener;
 import com.doubleclick.marktinhome.BaseFragment;
 import com.doubleclick.marktinhome.Model.Product;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.ui.Add.AddActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -213,7 +214,7 @@ public class RichFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rich, container, false);
         htmlContent = "<p>" + getResources().getString(R.string.typehere) + "</p>";
-        rootFrame = requireActivity().findViewById(R.id.nav_host_fragment);
+        rootFrame = requireActivity().findViewById(R.id.nav_add_host_fragment);
         llActionBarContainer = view.findViewById(R.id.ll_action_bar_container);
         flAction = view.findViewById(R.id.fl_action);
         iv_action_insert_link = view.findViewById(R.id.iv_action_insert_link);
@@ -348,6 +349,7 @@ public class RichFragment extends BaseFragment {
         webView.loadUrl("file:///android_asset/richEditor.html");
         mRichEditorAction = new RichEditorAction(webView);
     }
+
 
     private class CustomWebChromeClient extends WebChromeClient {
         @Override
@@ -644,4 +646,5 @@ public class RichFragment extends BaseFragment {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
+
 }

@@ -28,7 +28,6 @@ import java.util.ArrayList;
 public class GroupRepository extends BaseRepository {
 
     private GroupInterface groupInterface;
-    //    private ArrayList<Group> myGroups = new ArrayList<>();
     private ArrayList<Group> allGroups = new ArrayList<>();
     private GroupData groupData = new GroupData();
 
@@ -36,50 +35,8 @@ public class GroupRepository extends BaseRepository {
         this.groupInterface = groupInterface;
     }
 
-   /* public void MyGroup() {
-        reference.child(GROUPS).orderByChild("time").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                try {
-                    if (isNetworkConnected()) {
-                        if (snapshot.exists()) {
-                            Group group = snapshot.getValue(Group.class);
-                            assert group != null;
-                            if (group.getCreatedBy().equals(myId)) {
-//                                myGroups.add(group);
-                                groupInterface.myGroups(group);
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e("Exception", e.getMessage());
-                }
-            }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }*/
-
-    public void AllGroup(String name) {
+    public void AllGroup() {
         reference.child(GROUPS).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,26 +60,6 @@ public class GroupRepository extends BaseRepository {
 
             }
         });
-        /*reference.child(GROUPS).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                try {
-                    if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
-                                Group group = dataSnapshot.getValue(Group.class);
-                                assert group != null;
-                                allGroups.add(group);
-                            }
-                            groupInterface.allGroups(allGroups);
-
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e("Exception", e.getMessage());
-                }
-            }
-        });*/
     }
 
     public void getGroupDataById(String id) {

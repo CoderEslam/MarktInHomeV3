@@ -68,7 +68,7 @@ public class GroupFragment extends Fragment {
             allGroupsRecycler.setAdapter(itemGroupsAdapter);
         });
 
-        search.addTextChangedListener(new TextWatcher() {
+        /*search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -83,7 +83,7 @@ public class GroupFragment extends Fragment {
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
         addGroup.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), CreateGroupActivity.class));
         });

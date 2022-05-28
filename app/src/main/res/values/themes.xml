@@ -67,6 +67,6 @@
 
     <style name="Theme.Collapsing.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="zxing_CaptureTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen"/>
+    <style name="zxing_CaptureTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen" />
 
 </resources>
