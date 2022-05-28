@@ -18,7 +18,9 @@ import com.doubleclick.marktinhome.Adapters.KeywordAdapter;
 import com.doubleclick.marktinhome.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
+import com.iceteck.silicompressorr.SiliCompressor;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**

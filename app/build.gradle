@@ -132,7 +132,7 @@ dependencies {
     implementation('io.realm:android-adapters:3.0.0')
 
 //    implementation 'id.zelory:compressor:3.0.1'
-    implementation 'id.zelory:compressor:2.1.1'
+//    implementation 'id.zelory:compressor:2.1.1'
 //    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
 
 
@@ -156,6 +156,10 @@ dependencies {
     implementation 'com.devbrackets.android:exomedia:4.3.0'
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+
+    implementation 'id.zelory:compressor:3.0.1'
+    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
 
 
 

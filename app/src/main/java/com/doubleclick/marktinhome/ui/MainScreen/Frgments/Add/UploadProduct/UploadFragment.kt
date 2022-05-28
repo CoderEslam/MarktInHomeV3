@@ -4,7 +4,6 @@ package com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,12 +12,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatSpinner
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.divyanshu.colorseekbar.ColorSeekBar
 import com.doubleclick.ViewModel.TradmarkViewModel
 import com.doubleclick.marktinhome.Adapters.KeywordAdapter
 import com.doubleclick.marktinhome.BaseFragment
@@ -26,10 +23,12 @@ import com.doubleclick.marktinhome.Model.Product
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.KeywordBottomSheet
 import com.google.android.material.textfield.TextInputEditText
+import com.iceteck.silicompressorr.SiliCompressor
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import com.nex3z.togglebuttongroup.button.CircularToggle
-import top.defaults.colorpicker.ColorPickerPopup
+import id.zelory.compressor.Compressor
 import top.defaults.colorpicker.ColorPickerView
+import java.io.File
 import java.util.*
 
 
@@ -249,6 +248,11 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
         return String.format(Locale.getDefault(), "0x%02X%02X%02X%02X", a, r, g, b)
     }
 
+    // Compressor Image
+    suspend fun compress(){
+        val compressedImageFile = Compressor.compress(requireContext(), File(""))
+        val filePath = SiliCompressor.with(requireContext()).compress("", File(""))
+    }
 
     fun SendData(
         name: String,
