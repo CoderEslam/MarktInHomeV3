@@ -311,11 +311,11 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun ItemsKeyword(items: ArrayList<String>) {
-        itemsKeys.addAll(items);
+    override fun ItemsKeyword(item: String) {
+        itemsKeys.add(item);
         keywordAdapter = KeywordAdapter(itemsKeys, this);
         keyword.adapter = keywordAdapter
-        keywordAdapter.notifyItemRangeInserted(0, itemsKeys.size)
+        keywordAdapter.notifyItemInserted(itemsKeys.size - 1)
         keywordAdapter.notifyDataSetChanged()
     }
 
