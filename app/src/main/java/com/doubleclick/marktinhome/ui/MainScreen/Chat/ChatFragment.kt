@@ -22,6 +22,9 @@ import android.view.*
 import android.webkit.MimeTypeMap
 import android.webkit.URLUtil
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -638,6 +641,16 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             PickConact(data!!.data)
         }
     }
+
+    /**
+     * new way for onActivityResult
+     * */
+    /*var action = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback<ActivityResult>() {
+
+        })*/
+
 
     @SuppressLint("Range")
     fun PickConact(contactData: Uri?) {
