@@ -4,25 +4,21 @@ import android.Manifest
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.ContactsContract
-import android.provider.DocumentsContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
 import android.webkit.URLUtil
 import android.widget.*
@@ -31,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -65,6 +60,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
+import com.iceteck.silicompressorr.SiliCompressor
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.keyword_layout.*
@@ -74,7 +70,6 @@ import retrofit2.Response
 import java.io.File
 import java.io.IOException
 import java.util.*
-import kotlin.Error
 
 
 class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReopsitory.StatusChat {
@@ -618,7 +613,27 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            sendFileData(data.data!!)
+            var filePath: String? = "";
+            if (fileType.equals("image")) {
+                filePath = SiliCompressor.with(requireContext()).compress(
+                    data.data.toString(),
+                    File(
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                            .toString() + "/MarketEslam/Images/"
+                    )
+                )
+
+            }
+            if (fileType.equals("video")) {
+                sendFileData(data.data!!)
+//                filePath = SiliCompressor.with(requireContext()).compressVideo(
+//                    data.data.toString(),
+//                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+//                        .toString() + "/MarketEslam/Images/"
+//
+//                )
+            }
+            sendFileData(Uri.parse(filePath))
         } else if (requestCode == PICK_CONTACT && resultCode == Activity.RESULT_OK) {
             PickConact(data!!.data)
         }
@@ -785,7 +800,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     @Throws(java.lang.Exception::class)
     override fun download(chat: Chat, pos: Int) {
         try {
-            Log.e("CHATTTTTTTT", chat.toString() + "    " + pos);
             PRDownloaderInit(chat, pos)
             //=============================another way to download=======================================
             /* request = DownloadManager.Request(Uri.parse(chat.message))

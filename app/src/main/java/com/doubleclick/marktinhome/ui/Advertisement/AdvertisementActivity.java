@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -45,6 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -124,7 +126,9 @@ public class AdvertisementActivity extends AppCompatActivity implements AdvInter
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            imageAdv.setImageURI(imageUri);
+            String filePath = SiliCompressor.with(AdvertisementActivity.this).compress(imageUri.toString(), new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/MarketEslam/Images/"));
+            Log.e("SiliCompressor", filePath);
+            imageAdv.setImageURI(Uri.parse(filePath));
             if (uploadTask != null && uploadTask.isInProgress()) {
                 Toast.makeText(this, "Upload in preogress", Toast.LENGTH_SHORT).show();
             }

@@ -251,7 +251,6 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
     // Compressor Image
     suspend fun compress(){
         val compressedImageFile = Compressor.compress(requireContext(), File(""))
-        val filePath = SiliCompressor.with(requireContext()).compress("", File(""))
     }
 
     fun SendData(

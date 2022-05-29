@@ -160,7 +160,11 @@ dependencies {
 
     implementation 'id.zelory:compressor:3.0.1'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.2.4'
-
+    /* NoClassDefFoundError: Failed resolution of: Landroidx/exifinterface/media/ExifInterface
+    * to resolve this problem
+    *  --> implementation 'androidx.exifinterface:exifinterface:1.3.3'
+    * */
+    implementation 'androidx.exifinterface:exifinterface:1.3.3'
 
 
 }
