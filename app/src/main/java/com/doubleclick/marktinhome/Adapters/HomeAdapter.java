@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.doubleclick.ViewHolder.BannerSliderViewholder;
+import com.doubleclick.ViewHolder.CategoricalViewHolder;
 import com.doubleclick.ViewHolder.RecentResearchViewHolder;
 import com.doubleclick.ViewHolder.TopDealsViewHolder;
 import com.doubleclick.ViewHolder.ProductViewHolder;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class HomeAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<HomeModel> homeModels = new ArrayList<>();
+    private ArrayList<HomeModel> homeModels;
 
     public HomeAdapter(ArrayList<HomeModel> homeModels) {
         this.homeModels = homeModels;
@@ -44,6 +45,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 return new RecentResearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recent_search_layout, parent, false));
             case HomeModel.Trademarks:
                 return new TrademarkViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.h_treademark_recyclerview, parent, false));
+            case HomeModel.Categorical:
+                return new CategoricalViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.all_categorical, parent, false));
             default:
                 return null;
         }
@@ -69,6 +72,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 break;
             case HomeModel.TopCategory:
                 ((TopViewHolder) holder).setParent(homeModels.get(position).getParentCategories(), homeModels.get(position).getOnItemPerantTop());
+            case HomeModel.Categorical:
+                ((CategoricalViewHolder) holder).setCategorical(homeModels.get(position).getCategoricalProducts(), homeModels.get(position).getOnProduct());
                 break;
         }
 
@@ -89,6 +94,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 return HomeModel.Trademarks;
             case HomeModel.RecentSearch:
                 return HomeModel.RecentSearch;
+            case HomeModel.Categorical:
+                return HomeModel.Categorical;
             default:
                 return super.getItemViewType(position);
         }

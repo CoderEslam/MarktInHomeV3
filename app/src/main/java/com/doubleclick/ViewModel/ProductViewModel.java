@@ -2,23 +2,21 @@ package com.doubleclick.ViewModel;
 
 import static com.doubleclick.marktinhome.BaseApplication.isNetworkConnected;
 
-import android.util.Log;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.doubleclick.Products;
+import com.doubleclick.marktinhome.Model.CategoricalProduct;
 import com.doubleclick.marktinhome.Model.ChildCategory;
 import com.doubleclick.marktinhome.Model.ClassificationPC;
 import com.doubleclick.marktinhome.Model.ParentCategory;
 import com.doubleclick.marktinhome.Model.Product;
-import com.doubleclick.marktinhome.Model.RecentSearch;
 import com.doubleclick.marktinhome.Repository.ProductRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created By Eslam Ghazy on 3/2/2022
@@ -38,14 +36,17 @@ public class ProductViewModel extends ViewModel implements Products {
     private MutableLiveData<ArrayList<Product>> mutableLiveDataTopDeals = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Product>> mutableLiveDataidProcuct = new MutableLiveData<>();
     private MutableLiveData<ArrayList<ClassificationPC>> classificationPC = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<CategoricalProduct>> mutableLiveDatacaregoricalProduct = new MutableLiveData<>();
+
     private ProductRepository productRepository = new ProductRepository(this);
 
     public ProductViewModel() {
         if (isNetworkConnected()) {
             productRepository.getParents();
             productRepository.getChild();
-            productRepository.getProduct();
+//            productRepository.getProduct();
             productRepository.TopDeals();
+//            productRepository.LoadCategorical();
         }
     }
 
@@ -131,6 +132,9 @@ public class ProductViewModel extends ViewModel implements Products {
         return ProductWithTrademark;
     }
 
+    public LiveData<ArrayList<CategoricalProduct>> getCategorical() {
+        return mutableLiveDatacaregoricalProduct;
+    }
 
     @Override
     public void product(ArrayList<ArrayList<ArrayList<Product>>> products) {
@@ -196,4 +200,8 @@ public class ProductViewModel extends ViewModel implements Products {
     }
 
 
+    @Override
+    public void loadCategorical(@NonNull ArrayList<CategoricalProduct> categoricalProduct) {
+        mutableLiveDatacaregoricalProduct.setValue(categoricalProduct);
+    }
 }

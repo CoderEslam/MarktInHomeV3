@@ -59,24 +59,30 @@ public class TradmarkRepository extends BaseRepository {
     }
 
     public void getNameTradmark() {
-        reference.child(TRADEMARK).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(TRADEMARK).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    if (isNetworkConnected() && task.getResult().exists()) {
-                        DataSnapshot snapshot = task.getResult();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Trademark tradmark = dataSnapshot.getValue(Trademark.class);
-                            assert tradmark != null;
-                            names.add(tradmark.getName());
+                    if (isNetworkConnected()) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Trademark tradmark = dataSnapshot.getValue(Trademark.class);
+                                assert tradmark != null;
+                                names.add(tradmark.getName());
+                            }
+                            tradmarkinterface.AllNameTradmark(names);
                         }
-                        tradmarkinterface.AllNameTradmark(names);
+                    } else {
+                        ShowToast("No Internet Connection");
                     }
-
                 } catch (Exception e) {
-                    ShowToast("No Internet Connection");
                     Log.e("Exception", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 

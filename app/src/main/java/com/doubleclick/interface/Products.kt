@@ -1,9 +1,6 @@
 package com.doubleclick
 
-import com.doubleclick.marktinhome.Model.ChildCategory
-import com.doubleclick.marktinhome.Model.ClassificationPC
-import com.doubleclick.marktinhome.Model.ParentCategory
-import com.doubleclick.marktinhome.Model.Product
+import com.doubleclick.marktinhome.Model.*
 import java.util.*
 
 /**
@@ -26,5 +23,6 @@ interface Products {
     //    fun getLastSearchProduct(LastSearchproduct: ArrayList<Product?>?)
     fun getClassificationPC(Product: ArrayList<ClassificationPC?>?)
 
+    fun loadCategorical(categoricalProduct: ArrayList<CategoricalProduct>)
 
 }

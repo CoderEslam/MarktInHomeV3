@@ -30,13 +30,13 @@ public class AdvertisementRepository extends BaseRepository {
     }
 
     public void getAdvertisement() {
-        reference.child(ADVERTISEMENT).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(ADVERTISEMENT).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Advertisement advertisement = dataSnapshot.getValue(Advertisement.class);
                                 advertisements.add(advertisement);
                             }
@@ -48,6 +48,11 @@ public class AdvertisementRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

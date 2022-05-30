@@ -22,12 +22,14 @@ import com.doubleclick.ViewModel.ProductViewModel
 import com.doubleclick.ViewModel.RecentSearchViewModel
 import com.doubleclick.ViewModel.TradmarkViewModel
 import com.doubleclick.ViewMore
+import com.doubleclick.marktinhome.Adapters.CategoricalAdapter
 import com.doubleclick.marktinhome.Adapters.HomeAdapter
 import com.doubleclick.marktinhome.BaseApplication.isNetworkConnected
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Model.*
 import com.doubleclick.marktinhome.Model.Constantes.PRODUCT
 import com.doubleclick.marktinhome.Model.Constantes.USER
+import com.doubleclick.marktinhome.Model.HomeModel.*
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.reference
 import com.doubleclick.marktinhome.Views.Animatoo
@@ -169,6 +171,15 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
     @SuppressLint("NotifyDataSetChanged")
     private fun Loadproduct() {
         val productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        productViewModel.categorical.observe(viewLifecycleOwner) {
+            try {
+                homeModels.add(HomeModel(it, this, Categorical));
+                homeAdapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+
+            }
+
+        }
 //        productViewModel.parent.observe(viewLifecycleOwner) {
 //            if (it.size != 0) {
 ////                homeModels.add(0, HomeModel(it, HomeModel.TopCategory, this))
@@ -181,24 +192,30 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
 //            }
 //        };
         productViewModel.topDealsLiveData.observe(viewLifecycleOwner) { // get max as 50 items
-            if (it.size != 0) {
-                homeModels.add(HomeModel(it, HomeModel.TopDeal, this, this));
+            try {
+                homeModels.add(HomeModel(it, TopDeal, this, this));
                 homeAdapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+//
             }
+
+
         };
-        productViewModel.product.observe(viewLifecycleOwner) { // get max as 1000 items
-            if (it!!.size != 0) {
-                homeModels.add(HomeModel(it, HomeModel.Products, this))
-                homeAdapter.notifyDataSetChanged()
-            }
-        };
+//        productViewModel.product.observe(viewLifecycleOwner) { // get max as 1000 items
+//            try {
+//                homeModels.add(HomeModel(it, Products, this))
+//                homeAdapter.notifyDataSetChanged()
+//            } catch (e: Exception) {
+//
+//            }
+//        };
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun Loadtrademark() {
         val trademarkViewModel = TradmarkViewModel()
         trademarkViewModel.allMark.observe(viewLifecycleOwner) {
-            homeModels.add(HomeModel(it, HomeModel.Trademarks, this))
+            homeModels.add(HomeModel(it, Trademarks, this))
             homeAdapter.notifyDataSetChanged();
         };
     }
@@ -207,7 +224,7 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
     private fun Loadadvertisement() {
         val advertisementViewModel = AdvertisementViewModel();
         advertisementViewModel.advAdd.observe(viewLifecycleOwner) {
-            homeModels.add(0, HomeModel(it, HomeModel.Advertisement))
+            homeModels.add(0, HomeModel(it, Advertisement))
             homeAdapter.notifyItemInserted(0)
             homeAdapter.notifyItemInserted(0)
             homeAdapter.notifyDataSetChanged();

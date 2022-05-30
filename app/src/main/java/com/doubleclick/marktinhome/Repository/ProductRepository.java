@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.doubleclick.Products;
+import com.doubleclick.marktinhome.Model.CategoricalProduct;
 import com.doubleclick.marktinhome.Model.ChildCategory;
 import com.doubleclick.marktinhome.Model.ClassificationPC;
 import com.doubleclick.marktinhome.Model.ParentCategory;
@@ -22,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -121,15 +121,7 @@ public class ProductRepository extends BaseRepository {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });/*.orderByChild("TotalRating").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-
-
-            }
-        });*/
-//        Rearrange();
-
+        });
     }
 
 
@@ -149,6 +141,7 @@ public class ProductRepository extends BaseRepository {
                                 parentCategories.add(parentCategory);
                             }
                             product.Parentproduct(parentCategories);
+                            LoadCategorical();
                         }
                     } else {
                         ShowToast("No Internet Connection");
@@ -297,13 +290,12 @@ public class ProductRepository extends BaseRepository {
 
     // to get all product which in the same parent
     public void FilterByParent(String parentId) {
-        reference.child(PRODUCT).orderByChild("parentCategoryId").equalTo(parentId).limitToLast(1000).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(PRODUCT).orderByChild("parentCategoryId").equalTo(parentId).limitToLast(1000).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot snapshot = task.getResult();
+                        if (snapshot.exists()) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Product product = dataSnapshot.getValue(Product.class);
                                 assert product != null;
@@ -320,6 +312,10 @@ public class ProductRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("ExceptionFilterByParent", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -355,13 +351,12 @@ public class ProductRepository extends BaseRepository {
 
     // filter with tradmark
     public void ProductWithTrademark(String name) {
-        reference.child(PRODUCT).limitToLast(1000).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(PRODUCT).limitToLast(1000).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot snapshot = task.getResult();
+                        if (snapshot.exists()) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Product product = dataSnapshot.getValue(Product.class);
                                 assert product != null;
@@ -377,6 +372,10 @@ public class ProductRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("ExceptionProductTramark", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -384,13 +383,12 @@ public class ProductRepository extends BaseRepository {
 
     // to get Top Deals
     public void TopDeals(/*DataSnapshot dataSnapshot*/) {
-        reference.child(PRODUCT).orderByChild("discount").limitToFirst(50).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(PRODUCT).orderByChild("discount").limitToFirst(50).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot snapshot = task.getResult();
+                        if (snapshot.exists()) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Product product = dataSnapshot.getValue(Product.class);
                                 productsTopDeals.add(product);
@@ -404,6 +402,11 @@ public class ProductRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("ExceptionTopDeals", e.toString());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -431,6 +434,37 @@ public class ProductRepository extends BaseRepository {
         });
 
     }
+
+
+    //================================categorical===================================
+
+    public void LoadCategorical() {
+        ArrayList<CategoricalProduct> categorical = new ArrayList<>();
+        reference.child(PRODUCT).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (ParentCategory parent : parentCategories) {
+                    ArrayList<Product> productArrayList = new ArrayList<>();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Product product = dataSnapshot.getValue(Product.class);
+                        assert product != null;
+                        if (parent.getPushId().equals(product.getParentCategoryId())) {
+                            productArrayList.add(product);
+                        }
+                    }
+                    categorical.add(new CategoricalProduct(productArrayList, parent.getName()));
+                }
+                product.loadCategorical(categorical);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //================================categorical===================================
 
     public HashMap getDataAsHash(DataSnapshot snapshot) {
         Object o = new Object();

@@ -18,14 +18,22 @@ public class HomeModel {
     public static final int Products = 3;
     public static final int Trademarks = 4;
     public static final int RecentSearch = 5;
+    public static final int Categorical = 6;
     private ArrayList<ParentCategory> parentCategories;
     private ArrayList<Advertisement> advertisements;
     private ArrayList<Product> productsTopDaels;
     private ArrayList<Product> productArrayList;
+    private ArrayList<CategoricalProduct> categoricalProducts;
     private int type;
     private OnItem onItemPerantTop;
     private OnProduct onProduct;
     public ViewMore viewMore;
+
+    public HomeModel(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct, int type) {
+        this.categoricalProducts = categoricalProducts;
+        this.onProduct = onProduct;
+        this.type = type;
+    }
 
     public ArrayList<Product> getProductsRecentSearch() {
         return productsRecentSearch;
@@ -44,7 +52,7 @@ public class HomeModel {
         this.viewMore = viewMore;
     }
 
-    public HomeModel(int type, ArrayList<Product> productsRecentSearch, OnProduct onProduct, ViewMore viewMore,int fake) {
+    public HomeModel(int type, ArrayList<Product> productsRecentSearch, OnProduct onProduct, ViewMore viewMore, int fake) {
         this.productsRecentSearch = productsRecentSearch;
         this.type = type;
         this.onProduct = onProduct;
@@ -105,6 +113,15 @@ public class HomeModel {
 
     public void setProductArrayList(ArrayList<Product> productArrayList) {
         this.productArrayList = productArrayList;
+    }
+
+
+    public ArrayList<CategoricalProduct> getCategoricalProducts() {
+        return categoricalProducts;
+    }
+
+    public void setCategoricalProducts(ArrayList<CategoricalProduct> categoricalProducts) {
+        this.categoricalProducts = categoricalProducts;
     }
 
 
