@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -450,6 +451,7 @@ public class ProductRepository extends BaseRepository {
                         assert product != null;
                         if (parent.getPushId().equals(product.getParentCategoryId())) {
                             productArrayList.add(product);
+                            Query(parent.getPushId());
                         }
                     }
                     categorical.add(new CategoricalProduct(productArrayList, parent.getName()));
@@ -465,6 +467,23 @@ public class ProductRepository extends BaseRepository {
     }
 
     //================================categorical===================================
+
+    public void Query(String value) {
+        Query query = reference.child(PRODUCT).orderByChild("parentCategoryId").equalTo(value);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Log.e("DataSnapshot", dataSnapshot.getValue(Product.class).getProductName());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public HashMap getDataAsHash(DataSnapshot snapshot) {
         Object o = new Object();

@@ -39,7 +39,7 @@ public class CategoricalAdapter extends RecyclerView.Adapter<CategoricalAdapter.
     @Override
     public void onBindViewHolder(@NonNull CategoricalViewHolder holder, int position) {
 
-        holder.name.setText(categoricalProducts.get(position).getName());
+        holder.name.setText(String.format("#%s", categoricalProducts.get(position).getName()));
         holder.categoricals.setAdapter(new ProductAdapter(categoricalProducts.get(position).getProduct(), onProduct));
         holder.viewmore.setOnClickListener(v -> {
             Toast.makeText(holder.itemView.getContext(), "Load more", Toast.LENGTH_LONG).show();

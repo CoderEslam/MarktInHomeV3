@@ -37,6 +37,7 @@
     <dimen name="padding50">50dp</dimen>
     <dimen name="padding56">56dp</dimen>
     <dimen name="padding46">46dp</dimen>
+    <dimen name="image_small_width">40dp</dimen>
 
 
 </resources>
