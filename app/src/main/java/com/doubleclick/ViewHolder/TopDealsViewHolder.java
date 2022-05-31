@@ -13,7 +13,7 @@ import com.doubleclick.ViewMore;
 import com.doubleclick.marktinhome.Adapters.ProductAdapterSmall;
 import com.doubleclick.marktinhome.Model.Product;
 import com.doubleclick.marktinhome.R;
-import com.doubleclick.marktinhome.ui.MainScreen.ViewMore.ViewMoreActivity;
+import com.doubleclick.marktinhome.ui.MainScreen.ViewMore.ViewMoreTopDealsActivity;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class TopDealsViewHolder extends RecyclerView.ViewHolder {
         ProductAdapterSmall gridViewAdapter = new ProductAdapterSmall(products, onProduct);
         TopDeals.setAdapter(gridViewAdapter);
         viewmore.setOnClickListener(v -> {
-            itemView.getContext().startActivity(new Intent(itemView.getContext(), ViewMoreActivity.class));
+            itemView.getContext().startActivity(new Intent(itemView.getContext(), ViewMoreTopDealsActivity.class));
 //            viewMore.getViewMore(products);
         });
     }

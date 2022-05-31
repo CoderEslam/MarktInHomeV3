@@ -31,10 +31,12 @@
                 android:paddingTop="5dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="5dp"
+                android:textColor="@color/bluelight"
                 android:textSize="14sp"
                 app:hashtagColor="@color/bluelight"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:mentionColor="@color/bluelight"
                 tools:text="#Product" />
 
             <TextView

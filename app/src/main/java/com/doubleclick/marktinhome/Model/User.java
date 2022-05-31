@@ -1,6 +1,9 @@
 package com.doubleclick.marktinhome.Model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created By Eslam Ghazy on 3/1/2022
@@ -8,17 +11,34 @@ import java.io.Serializable;
 public class User implements Serializable {
 
 
+    @NonNull
+    private String name;
+    @NonNull
+    private String address;
+    @NonNull
+    private String email;
+    @NonNull
+    private String id;
+    @NonNull
+    private String password;
+    @NonNull
+    private String phone;
+    @NonNull
+    private String image;
+    @NonNull
+    private String token;
+
     public User() {
+        name = "";
+        address = "";
+        email = "";
+        id = "";
+        password = "";
+        phone = "";
+        image = "";
+        token = "";
     }
 
-    private String name;
-    private String address;
-    private String email;
-    private String id;
-    private String password;
-    private String phone;
-    private String image;
-    private String token;
 
     public String getStatus() {
         return status;
@@ -108,5 +128,18 @@ public class User implements Serializable {
                 ", image='" + image + '\'' +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getName().equals(user.getName()) && getAddress().equals(user.getAddress()) && getEmail().equals(user.getEmail()) && getId().equals(user.getId()) && getPassword().equals(user.getPassword()) && getPhone().equals(user.getPhone()) && getImage().equals(user.getImage()) && getToken().equals(user.getToken()) && Objects.equals(getStatus(), user.getStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getAddress(), getEmail(), getId(), getPassword(), getPhone(), getImage(), getToken(), getStatus());
     }
 }

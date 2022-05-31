@@ -136,6 +136,7 @@ public class ProductViewModel extends ViewModel implements Products {
         return mutableLiveDatacaregoricalProduct;
     }
 
+
     @Override
     public void product(ArrayList<ArrayList<ArrayList<Product>>> products) {
         mutableLiveData.setValue(products);

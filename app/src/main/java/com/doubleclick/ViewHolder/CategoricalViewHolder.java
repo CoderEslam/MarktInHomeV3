@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.doubleclick.Categorical;
 import com.doubleclick.OnProduct;
 import com.doubleclick.marktinhome.Adapters.CategoricalAdapter;
 import com.doubleclick.marktinhome.Adapters.ProductAdapter;
@@ -30,8 +31,8 @@ public class CategoricalViewHolder extends RecyclerView.ViewHolder {
         allCategorical = itemView.findViewById(R.id.allCategorical);
     }
 
-    public void setCategorical(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct) {
-        allCategorical.setAdapter(new CategoricalAdapter(categoricalProducts, onProduct));
+    public void setCategorical(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct, Categorical categorical) {
+        allCategorical.setAdapter(new CategoricalAdapter(categoricalProducts, onProduct, categorical));
     }
 
 }

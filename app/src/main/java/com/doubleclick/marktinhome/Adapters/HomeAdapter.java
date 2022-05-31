@@ -73,7 +73,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             case HomeModel.TopCategory:
                 ((TopViewHolder) holder).setParent(homeModels.get(position).getParentCategories(), homeModels.get(position).getOnItemPerantTop());
             case HomeModel.Categorical:
-                ((CategoricalViewHolder) holder).setCategorical(homeModels.get(position).getCategoricalProducts(), homeModels.get(position).getOnProduct());
+                ((CategoricalViewHolder) holder).setCategorical(homeModels.get(position).getCategoricalProducts(), homeModels.get(position).getOnProduct(), homeModels.get(position).getCategorical());
                 break;
         }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.doubleclick.CommentsInterface;
 import com.doubleclick.marktinhome.Model.Comments;
+import com.doubleclick.marktinhome.Model.CommentsProductData;
 import com.doubleclick.marktinhome.Repository.CommentsRepository;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import java.util.ArrayList;
  */
 public class CommentsViewModel extends ViewModel implements CommentsInterface {
 
-    MutableLiveData<ArrayList<Comments>> mutableLiveData = new MutableLiveData<>();
+    MutableLiveData<CommentsProductData> mutableLiveData = new MutableLiveData<>();
+    MutableLiveData<CommentsProductData> mutableLiveDataChanged = new MutableLiveData<>();
+    MutableLiveData<CommentsProductData> mutableLiveDataDeleted = new MutableLiveData<>();
 
     CommentsRepository commentsRepository = new CommentsRepository(this);
 
@@ -24,16 +27,34 @@ public class CommentsViewModel extends ViewModel implements CommentsInterface {
 
     }
 
-    public void getCommentsById(String idproduct){
+    public void getCommentsById(String idproduct) {
         commentsRepository.getAllComments(idproduct);
     }
 
-    public LiveData<ArrayList<Comments>> getCommentsLiveDate() {
+    public LiveData<CommentsProductData> getCommentsLiveDate() {
         return mutableLiveData;
     }
 
+    public LiveData<CommentsProductData> getCommentsLiveDateChanged() {
+        return mutableLiveDataChanged;
+    }
+
+    public LiveData<CommentsProductData> getCommentsLiveDateDeleted() {
+        return mutableLiveDataDeleted;
+    }
+
     @Override
-    public void getComment(@NonNull ArrayList<Comments> comments) {
-        mutableLiveData.setValue(comments);
+    public void getComment(@NonNull CommentsProductData comment) {
+        mutableLiveData.setValue(comment);
+    }
+
+    @Override
+    public void getCommentChanged(@NonNull CommentsProductData comment) {
+        mutableLiveDataChanged.setValue(comment);
+    }
+
+    @Override
+    public void getCommentDeleted(@NonNull CommentsProductData comment) {
+        mutableLiveDataDeleted.setValue(comment);
     }
 }

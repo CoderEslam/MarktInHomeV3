@@ -1,25 +1,32 @@
 package com.doubleclick.marktinhome.Model;
 
+import androidx.annotation.NonNull;
+
+import java.util.Objects;
+
 /**
  * Created By Eslam Ghazy on 3/17/2022
  */
 public class Comments {
 
-    private String image;
+    @NonNull
     private String id;
-    private float rateStar;
+    @NonNull
     private String comment;
     private long date;
-    private String userName;
+    @NonNull
+    private String userId;
+    @NonNull
     private String idProduct;
 
-    public String getImage() {
-        return image;
+    public Comments() {
+        id = "";
+        comment = "";
+        userId = "";
+        idProduct = "";
+        date = 0;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getId() {
         return id;
@@ -27,14 +34,6 @@ public class Comments {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public float getRateStar() {
-        return rateStar;
-    }
-
-    public void setRateStar(float rateStar) {
-        this.rateStar = rateStar;
     }
 
     public String getComment() {
@@ -53,19 +52,32 @@ public class Comments {
         this.date = date;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getIdProduct() {
         return idProduct;
     }
 
     public void setIdProduct(String idProduct) {
         this.idProduct = idProduct;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Comments)) return false;
+        Comments comments = (Comments) o;
+        return getDate() == comments.getDate() && getId().equals(comments.getId()) && getComment().equals(comments.getComment()) && getUserId().equals(comments.getUserId()) && getIdProduct().equals(comments.getIdProduct());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getComment(), getDate(), getUserId(), getIdProduct());
     }
 }

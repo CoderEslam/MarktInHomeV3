@@ -69,7 +69,7 @@
             android:name=".ui.MainScreen.FilterParent.FilterParentActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainScreen.ViewMore.ViewMoreActivity"
+            android:name=".ui.MainScreen.ViewMore.ViewMoreTopDealsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainScreen.RecentOrderActivity"
@@ -168,6 +168,10 @@
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".ui.MainScreen.ViewMore.ViewMoreCategoryActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

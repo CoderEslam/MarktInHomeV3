@@ -5,6 +5,7 @@ import static com.doubleclick.marktinhome.Model.Constantes.CHILDREN;
 import static com.doubleclick.marktinhome.Model.Constantes.PARENTS;
 import static com.doubleclick.marktinhome.Model.Constantes.PRODUCT;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
@@ -18,6 +19,7 @@ import com.doubleclick.marktinhome.Model.ParentCategory;
 import com.doubleclick.marktinhome.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.components.DependencyException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -451,10 +453,9 @@ public class ProductRepository extends BaseRepository {
                         assert product != null;
                         if (parent.getPushId().equals(product.getParentCategoryId())) {
                             productArrayList.add(product);
-                            Query(parent.getPushId());
                         }
                     }
-                    categorical.add(new CategoricalProduct(productArrayList, parent.getName()));
+                    categorical.add(new CategoricalProduct(productArrayList, parent.getName(), parent.getPushId()));
                 }
                 product.loadCategorical(categorical);
             }
@@ -465,7 +466,6 @@ public class ProductRepository extends BaseRepository {
             }
         });
     }
-
     //================================categorical===================================
 
     public void Query(String value) {
@@ -474,7 +474,7 @@ public class ProductRepository extends BaseRepository {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Log.e("DataSnapshot", dataSnapshot.getValue(Product.class).getProductName());
+
                 }
             }
 

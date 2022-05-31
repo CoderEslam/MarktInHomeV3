@@ -4,11 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.doubleclick.Categorical;
 import com.doubleclick.OnProduct;
 import com.doubleclick.marktinhome.Model.CategoricalProduct;
 import com.doubleclick.marktinhome.R;
@@ -23,10 +23,12 @@ public class CategoricalAdapter extends RecyclerView.Adapter<CategoricalAdapter.
 
     private ArrayList<CategoricalProduct> categoricalProducts;
     private OnProduct onProduct;
+    private Categorical categorical;
 
-    public CategoricalAdapter(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct) {
+    public CategoricalAdapter(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct, Categorical categorical) {
         this.categoricalProducts = categoricalProducts;
         this.onProduct = onProduct;
+        this.categorical = categorical;
     }
 
 
@@ -39,10 +41,10 @@ public class CategoricalAdapter extends RecyclerView.Adapter<CategoricalAdapter.
     @Override
     public void onBindViewHolder(@NonNull CategoricalViewHolder holder, int position) {
 
-        holder.name.setText(String.format("#%s", categoricalProducts.get(position).getName()));
+        holder.name.setText(String.format("#%s", categoricalProducts.get(position).getName().trim()));
         holder.categoricals.setAdapter(new ProductAdapter(categoricalProducts.get(position).getProduct(), onProduct));
         holder.viewmore.setOnClickListener(v -> {
-            Toast.makeText(holder.itemView.getContext(), "Load more", Toast.LENGTH_LONG).show();
+            categorical.categorical(categoricalProducts.get(position));
         });
 
     }
@@ -64,4 +66,5 @@ public class CategoricalAdapter extends RecyclerView.Adapter<CategoricalAdapter.
             categoricals = itemView.findViewById(R.id.categoricals);
         }
     }
+
 }

@@ -69,4 +69,9 @@
 
     <style name="zxing_CaptureTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen" />
 
+    <style name="TextAttachmentOptions">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

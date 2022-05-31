@@ -8,21 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.airbnb.lottie.LottieAnimationView
-import com.doubleclick.OnItem
-import com.doubleclick.OnProduct
-import com.doubleclick.Tradmarkinterface
+import com.doubleclick.*
 import com.doubleclick.ViewModel.AdvertisementViewModel
 import com.doubleclick.ViewModel.ProductViewModel
 import com.doubleclick.ViewModel.RecentSearchViewModel
 import com.doubleclick.ViewModel.TradmarkViewModel
-import com.doubleclick.ViewMore
-import com.doubleclick.marktinhome.Adapters.CategoricalAdapter
 import com.doubleclick.marktinhome.Adapters.HomeAdapter
 import com.doubleclick.marktinhome.BaseApplication.isNetworkConnected
 import com.doubleclick.marktinhome.BaseFragment
@@ -31,22 +26,22 @@ import com.doubleclick.marktinhome.Model.Constantes.PRODUCT
 import com.doubleclick.marktinhome.Model.Constantes.USER
 import com.doubleclick.marktinhome.Model.HomeModel.*
 import com.doubleclick.marktinhome.R
-import com.doubleclick.marktinhome.Repository.BaseRepository.reference
 import com.doubleclick.marktinhome.Views.Animatoo
 import com.doubleclick.marktinhome.ui.MainScreen.FilterParent.FilterParentActivity
+import com.doubleclick.marktinhome.ui.MainScreen.ViewMore.ViewMoreCategoryActivity
+import com.doubleclick.marktinhome.ui.MainScreen.ViewMore.ViewMoreTopDealsActivity
 import com.doubleclick.marktinhome.ui.ProductActivity.productActivity
 import com.doubleclick.marktinhome.ui.Trademark.FilterTradmarkActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.android.synthetic.main.fragment_pager.*
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
-class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewMore,
+class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewMore, Categorical,
     SwipeRefreshLayout.OnRefreshListener {
 
 
@@ -119,7 +114,7 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
     // filter by parentCategory
     override fun onItem(parentCategory: ParentCategory?) {
         val intent = Intent(requireContext(), FilterParentActivity::class.java)
-        intent.putExtra("parentCategory", parentCategory);
+        intent.putExtra("parentCategoryId", parentCategory!!.pushId);
         startActivity(intent)
     }
 
@@ -173,7 +168,7 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
         val productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
         productViewModel.categorical.observe(viewLifecycleOwner) {
             try {
-                homeModels.add(HomeModel(it, this, Categorical));
+                homeModels.add(HomeModel(it, this, this, Categorical));
                 homeAdapter.notifyDataSetChanged()
             } catch (e: Exception) {
 
@@ -275,6 +270,12 @@ class HomeFragment : BaseFragment(), OnItem, OnProduct, Tradmarkinterface, ViewM
                 handler.post(runnable)
             }
         }, 2000, 2000)
+    }
+
+    override fun categorical(categoricalProduct: CategoricalProduct) {
+        val intent = Intent(requireContext(), FilterParentActivity::class.java);
+        intent.putExtra("parentCategoryId", categoricalProduct.id);
+        startActivity(intent);
     }
 }
 

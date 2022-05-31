@@ -1,16 +1,20 @@
 package com.doubleclick.marktinhome.Adapters;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.doubleclick.marktinhome.Model.Comments;
+import com.doubleclick.marktinhome.Model.CommentsProductData;
 import com.doubleclick.marktinhome.R;
 
 import java.util.ArrayList;
@@ -22,10 +26,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
-    private ArrayList<Comments> comments = new ArrayList<>();
+    private ArrayList<CommentsProductData> comments;
+    private OnDeleteComment onDeleteComment;
 
-    public CommentAdapter(ArrayList<Comments> comments) {
+    public CommentAdapter(ArrayList<CommentsProductData> comments) {
         this.comments = comments;
+    }
+
+    public CommentAdapter(ArrayList<CommentsProductData> comments, OnDeleteComment onDeleteComment) {
+        this.comments = comments;
+        this.onDeleteComment = onDeleteComment;
     }
 
     @NonNull
@@ -36,10 +46,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        holder.comment.setText(comments.get(position).getComment());
-        holder.userName.setText(comments.get(position).getUserName());
-        Glide.with(holder.itemView.getContext()).load(comments.get(position).getImage()).into(holder.imageUser);
-        holder.ratingBar.setRating(comments.get(position).getRateStar());
+        holder.comment.setText(comments.get(position).getComments().getComment());
+        holder.userName.setText(comments.get(position).getUser().getName());
+        Glide.with(holder.itemView.getContext()).load(comments.get(position).getUser().getImage()).into(holder.imageUser);
+        holder.delete.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
+            popupMenu.getMenuInflater().inflate(R.menu.delete_comment, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.delete) {
+                        onDeleteComment.DeleteComment(comments.get(position));
+                    }
+                    return true;
+                }
+            });
+            popupMenu.show();
+        });
     }
 
     @Override
@@ -49,17 +72,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView imageUser;
+        private ImageView delete;
         private TextView userName;
         private TextView comment;
-        private RatingBar ratingBar;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             imageUser = itemView.findViewById(R.id.imageUser);
             userName = itemView.findViewById(R.id.userName);
             comment = itemView.findViewById(R.id.comment);
-            ratingBar = itemView.findViewById(R.id.ratingBar);
+            delete = itemView.findViewById(R.id.delete);
         }
+    }
 
+    public interface OnDeleteComment {
+        void DeleteComment(CommentsProductData commentsProductData);
     }
 }

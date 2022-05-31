@@ -17,7 +17,7 @@ public class Constantes {
     public static final String RECENTSEARCH = "recentSearch";
     public static final String RECENTORDER = "RecentOrder";
     public static final String CHATS = "chats";
-    public static final String COMMENTS = "comments";
+    public static final String COMMENTS_PRODUCT = "commentsProduct";
     public static final String COMMENTS_GROUP = "commentsGroup";
     public static final String CHAT_LIST = "chatList";
     public static final String GROUPS = "Groups";

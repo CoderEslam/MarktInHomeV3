@@ -18,13 +18,13 @@ import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.webkit.URLUtil
 import android.widget.*
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -32,6 +32,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.devlomi.record_view.OnRecordListener
@@ -42,7 +43,9 @@ import com.doubleclick.OnMessageClick
 import com.doubleclick.Util.KeyboardUtil
 import com.doubleclick.ViewModel.ChatViewModel
 import com.doubleclick.ViewModel.UserViewModel
-import com.doubleclick.downloader.*
+import com.doubleclick.downloader.OnDownloadListener
+import com.doubleclick.downloader.PRDownloader
+import com.doubleclick.downloader.PRDownloaderConfig
 import com.doubleclick.marktinhome.Adapters.BaseMessageAdapter
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatViewModelDatabase
@@ -52,6 +55,9 @@ import com.doubleclick.marktinhome.Model.Constantes.USER
 import com.doubleclick.marktinhome.Notifications.Client
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.ChatReopsitory
+import com.doubleclick.marktinhome.Views.audio_record_view.AttachmentOption
+import com.doubleclick.marktinhome.Views.audio_record_view.AttachmentOptionsListener
+import com.doubleclick.marktinhome.Views.audio_record_view.AudioRecordView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -66,7 +72,6 @@ import com.google.firebase.storage.UploadTask
 import com.iceteck.silicompressorr.SiliCompressor
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.keyword_layout.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,7 +80,8 @@ import java.io.IOException
 import java.util.*
 
 
-class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReopsitory.StatusChat {
+class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReopsitory.StatusChat,
+    AudioRecordView.RecordingListener, AttachmentOptionsListener {
 
     private lateinit var sendText: ImageView
     private lateinit var et_text_message: EditText
@@ -120,7 +126,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private var manager: DownloadManager? = null
     private var request: DownloadManager.Request? = null
     private lateinit var broadcastReceiver: BroadcastReceiver;
-
+    private lateinit var audioRecordView: AudioRecordView
+    private var time: Long = 0
+    private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,28 +152,34 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
-        sendText = view.findViewById(R.id.sendText);
-        et_text_message = view.findViewById(R.id.et_text_message);
-        continer_attacht = view.findViewById(R.id.continer_attacht);
-        chatRecycler = view.findViewById(R.id.chatRecycler);
+        rootView = inflater.inflate(R.layout.fragment_chat, container, false)
+        sendText = rootView.findViewById(R.id.sendText);
+        et_text_message = rootView.findViewById(R.id.et_text_message);
+        continer_attacht = rootView.findViewById(R.id.continer_attacht);
+        chatRecycler = rootView.findViewById(R.id.chatRecycler);
         chatRecycler.setHasFixedSize(true);
-        sendRecord = view.findViewById(R.id.sendRecord);
-        recordView = view.findViewById(R.id.recordView);
-        emotion = view.findViewById(R.id.emotion);
-        layout_text = view.findViewById(R.id.layout_text)
-        attach_file = view.findViewById(R.id.attach_file);
+        chatRecycler.itemAnimator = DefaultItemAnimator();
+        sendRecord = rootView.findViewById(R.id.sendRecord);
+        recordView = rootView.findViewById(R.id.recordView);
+        emotion = rootView.findViewById(R.id.emotion);
+        layout_text = rootView.findViewById(R.id.layout_text)
+        attach_file = rootView.findViewById(R.id.attach_file);
         sendRecord.setRecordView(recordView)
-        file = view.findViewById(R.id.file)
-        option = view.findViewById(R.id.option);
-        location = view.findViewById(R.id.location)
-        image = view.findViewById(R.id.image)
-        video = view.findViewById(R.id.video)
-        contact = view.findViewById(R.id.contact)
-        profile_image = view.findViewById(R.id.profile_image)
-        username = view.findViewById(R.id.username)
-        status = view.findViewById(R.id.status)
-        toolbar = view.findViewById(R.id.toolbar)
+        file = rootView.findViewById(R.id.file)
+        option = rootView.findViewById(R.id.option);
+        location = rootView.findViewById(R.id.location)
+        image = rootView.findViewById(R.id.image)
+        video = rootView.findViewById(R.id.video)
+        contact = rootView.findViewById(R.id.contact)
+        profile_image = rootView.findViewById(R.id.profile_image)
+        username = rootView.findViewById(R.id.username)
+        status = rootView.findViewById(R.id.status)
+        toolbar = rootView.findViewById(R.id.toolbar)
+        /**
+         * @param run
+         * is responsible for run record or not
+         * */
+        runRecord(run = false);
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
         userViewModel.getUserById(userId)
         userViewModel.userInfo.observe(viewLifecycleOwner) {
@@ -249,7 +263,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
 
 
         val emojiPopup =
-            EmojiPopup.Builder.fromRootView(view.findViewById(R.id.root_view)).build(
+            EmojiPopup.Builder.fromRootView(rootView.findViewById(R.id.root_view)).build(
                 et_text_message
             )
         emotion.setOnClickListener {
@@ -409,7 +423,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             pupMenu.show()
         }
 
-        return view;
+        return rootView;
     }
 
     private fun sentMessage(text: String, type: String) {
@@ -1088,5 +1102,54 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         }
     }
 
+    private fun debug(log: String) {
+        Log.d("RecordingChat", log)
+    }
+
+    override fun onRecordingStarted() {
+        ShowToast("started")
+        debug("started")
+        time = System.currentTimeMillis() / 1000
+    }
+
+    override fun onRecordingLocked() {
+        ShowToast("locked")
+        debug("locked")
+    }
+
+    override fun onRecordingCompleted() {
+        val recordTime = (System.currentTimeMillis() / 1000 - time).toInt()
+        ShowToast("completed = " + recordTime)
+        debug("completed")
+
+    }
+
+    override fun onRecordingCanceled() {
+        ShowToast("canceled")
+        debug("canceled")
+    }
+
+
+    override fun onClick(attachmentOption: AttachmentOption?) {
+        when (attachmentOption!!.id) {
+            AttachmentOption.DOCUMENT_ID -> ShowToast("Document Clicked")
+            AttachmentOption.CAMERA_ID -> ShowToast("Camera Clicked")
+            AttachmentOption.GALLERY_ID -> ShowToast("Gallery Clicked")
+            AttachmentOption.AUDIO_ID -> ShowToast("Audio Clicked")
+            AttachmentOption.LOCATION_ID -> ShowToast("Location Clicked")
+            AttachmentOption.CONTACT_ID -> ShowToast("Contact Clicked")
+        }
+    }
+
+    private fun runRecord(run: Boolean) {
+        if (run) {
+            audioRecordView = AudioRecordView();
+            audioRecordView.initView(rootView.findViewById<View>(R.id.constraintLayout) as ConstraintLayout)
+            audioRecordView.recordingListener = this
+            audioRecordView.messageView.requestFocus()
+            audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), this)
+            audioRecordView.removeAttachmentOptionAnimation(false)
+        }
+    }
 
 }

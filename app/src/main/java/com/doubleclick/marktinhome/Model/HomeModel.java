@@ -1,5 +1,6 @@
 package com.doubleclick.marktinhome.Model;
 
+import com.doubleclick.Categorical;
 import com.doubleclick.OnItem;
 import com.doubleclick.OnProduct;
 import com.doubleclick.Tradmarkinterface;
@@ -28,11 +29,13 @@ public class HomeModel {
     private OnItem onItemPerantTop;
     private OnProduct onProduct;
     public ViewMore viewMore;
+    public Categorical categorical;
 
-    public HomeModel(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct, int type) {
+    public HomeModel(ArrayList<CategoricalProduct> categoricalProducts, OnProduct onProduct, Categorical categorical, int type) {
         this.categoricalProducts = categoricalProducts;
         this.onProduct = onProduct;
         this.type = type;
+        this.categorical = categorical;
     }
 
     public ArrayList<Product> getProductsRecentSearch() {
@@ -192,5 +195,13 @@ public class HomeModel {
 
     public void setViewMore(ViewMore viewMore) {
         this.viewMore = viewMore;
+    }
+
+    public com.doubleclick.Categorical getCategorical() {
+        return categorical;
+    }
+
+    public void setCategorical(com.doubleclick.Categorical categorical) {
+        this.categorical = categorical;
     }
 }
