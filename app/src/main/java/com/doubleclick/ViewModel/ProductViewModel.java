@@ -59,7 +59,7 @@ public class ProductViewModel extends ViewModel implements Products {
 
     public void getSearch(String search) {
         if (isNetworkConnected()) {
-            productRepository.getQuery(search);
+            productRepository.getSearch(search);
         }
     }
 

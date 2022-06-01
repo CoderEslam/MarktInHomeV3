@@ -13,9 +13,11 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.doubleclick.marktinhome.BaseFragment;
 import com.doubleclick.marktinhome.Model.Comments;
 import com.doubleclick.marktinhome.Model.CommentsProductData;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Repository.BaseRepository;
 
 import java.util.ArrayList;
 
@@ -29,9 +31,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private ArrayList<CommentsProductData> comments;
     private OnDeleteComment onDeleteComment;
 
-    public CommentAdapter(ArrayList<CommentsProductData> comments) {
-        this.comments = comments;
-    }
 
     public CommentAdapter(ArrayList<CommentsProductData> comments, OnDeleteComment onDeleteComment) {
         this.comments = comments;
@@ -46,23 +45,29 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        holder.comment.setText(comments.get(position).getComments().getComment());
-        holder.userName.setText(comments.get(position).getUser().getName());
-        Glide.with(holder.itemView.getContext()).load(comments.get(position).getUser().getImage()).into(holder.imageUser);
-        holder.delete.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
-            popupMenu.getMenuInflater().inflate(R.menu.delete_comment, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.delete) {
-                        onDeleteComment.DeleteComment(comments.get(position));
+        holder.comment.setText(comments.get(holder.getAdapterPosition()).getComments().getComment());
+        holder.userName.setText(comments.get(holder.getAdapterPosition()).getUser().getName());
+        Glide.with(holder.itemView.getContext()).load(comments.get(holder.getAdapterPosition()).getUser().getImage()).into(holder.imageUser);
+        if (comments.get(holder.getAdapterPosition()).getComments().getUserId().equals(BaseRepository.myId)) {
+            holder.delete.setVisibility(View.VISIBLE);
+            holder.delete.setOnClickListener(v -> {
+                PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
+                popupMenu.getMenuInflater().inflate(R.menu.delete_comment, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.delete) {
+                            onDeleteComment.DeleteComment(comments.get(holder.getAdapterPosition()));
+                        }
+                        return true;
                     }
-                    return true;
-                }
+                });
+                popupMenu.show();
             });
-            popupMenu.show();
-        });
+        } else {
+            holder.delete.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

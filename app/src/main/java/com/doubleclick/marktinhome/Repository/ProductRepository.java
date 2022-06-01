@@ -264,14 +264,14 @@ public class ProductRepository extends BaseRepository {
     }*/
 
 
-    public void getQuery(String query) {
-        reference.child(PRODUCT).orderByChild("productName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+    public void getSearch(String query) {
+        Query q = reference.child(PRODUCT).orderByChild("productName");
+        q.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot snapshot = task.getResult();
+                        if (snapshot.exists()) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 Product product = dataSnapshot.getValue(Product.class);
                                 if (Objects.requireNonNull(product).getProductName().contains(query) || product.getTradeMark().contains(query) || product.getChildCategoryName().contains(query) || product.getParentCategoryName().contains(query) || product.getKeywords().contains(query)) {
@@ -286,6 +286,10 @@ public class ProductRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("ExceptiongetQuery", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

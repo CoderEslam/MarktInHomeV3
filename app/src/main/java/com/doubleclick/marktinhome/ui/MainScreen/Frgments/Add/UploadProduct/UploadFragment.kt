@@ -324,8 +324,8 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
 
     private fun Used() {
         var used_new: ArrayList<String> = ArrayList()
-        used_new.add("used")
         used_new.add("new")
+        used_new.add("used")
         type.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

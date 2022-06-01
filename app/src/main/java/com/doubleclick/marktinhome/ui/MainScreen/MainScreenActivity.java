@@ -25,12 +25,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.util.view.SearchInputView;
 import com.bumptech.glide.Glide;
 import com.doubleclick.ViewModel.ProductViewModel;
 import com.doubleclick.ViewModel.UserViewModel;
@@ -45,6 +50,7 @@ import com.doubleclick.marktinhome.ui.Filter.FilterActivity;
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.HomeFragment;
 import com.doubleclick.marktinhome.ui.MainScreen.Groups.GroupsActivity;
 import com.doubleclick.marktinhome.ui.MainScreen.Parents.ParentActivity;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
@@ -60,7 +66,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
     private NavController navController;
     private RecyclerView menu_recycler_view;
     private ProductViewModel productViewModel;
-    private SearchView search;
+    private EditText search;
     private FlowingDrawer drawerLayout;
     private ImageView openDrawer;
     private UserViewModel userViewModel;
@@ -107,29 +113,23 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         openDrawer.setOnClickListener(v -> {
             drawerLayout.openMenu(true);
         });
-
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (query.contains("https://www.market.doublethink.com/product/")) {
-                    String[] url = query.split("com.doubleclick.marktinhome/product/");
-                    String idProduct = url[1];
-                    Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);
-                    intent.putExtra("id", idProduct);
-                    intent.putExtra("type", "ShareUrl");
-                    startActivity(intent);
-                } else {
-//                    Sending.Check(query, MainScreenActivity.this, MainScreenActivity.this);
-                    Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);
-                    intent.putExtra("id", query);
-                    intent.putExtra("type", "search");
-                    startActivity(intent);
-                }
+        search.setOnKeyListener((v, keyCode, event) -> {
+            if (search.getText().toString().contains("https://www.market.doublethink.com/product/")) {
+                String[] url = search.getText().toString().split("com.doubleclick.marktinhome/product/");
+                String idProduct = url[1];
+                Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);
+                intent.putExtra("type", "ShareUrl");
+                intent.putExtra("id", idProduct);
+                startActivity(intent);
                 return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
+            } else if (!search.getText().toString().equals("")) {
+//                    Sending.Check(query, MainScreenActivity.this, MainScreenActivity.this);
+                Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);
+                intent.putExtra("type", "search");
+                intent.putExtra("id", search.getText().toString());
+                startActivity(intent);
+                return true;
+            } else {
                 return false;
             }
         });

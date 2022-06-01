@@ -41,9 +41,8 @@
         android:roundIcon="@drawable/cart"
         android:supportsRtl="true"
         android:theme="@style/Theme.MarktInHome">
-        <activity
-            android:name=".ColorActivity"
-            android:exported="false" />
+
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -187,6 +186,7 @@
         </service>
 
         <receiver android:name="com.doubleclick.Servies.NotificationReceiver" />
+
     </application>
 
 </manifest>

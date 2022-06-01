@@ -43,7 +43,7 @@
     <string name="filter">filter</string>
     <string name="top_deals">#Top Deals</string>
     <string name="keywords">keywords</string>
-    <string name="search_here">Search Here by product name or url</string>
+    <string name="search_here">Search Here by product name or link</string>
     <string name="_host">www.marktinhome.com</string>
     <string name="recent_search">#recent search</string>
     <string name="edit_on_product">Edit Name of Product</string>

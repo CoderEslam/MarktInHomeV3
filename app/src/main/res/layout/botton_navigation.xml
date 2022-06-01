@@ -30,15 +30,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.SearchView
+            <EditText
                 android:id="@+id/search"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/round_rectangle_white"
+                android:drawableStart="@drawable/search"
+                android:hint="@string/search_here"
                 android:iconifiedByDefault="false"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
                 android:padding="5dp"
-                android:queryHint="@string/search_here"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/myImage"
                 app:layout_constraintStart_toEndOf="@+id/openDrawer"
@@ -54,7 +61,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/person" />
+                tools:src="@drawable/parson" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
