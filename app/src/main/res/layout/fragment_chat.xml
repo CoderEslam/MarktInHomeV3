@@ -101,7 +101,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="wrap_content"
@@ -124,8 +123,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.devlomi.record_view.RecordButton
                 android:id="@+id/sendRecord"
@@ -176,14 +174,14 @@
                     android:background="@android:color/transparent"
                     android:elevation="5dp"
                     android:hint="@string/type_a_message"
+                    android:imeOptions="actionSend"
                     android:maxLines="10"
                     android:textColor="@color/blueDark"
                     android:textColorHint="@color/gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/attach_file"
                     app:layout_constraintStart_toEndOf="@+id/emotion"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:imeOptions="actionSend"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/emotion"

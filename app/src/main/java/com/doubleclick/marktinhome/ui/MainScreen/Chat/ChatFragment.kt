@@ -72,6 +72,7 @@ import com.google.firebase.storage.UploadTask
 import com.iceteck.silicompressorr.SiliCompressor
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.layout_chatting.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +82,7 @@ import java.util.*
 
 
 class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReopsitory.StatusChat,
-    AudioRecordView.RecordingListener, AttachmentOptionsListener {
+    AudioRecordView.RecordingListener, AttachmentOptionsListener, View.OnClickListener {
 
     private lateinit var sendText: ImageView
     private lateinit var et_text_message: EditText
@@ -1142,14 +1143,25 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     }
 
     private fun runRecord(run: Boolean) {
+        var recyclerViewMessages: RecyclerView? = null
         if (run) {
             audioRecordView = AudioRecordView();
-            audioRecordView.initView(rootView.findViewById<View>(R.id.constraintLayout) as ConstraintLayout)
+            audioRecordView.initView(rootView.findViewById<View>(R.id.root_view) as ConstraintLayout)
+            // this is to provide the container layout to the audio record view..
+            val containerView = audioRecordView.setContainerView(R.layout.layout_chatting)
+            containerView.findViewById<View>(R.id.imageViewTitleIcon).setOnClickListener(this)
+            containerView.findViewById<View>(R.id.imageViewMenu).setOnClickListener(this)
+            recyclerViewMessages =
+                containerView.findViewById<RecyclerView>(R.id.recyclerViewMessages)
             audioRecordView.recordingListener = this
             audioRecordView.messageView.requestFocus()
             audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), this)
             audioRecordView.removeAttachmentOptionAnimation(false)
         }
+    }
+
+    override fun onClick(v: View?) {
+
     }
 
 }
