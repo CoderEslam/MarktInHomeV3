@@ -12,6 +12,7 @@
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/circle.xml" value="0.2" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/group.xml" value="0.2" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/ic_aperture.xml" value="0.2" />
+        <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/ic_baseline_keyboard_backspace_24.xml" value="0.176" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/ic_history.xml" value="0.2" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/ic_like.xml" value="0.2" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/drawable-v21/ic_message.xml" value="0.2" />
@@ -130,6 +131,7 @@
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/bottom_dialog_keyword.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/bottom_sheet_editor.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/botton_navigation.xml" value="0.25" />
+        <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/castum_controle_layout.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/categorical_layout.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/child_layout.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/color_picker.xml" value="0.259375" />
@@ -139,6 +141,7 @@
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/comments_layout.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/content_scrolling.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/coor.xml" value="0.22" />
+        <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/custom_video_view.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/dialog_colorpicker_colorpickerview_skydoves.xml" value="0.2" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/dialog_keywords.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/each_item.xml" value="0.33" />
@@ -224,6 +227,7 @@
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/keyword_layout.xml" value="0.33" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/layout_categories.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/layout_chat.xml" value="0.33" />
+        <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/layout_chatting.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/layout_edit.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/layout_group_list.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/layout_group_list_shimmer.xml" value="0.2604166666666667" />
@@ -247,7 +251,7 @@
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/play_voice_right.xml" value="0.33" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/popupwindow.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/recent_search_layout.xml" value="0.2604166666666667" />
-        <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/record_view.xml" value="0.33" />
+        <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/record_view.xml" value="0.25" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/right_chat.xml" value="0.33" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/show_all_categorical.xml" value="0.2604166666666667" />
         <entry key="..\:/Users/eslam/AndroidStudioProjects/Eslam/MarketAtHomeforSeller/MarktInHome/app/src/main/res/layout/slider_image_layout.xml" value="0.16" />

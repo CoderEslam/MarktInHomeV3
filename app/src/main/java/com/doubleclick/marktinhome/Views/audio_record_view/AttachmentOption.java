@@ -23,15 +23,17 @@ public class AttachmentOption implements Serializable {
     public static final int AUDIO_ID = 104;
     public static final int LOCATION_ID = 105;
     public static final int CONTACT_ID = 106;
+    public static final int VIDEO_ID = 107;
 
     public static List<AttachmentOption> getDefaultList() {
         List<AttachmentOption> attachmentOptions = new ArrayList<>();
         attachmentOptions.add(new AttachmentOption(DOCUMENT_ID, "Document", R.drawable.ic_attachment_document));
-        attachmentOptions.add(new AttachmentOption(CAMERA_ID, "Camera", R.drawable.ic_attachment_camera));
+//        attachmentOptions.add(new AttachmentOption(CAMERA_ID, "Camera", R.drawable.ic_attachment_camera));
         attachmentOptions.add(new AttachmentOption(GALLERY_ID, "Gallery", R.drawable.ic_attachment_gallery));
-        attachmentOptions.add(new AttachmentOption(AUDIO_ID, "Audio", R.drawable.ic_attachment_audio));
+//        attachmentOptions.add(new AttachmentOption(AUDIO_ID, "Audio", R.drawable.ic_attachment_audio));
         attachmentOptions.add(new AttachmentOption(LOCATION_ID, "Location", R.drawable.ic_attachment_location));
         attachmentOptions.add(new AttachmentOption(CONTACT_ID, "Contact", R.drawable.ic_attachment_contact));
+        attachmentOptions.add(new AttachmentOption(VIDEO_ID, "Video", R.drawable.ic_video));
         return attachmentOptions;
     }
 

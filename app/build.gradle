@@ -172,4 +172,7 @@ dependencies {
 
     implementation 'io.ak1.pix:piximagepicker:1.6.3'
 
+
+//    implementation 'com.google.android.exoplayer:exoplayer:2.13.3'
+//    implementation 'com.github.norulab:android-exoplayer-fullscreen:1.2.1'
 }

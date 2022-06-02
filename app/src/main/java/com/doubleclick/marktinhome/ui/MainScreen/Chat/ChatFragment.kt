@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -72,7 +73,9 @@ import com.google.firebase.storage.UploadTask
 import com.iceteck.silicompressorr.SiliCompressor
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.keyword_layout.view.*
 import kotlinx.android.synthetic.main.layout_chatting.*
+import kotlinx.android.synthetic.main.record_view.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,7 +85,7 @@ import java.util.*
 
 
 class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReopsitory.StatusChat,
-    AudioRecordView.RecordingListener, AttachmentOptionsListener, View.OnClickListener {
+    AudioRecordView.RecordingListener, AttachmentOptionsListener {
 
     private lateinit var sendText: ImageView
     private lateinit var et_text_message: EditText
@@ -130,6 +133,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private lateinit var audioRecordView: AudioRecordView
     private var time: Long = 0
     private lateinit var rootView: View
+    private lateinit var emojiPopup: EmojiPopup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -176,13 +180,13 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         username = rootView.findViewById(R.id.username)
         status = rootView.findViewById(R.id.status)
         toolbar = rootView.findViewById(R.id.toolbar)
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        userViewModel.getUserById(userId)
         /**
          * @param run
          * is responsible for run record or not
          * */
-        runRecord(run = false);
-        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        userViewModel.getUserById(userId)
+        runRecord(run = true);
         userViewModel.userInfo.observe(viewLifecycleOwner) {
             user = it
             Glide.with(requireContext()).load(user!!.image).into(profile_image)
@@ -263,10 +267,8 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         };
 
 
-        val emojiPopup =
-            EmojiPopup.Builder.fromRootView(rootView.findViewById(R.id.root_view)).build(
-                et_text_message
-            )
+        emojiPopup = EmojiPopup.Builder.fromRootView(rootView.findViewById(R.id.root_view))
+            .build(et_text_message)
         emotion.setOnClickListener {
             if (cklicked) {
                 emojiPopup.toggle()
@@ -335,7 +337,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                 status("recording...")
                 recordView.visibility = View.VISIBLE
                 layout_text.visibility = View.INVISIBLE
-                setUpRecording()
+                setUpRecordingPrivate()
                 try {
                     mediaRecorder.prepare()
                     mediaRecorder.start()
@@ -392,23 +394,19 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             Log.d("RecordView", "Basket Animation Finished")
         }
         image.setOnClickListener {
-            fileType = "image"
-            openFiles("image/*")
+            sendImage();
         }
         video.setOnClickListener {
-            fileType = "video"
-            openFiles("video/*")
+            sendVideo();
         }
         file.setOnClickListener {
-            fileType = "file"
-            openFiles("application/*")
+            sendFile();
         }
         location.setOnClickListener {
-            getMyLocation()
+            getMyLocation();
         }
         contact.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
-            startActivityForResult(intent, PICK_CONTACT)
+            sendContact();
         }
         option.setOnClickListener { v ->
             val pupMenu = PopupMenu(requireContext(), v);
@@ -500,7 +498,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         return f.path
     }
 
-    private fun setUpRecording() {
+    private fun setUpRecordingPrivate() {
         mediaRecorder = MediaRecorder()
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
@@ -515,6 +513,23 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         audioPath =
             getFilePath() //file.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".3gp";
         mediaRecorder.setOutputFile(audioPath)
+    }
+
+    private fun setUpRecordingLocal() {
+        mediaRecorder = MediaRecorder()
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+        val file =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + "/MarketEslam/Recording/") // String f = "/storage/emulated/0/Download";
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+        val f = File(file, "chat" + Date().time + ".mp3")
+        audioPath =
+            f.path //file.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".3gp";
+        Log.e("audioPath", f.path)
+        mediaRecorder.setOutputFile(f.path)
     }
 
 
@@ -1108,8 +1123,14 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     }
 
     override fun onRecordingStarted() {
-        ShowToast("started")
-        debug("started")
+        setUpRecordingLocal();
+        status("recording...")
+        try {
+            mediaRecorder.prepare()
+            mediaRecorder.start()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
         time = System.currentTimeMillis() / 1000
     }
 
@@ -1119,40 +1140,91 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     }
 
     override fun onRecordingCompleted() {
-        val recordTime = (System.currentTimeMillis() / 1000 - time).toInt()
-        ShowToast("completed = " + recordTime)
-        debug("completed")
+        status("online")
+        sendRecodingMessage(audioPath)
+        try {
+            mediaRecorder.stop()
+            mediaRecorder.release()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
 
     }
 
     override fun onRecordingCanceled() {
-        ShowToast("canceled")
-        debug("canceled")
+        mediaRecorder.reset()
+        mediaRecorder.release()
     }
 
 
     override fun onClick(attachmentOption: AttachmentOption?) {
         when (attachmentOption!!.id) {
-            AttachmentOption.DOCUMENT_ID -> ShowToast("Document Clicked")
-            AttachmentOption.CAMERA_ID -> ShowToast("Camera Clicked")
-            AttachmentOption.GALLERY_ID -> ShowToast("Gallery Clicked")
-            AttachmentOption.AUDIO_ID -> ShowToast("Audio Clicked")
-            AttachmentOption.LOCATION_ID -> ShowToast("Location Clicked")
-            AttachmentOption.CONTACT_ID -> ShowToast("Contact Clicked")
+            AttachmentOption.DOCUMENT_ID -> sendFile()
+            AttachmentOption.VIDEO_ID -> sendVideo();
+//            AttachmentOption.CAMERA_ID -> ShowToast("Camera Clicked")
+            AttachmentOption.GALLERY_ID -> sendImage();
+//            AttachmentOption.AUDIO_ID -> ShowToast("Audio Clicked")
+            AttachmentOption.LOCATION_ID -> getMyLocation()
+            AttachmentOption.CONTACT_ID -> sendContact()
         }
     }
 
+    private fun sendImage() {
+        fileType = "image";
+        openFiles("image/*");
+    }
+
+    private fun sendVideo() {
+        fileType = "video"
+        openFiles("video/*")
+    }
+
+    private fun sendFile() {
+        fileType = "file"
+        openFiles("application/*")
+    }
+
+    private fun sendContact() {
+        val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+        startActivityForResult(intent, PICK_CONTACT)
+    }
+
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun runRecord(run: Boolean) {
-        var recyclerViewMessages: RecyclerView? = null
         if (run) {
             audioRecordView = AudioRecordView();
-            audioRecordView.initView(rootView.findViewById<View>(R.id.root_view) as ConstraintLayout)
+            audioRecordView.initView(rootView.findViewById<View>(R.id.root_view) as FrameLayout)
             // this is to provide the container layout to the audio record view..
-            val containerView = audioRecordView.setContainerView(R.layout.layout_chatting)
-            containerView.findViewById<View>(R.id.imageViewTitleIcon).setOnClickListener(this)
-            containerView.findViewById<View>(R.id.imageViewMenu).setOnClickListener(this)
-            recyclerViewMessages =
-                containerView.findViewById<RecyclerView>(R.id.recyclerViewMessages)
+            val containerView: View = audioRecordView.setContainerView(R.layout.layout_chatting)
+            val username: TextView = containerView.findViewById(R.id.username);
+            val profile_image: CircleImageView = containerView.findViewById(R.id.profile_image);
+            val option: ImageView = containerView.findViewById(R.id.option)
+            val status: TextView = containerView.findViewById(R.id.status);
+
+            setListener();
+            userViewModel.getUserById(userId)
+            userViewModel.userInfo.observe(viewLifecycleOwner) {
+                user = it
+                Glide.with(requireContext()).load(user!!.image).into(profile_image)
+                username.text = user!!.name.toString();
+                status.text = user!!.status.toString()
+            }
+            option.setOnClickListener { v ->
+                val pupMenu = PopupMenu(requireContext(), v);
+                pupMenu.menuInflater.inflate(R.menu.delete_all_chat, pupMenu.menu);
+                pupMenu.setOnMenuItemClickListener {
+                    if (it.itemId == R.id.delete_all) {
+                        chatViewModelDatabase.deleteAll();
+                        chats.clear()
+                        Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show()
+                    }
+                    true;
+                }
+                pupMenu.show()
+            }
+
+            chatRecycler = containerView.findViewById(R.id.chatRecycler)
             audioRecordView.recordingListener = this
             audioRecordView.messageView.requestFocus()
             audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), this)
@@ -1160,8 +1232,28 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         }
     }
 
-    override fun onClick(v: View?) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setListener() {
+        audioRecordView.emojiView.setOnClickListener {
+            audioRecordView.hideAttachmentOptionView()
+            val emojiPopup = EmojiPopup.Builder.fromRootView(rootView.findViewById(R.id.root_view))
+                .build(audioRecordView.messageView)
+            if (cklicked) {
+                emojiPopup.toggle()
+                cklicked = false
+                audioRecordView.emojiView.imageViewEmoji.setImageDrawable(resources.getDrawable(R.drawable.keyboard))
+            } else {
+                emojiPopup.dismiss()
+                cklicked = true
+                audioRecordView.emojiView.imageViewEmoji.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_insert_emoticon_24))
+            }
+        }
 
+        audioRecordView.sendView.setOnClickListener {
+            sentMessage(audioRecordView.messageView.text.toString().trim(), "text")
+            audioRecordView.messageView.setText("")
+        }
     }
+
 
 }
