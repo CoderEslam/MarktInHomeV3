@@ -4,6 +4,7 @@ package com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,14 @@ import com.iceteck.silicompressorr.SiliCompressor
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import com.nex3z.togglebuttongroup.button.CircularToggle
 import id.zelory.compressor.Compressor
+import io.ak1.pix.helpers.PixBus
+import io.ak1.pix.helpers.PixEventCallback
+import io.ak1.pix.helpers.addPixToActivity
+import io.ak1.pix.helpers.pixFragment
+import io.ak1.pix.models.Flash
+import io.ak1.pix.models.Mode
+import io.ak1.pix.models.Options
+import io.ak1.pix.models.Ratio
 import top.defaults.colorpicker.ColorPickerView
 import java.io.File
 import java.util.*
@@ -248,10 +258,6 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
         return String.format(Locale.getDefault(), "0x%02X%02X%02X%02X", a, r, g, b)
     }
 
-    // Compressor Image
-    suspend fun compress(){
-        val compressedImageFile = Compressor.compress(requireContext(), File(""))
-    }
 
     fun SendData(
         name: String,
@@ -299,7 +305,7 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
             usedOrnew
         );
         findNavController().navigate(
-            UploadFragmentDirections.actionUploadFragmentToUploadStep2Fragment(
+            UploadFragmentDirections.actionUploadFragmentToSelectingImageProductFragment(
                 product
             )
         )

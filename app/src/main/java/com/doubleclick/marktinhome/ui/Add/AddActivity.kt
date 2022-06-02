@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.RichFragment
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct.UploadFragment
+import io.ak1.pix.helpers.addPixToActivity
 
 class AddActivity : AppCompatActivity() {
 
@@ -13,6 +14,7 @@ class AddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //TODO this activity to cary fragments
         setContentView(R.layout.activity_add)
+
     }
 
 

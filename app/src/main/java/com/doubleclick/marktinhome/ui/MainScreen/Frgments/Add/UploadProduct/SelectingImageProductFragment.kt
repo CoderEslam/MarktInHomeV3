@@ -2,40 +2,33 @@ package com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.doubleclick.marktinhome.Adapters.ImageAdapter
 import com.doubleclick.marktinhome.BaseFragment
-import com.doubleclick.marktinhome.Model.Constantes.PRODUCT
 import com.doubleclick.marktinhome.Model.Product
 import com.doubleclick.marktinhome.R
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageTask
-import com.google.firebase.storage.UploadTask
+import io.ak1.pix.helpers.PixBus
+import io.ak1.pix.helpers.PixEventCallback
+import io.ak1.pix.models.Flash
+import io.ak1.pix.models.Mode
+import io.ak1.pix.models.Options
+import io.ak1.pix.models.Ratio
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class UploadStep2Fragment : BaseFragment(), ImageAdapter.deleteImage {
+class SelectingImageProductFragment : BaseFragment(), ImageAdapter.deleteImage {
 
     private lateinit var productImages: RecyclerView
     private lateinit var next: Button
@@ -43,7 +36,7 @@ class UploadStep2Fragment : BaseFragment(), ImageAdapter.deleteImage {
     private var IMAGES_REQUEST: Int = 100
     private var uris: ArrayList<String> = ArrayList()
     private lateinit var imageAdapter: ImageAdapter
-    val product by navArgs<UploadStep2FragmentArgs>()
+    val product by navArgs<SelectingImageProductFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +50,7 @@ class UploadStep2Fragment : BaseFragment(), ImageAdapter.deleteImage {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_upload_step2, container, false)
+        val view = inflater.inflate(R.layout.fragment_selecting_image_product, container, false)
         productImages = view.findViewById(R.id.productImages);
         next = view.findViewById(R.id.next);
         addImages = view.findViewById(R.id.addImages);
@@ -91,7 +84,7 @@ class UploadStep2Fragment : BaseFragment(), ImageAdapter.deleteImage {
                 product.product.type.toString()
             );
             findNavController().navigate(
-                UploadStep2FragmentDirections.actionUploadStep2FragmentToRichFragment(
+                SelectingImageProductFragmentDirections.actionSelectingImageProductFragmentToRichFragment(
                     productAllData
                 )
             )

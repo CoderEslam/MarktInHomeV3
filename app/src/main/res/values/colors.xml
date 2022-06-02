@@ -46,4 +46,10 @@
     <color name="zxing_custom_viewfinder_laser">#1976D2</color>
     <color name="zxing_custom_viewfinder_mask">#60000000</color>
     <color name="bluelight">#2699FB</color>
+
+    <color name="video_counter_color_pix">#E53935</color>
+    <color name="primary_color_pix">#075e54</color>
+    <color name="primary_light_color_pix">#80075e54</color>
+    <color name="surface_color_pix">#ffffff</color>
+    <color name="text_color_pix">#807f7f</color>
 </resources>

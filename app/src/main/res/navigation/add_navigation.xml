@@ -80,8 +80,9 @@
             app:popEnterAnim="@anim/righttoleft"
             app:popExitAnim="@anim/lefttoright" />
         <action
-            android:id="@+id/action_uploadFragment_to_uploadStep2Fragment"
-            app:destination="@id/uploadStep2Fragment" />
+            android:id="@+id/action_uploadFragment_to_SelectingImageProductFragment"
+            app:destination="@id/SelectingImageProductFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/editFragment"
@@ -109,18 +110,19 @@
             app:nullable="true" />
     </fragment>
     <fragment
-        android:id="@+id/uploadStep2Fragment"
-        android:name="com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct.UploadStep2Fragment"
+        android:id="@+id/SelectingImageProductFragment"
+        android:name="com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add.UploadProduct.SelectingImageProductFragment"
         android:label="fragment_upload_step2"
-        tools:layout="@layout/fragment_upload_step2">
+        tools:layout="@layout/fragment_selecting_image_product">
 
         <argument
             android:name="product"
             app:argType="com.doubleclick.marktinhome.Model.Product"
             app:nullable="false" />
         <action
-            android:id="@+id/action_uploadStep2Fragment_to_richFragment"
+            android:id="@+id/action_SelectingImageProductFragment_to_richFragment"
             app:destination="@id/richFragment" />
+
 
     </fragment>
     <fragment
