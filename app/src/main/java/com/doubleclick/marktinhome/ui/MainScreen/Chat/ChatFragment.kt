@@ -31,6 +31,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -1229,21 +1230,24 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             audioRecordView.messageView.requestFocus()
             audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), this)
             audioRecordView.removeAttachmentOptionAnimation(false)
+
+            if (sharePost != "null") {
+                audioRecordView.messageView.setText(sharePost)
+            }
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setListener() {
+        var cklicked = true
         audioRecordView.emojiView.setOnClickListener {
             audioRecordView.hideAttachmentOptionView()
-            val emojiPopup = EmojiPopup.Builder.fromRootView(rootView.findViewById(R.id.root_view))
-                .build(audioRecordView.messageView)
             if (cklicked) {
-                emojiPopup.toggle()
+                audioRecordView.emojiPopup.toggle()
                 cklicked = false
                 audioRecordView.emojiView.imageViewEmoji.setImageDrawable(resources.getDrawable(R.drawable.keyboard))
             } else {
-                emojiPopup.dismiss()
+                audioRecordView.emojiPopup.dismiss()
                 cklicked = true
                 audioRecordView.emojiView.imageViewEmoji.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_insert_emoticon_24))
             }

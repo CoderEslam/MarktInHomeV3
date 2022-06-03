@@ -28,6 +28,7 @@ import android.widget.TextView;
 import androidx.core.widget.TextViewCompat;
 
 import com.doubleclick.marktinhome.R;
+import com.vanniktech.emoji.EmojiPopup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -114,6 +115,11 @@ public class AudioRecordView {
 
     private boolean showCameraIcon = true, showAttachmentIcon = true, showEmojiIcon = true;
     private boolean removeAttachmentOptionAnimation;
+    private EmojiPopup emojiPopup;
+
+    public EmojiPopup getEmojiPopup() {
+        return emojiPopup;
+    }
 
     public void initView(ViewGroup view) {
 
@@ -126,7 +132,6 @@ public class AudioRecordView {
 
         view.removeAllViews();
         view.addView(LayoutInflater.from(view.getContext()).inflate(R.layout.record_view, null));
-
         timeFormatter = new SimpleDateFormat("m:ss", Locale.getDefault());
 
         DisplayMetrics displayMetrics = view.getContext().getResources().getDisplayMetrics();
@@ -174,6 +179,7 @@ public class AudioRecordView {
                 R.anim.jump);
         animJumpFast = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.jump_fast);
+        emojiPopup = EmojiPopup.Builder.fromRootView(view).build(getMessageView());
 
         setupRecording();
         setupAttachmentOptions();
@@ -418,7 +424,6 @@ public class AudioRecordView {
     public View getEmojiView() {
         return imageViewEmoji;
     }
-
 
 
     public EditText getMessageView() {
