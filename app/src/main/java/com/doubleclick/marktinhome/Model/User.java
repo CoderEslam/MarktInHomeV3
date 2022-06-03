@@ -1,6 +1,8 @@
 package com.doubleclick.marktinhome.Model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,17 +10,18 @@ import java.util.Objects;
 /**
  * Created By Eslam Ghazy on 3/1/2022
  */
+@Entity
 public class User implements Serializable {
 
-
+    @PrimaryKey()
+    @NonNull
+    private String id;
     @NonNull
     private String name;
     @NonNull
     private String address;
     @NonNull
     private String email;
-    @NonNull
-    private String id;
     @NonNull
     private String password;
     @NonNull
@@ -27,6 +30,16 @@ public class User implements Serializable {
     private String image;
     @NonNull
     private String token;
+    public Long date;
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
 
     public User() {
         name = "";
@@ -135,11 +148,11 @@ public class User implements Serializable {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getName().equals(user.getName()) && getAddress().equals(user.getAddress()) && getEmail().equals(user.getEmail()) && getId().equals(user.getId()) && getPassword().equals(user.getPassword()) && getPhone().equals(user.getPhone()) && getImage().equals(user.getImage()) && getToken().equals(user.getToken()) && Objects.equals(getStatus(), user.getStatus());
+        return getId().equals(user.getId()) && getEmail().equals(user.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getAddress(), getEmail(), getId(), getPassword(), getPhone(), getImage(), getToken(), getStatus());
+        return Objects.hash(getId(), getEmail());
     }
 }

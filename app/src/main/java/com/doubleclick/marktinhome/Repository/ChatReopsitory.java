@@ -64,7 +64,9 @@ public class ChatReopsitory extends BaseRepository {
                         Chat chat = snapshot.getValue(Chat.class);
                         Log.e("onChildAdded", Objects.requireNonNull(snapshot.getValue(Chat.class)).toString());
                         assert chat != null;
-                        Log.e("newInsert", chat.toString());
+                        if (chat.getMessage().contains("@$@this@message@deleted")) {
+                            chats.deleteMessageRemotly(chat);
+                        }
                         if (!chat.getMessage().contains("@$@this@message@deleted")) {
                             chats.newInsertChat(chat);
                         }
@@ -123,6 +125,8 @@ public class ChatReopsitory extends BaseRepository {
 
     public interface Chats {
         void newInsertChat(Chat chat);
+
+        void deleteMessageRemotly(Chat chat);
     }
 
     public interface StatusChat {

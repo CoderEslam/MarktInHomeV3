@@ -1,4 +1,4 @@
-package com.doubleclick.marktinhome.Database;
+package com.doubleclick.marktinhome.Database.ChatDatabase;
 
 import android.app.Application;
 
@@ -31,7 +31,6 @@ public class ChatViewModelDatabase extends AndroidViewModel {
 
     public void insert(Chat chat) {
         mRepositry.insert(chat);
-
     }
 
     public void update(Chat chat) { //done
@@ -40,7 +39,6 @@ public class ChatViewModelDatabase extends AndroidViewModel {
 
     public void delete(Chat chat) {
         mRepositry.delete(chat);
-
     }
 
 

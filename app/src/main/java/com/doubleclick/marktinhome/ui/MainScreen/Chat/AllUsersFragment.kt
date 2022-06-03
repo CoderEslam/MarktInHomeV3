@@ -55,7 +55,7 @@ class AllUsersFragment : BaseFragment(), UserInter {
         allUser.showShimmer()
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java];
         userViewModel.allUsers.observe(viewLifecycleOwner, Observer {
-            var allUserChatListAdapter = AllUserChatListAdapter(it, this);
+            val allUserChatListAdapter = AllUserChatListAdapter(it, this);
             allUser.adapter = allUserChatListAdapter;
             allUser.hideShimmer()
         })
@@ -85,7 +85,11 @@ class AllUsersFragment : BaseFragment(), UserInter {
             }
     }
 
-    override fun ItemUser(user: User?) {}
+    override fun ItemUser(user: User) {}
+
+    override fun ItemUserChanged(user: User) {}
+
+    override fun ItemUserDeleted(user: User) {}
 
     override fun ItemUserInfoById(user: User?) {}
 

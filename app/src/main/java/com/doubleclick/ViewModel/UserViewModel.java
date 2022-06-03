@@ -69,4 +69,14 @@ public class UserViewModel extends ViewModel implements UserInter {
     public void ItemUserInfoById(@Nullable User user) {
         mutableLiveDataUserInfo.setValue(user);
     }
+
+    @Override
+    public void ItemUserChanged(@NonNull User user) {
+
+    }
+
+    @Override
+    public void ItemUserDeleted(@NonNull User user) {
+
+    }
 }

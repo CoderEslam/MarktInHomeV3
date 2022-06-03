@@ -1,13 +1,11 @@
-package com.doubleclick.marktinhome.Database;
+package com.doubleclick.marktinhome.Database.ChatDatabase;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.Model.Chat;
 
 import java.util.List;

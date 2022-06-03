@@ -1,4 +1,4 @@
-package com.doubleclick.marktinhome.Database;
+package com.doubleclick.marktinhome.Database.ChatDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

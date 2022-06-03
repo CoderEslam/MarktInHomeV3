@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,12 +36,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatListAdapter.AllUserViewHolder> {
 
-    private ArrayList<User> userArrayList;
+    private List<User> userArrayList;
     private UserInter onUser;
     private DatabaseReference reference;
     private String myId;
 
-    public AllUserChatListAdapter(ArrayList<User> userArrayList, UserInter onUser) {
+    public AllUserChatListAdapter(List<User> userArrayList, UserInter onUser) {
         this.userArrayList = userArrayList;
         this.onUser = onUser;
     }

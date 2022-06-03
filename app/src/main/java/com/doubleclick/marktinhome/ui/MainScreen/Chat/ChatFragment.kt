@@ -30,8 +30,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.databinding.adapters.ImageViewBindingAdapter.setImageDrawable
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -50,7 +48,7 @@ import com.doubleclick.downloader.PRDownloader
 import com.doubleclick.downloader.PRDownloaderConfig
 import com.doubleclick.marktinhome.Adapters.BaseMessageAdapter
 import com.doubleclick.marktinhome.BaseFragment
-import com.doubleclick.marktinhome.Database.ChatViewModelDatabase
+import com.doubleclick.marktinhome.Database.ChatDatabase.ChatViewModelDatabase
 import com.doubleclick.marktinhome.Model.*
 import com.doubleclick.marktinhome.Model.Constantes.CHATS
 import com.doubleclick.marktinhome.Model.Constantes.USER
@@ -222,22 +220,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                 * it's see what message is deleted and updated it in database and in ArrayList
                 * and if message sent and deleted before stored in database -> exception
                 * */
-                if (it.receiver.equals(myId) && it.message.contains("@$@this@message@deleted")) {
-                    Log.e("deleted", it.toString())
-                    try {
-                        chats[chats.indexOf(it)] = it;
-                        chatAdapter.notifyItemChanged(chats.indexOf(it))
-                        chatAdapter.notifyDataSetChanged()
-                        chatViewModelDatabase.update(it);
-                    } catch (e: IOException) {
-                        Log.e("DatabaseExption216", e.message.toString());
-                    } catch (e: IndexOutOfBoundsException) {
-                        Log.e("ArrayListExp218", e.message.toString());
-                    } catch (e: Exception) {
-                        Log.e("Exception220", e.message.toString());
-                    }
-
-                }
                 if (it.sender.equals(myId) && !it.isSeen && !it.message.contains("@$@this@message@deleted")) {
                     if (!chats.contains(it)) {
                         chats.add(it)
@@ -266,6 +248,21 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
 
 
         };
+
+        chatViewModel.deleteMessageRemotly().observe(viewLifecycleOwner) {
+            try {
+                chats[chats.indexOf(it)] = it;
+                chatAdapter.notifyItemChanged(chats.indexOf(it))
+                chatAdapter.notifyDataSetChanged()
+                chatViewModelDatabase.update(it);
+            } catch (e: IOException) {
+                Log.e("DatabaseExption216", e.message.toString());
+            } catch (e: IndexOutOfBoundsException) {
+                Log.e("ArrayListExp218", e.message.toString());
+            } catch (e: Exception) {
+                Log.e("Exception220", e.message.toString());
+            }
+        }
 
 
         emojiPopup = EmojiPopup.Builder.fromRootView(rootView.findViewById(R.id.root_view))
@@ -1226,6 +1223,8 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             }
 
             chatRecycler = containerView.findViewById(R.id.chatRecycler)
+            chatRecycler.setHasFixedSize(true)
+            chatRecycler.scrollToPosition(chats.size - 1)
             audioRecordView.recordingListener = this
             audioRecordView.messageView.requestFocus()
             audioRecordView.setAttachmentOptions(AttachmentOption.getDefaultList(), this)
