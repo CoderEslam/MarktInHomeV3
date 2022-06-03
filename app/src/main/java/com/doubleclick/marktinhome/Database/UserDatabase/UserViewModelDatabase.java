@@ -39,12 +39,20 @@ public class UserViewModelDatabase extends AndroidViewModel {
         mRepositry.delete(user);
     }
 
+    public LiveData<User> getUserById(String id) {
+        return mRepositry.getUserById(id);
+    }
+
     public void deleteAll() {
         mRepositry.deleteAllUsers();
     }
 
 
     public List<User> getAllUsers() {
+        return mAllUsers;
+    }
+
+    public List<User> getUserById() {
         return mAllUsers;
     }
 

@@ -22,6 +22,7 @@ public class UserDatabaseReopsitory {
 
     private UserDao UserDao;
     private List<User> getAllUser;
+    private User user;
 
     public UserDatabaseReopsitory(Application application) {
         UserDatabase db = UserDatabase.getInstance(application);
@@ -38,7 +39,10 @@ public class UserDatabaseReopsitory {
     //delete
     public void delete(User user) {
         new UserDatabaseReopsitory.DeleteAsyncTask(UserDao).execute(user);
+    }
 
+    public LiveData<User> getUserById(String id) {
+        return UserDao.getUserById(id);
     }
 
     //update

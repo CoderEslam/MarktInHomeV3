@@ -33,4 +33,7 @@ public interface UserDao {
 
     @Query("SELECT * FROM User  ORDER BY date ASC")
     List<User> getList();
+
+    @Query("SELECT * FROM User WHERE id==:id")
+    LiveData<User> getUserById(String id);
 }

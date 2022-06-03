@@ -30,20 +30,20 @@ public interface ChatDao {
         // to delete all data in table
     void deleteAllData();
 
-    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver == :myID)) ORDER BY date ASC")
+    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver ==:friendID) OR (sender==:friendID AND receiver ==:myID)) ORDER BY date ASC")
     LiveData<List<Chat>> getAllChat(String myID, String friendID);
 
 
-    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver == :myID)) ORDER BY date DESC LIMIT 1")
+    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver ==:myID)) ORDER BY date DESC LIMIT 1")
     LiveData<List<Chat>> GetChat(String myID, String friendID);
 
-    @Query("SELECT * FROM Chat  WHERE (((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver == :myID))) ORDER BY date ASC")
+    @Query("SELECT * FROM Chat  WHERE (((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver ==:myID))) ORDER BY date ASC")
     List<Chat> getList(String myID, String friendID);
 
 //    @Query("SELECT * FROM Chat  WHERE (sender ==:friendID AND receiver == :myID) ORDER BY date DESC LIMIT 1")
 //    LiveData<Chat> getLastMassege(String friendID, String myID);
 
-    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver == :myID)) ORDER BY date DESC LIMIT 1")
+    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver ==:myID)) ORDER BY date DESC LIMIT 1")
     LiveData<Chat> getLastRowMessage(String friendID, String myID);
 
 }

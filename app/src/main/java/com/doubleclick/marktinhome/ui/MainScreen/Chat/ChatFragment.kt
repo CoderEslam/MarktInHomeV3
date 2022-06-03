@@ -47,8 +47,11 @@ import com.doubleclick.downloader.OnDownloadListener
 import com.doubleclick.downloader.PRDownloader
 import com.doubleclick.downloader.PRDownloaderConfig
 import com.doubleclick.marktinhome.Adapters.BaseMessageAdapter
+import com.doubleclick.marktinhome.BaseApplication
+import com.doubleclick.marktinhome.BaseApplication.isNetworkConnected
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatDatabase.ChatViewModelDatabase
+import com.doubleclick.marktinhome.Database.UserDatabase.UserViewModelDatabase
 import com.doubleclick.marktinhome.Model.*
 import com.doubleclick.marktinhome.Model.Constantes.CHATS
 import com.doubleclick.marktinhome.Model.Constantes.USER
@@ -70,8 +73,11 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.iceteck.silicompressorr.SiliCompressor
+import com.paypal.android.sdk.u
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_menu_profile.*
+import kotlinx.android.synthetic.main.fragment_upload.view.*
 import kotlinx.android.synthetic.main.keyword_layout.view.*
 import kotlinx.android.synthetic.main.layout_chatting.*
 import kotlinx.android.synthetic.main.record_view.view.*
@@ -133,6 +139,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private var time: Long = 0
     private lateinit var rootView: View
     private lateinit var emojiPopup: EmojiPopup
+    private lateinit var userViewModelDatabase: UserViewModelDatabase;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,6 +187,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         status = rootView.findViewById(R.id.status)
         toolbar = rootView.findViewById(R.id.toolbar)
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        userViewModelDatabase = ViewModelProvider(this)[UserViewModelDatabase::class.java]
         userViewModel.getUserById(userId)
         /**
          * @param run
@@ -191,6 +199,17 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             Glide.with(requireContext()).load(user!!.image).into(profile_image)
             username.text = user!!.name;
             status.text = user!!.status;
+        }
+        if (!isNetworkConnected()) {
+            val userViewModelDatabase: UserViewModelDatabase =
+                ViewModelProvider(this)[UserViewModelDatabase::class.java]
+            userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
+                user = it;
+                Glide.with(requireContext()).load(user!!.image).into(profile_image)
+                username.text = user!!.name;
+                status.text = user!!.status;
+                Log.e("USSSSSSSSSR", it.toString());
+            }
         }
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true);
@@ -251,10 +270,14 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
 
         chatViewModel.deleteMessageRemotly().observe(viewLifecycleOwner) {
             try {
-                chats[chats.indexOf(it)] = it;
-                chatAdapter.notifyItemChanged(chats.indexOf(it))
+
+                val c = it;
+                c!!.message = "this message deleted";
+                c.type = "text"
+                chatViewModelDatabase.update(c!!)
+                chats[chats.indexOf(c)] = c
+                chatAdapter.notifyItemChanged(chats.indexOf(c))
                 chatAdapter.notifyDataSetChanged()
-                chatViewModelDatabase.update(it);
             } catch (e: IOException) {
                 Log.e("DatabaseExption216", e.message.toString());
             } catch (e: IndexOutOfBoundsException) {
@@ -1201,12 +1224,27 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             val status: TextView = containerView.findViewById(R.id.status);
 
             setListener();
-            userViewModel.getUserById(userId)
-            userViewModel.userInfo.observe(viewLifecycleOwner) {
-                user = it
-                Glide.with(requireContext()).load(user!!.image).into(profile_image)
-                username.text = user!!.name.toString();
-                status.text = user!!.status.toString()
+            if (isNetworkConnected()) {
+                userViewModel.getUserById(userId)
+                userViewModel.userInfo.observe(viewLifecycleOwner) {
+                    user = it
+                    userViewModelDatabase.getUserById(user!!.id).observe(viewLifecycleOwner) {
+                        userViewModelDatabase.update(it)
+                    }
+                    Glide.with(requireContext()).load(user!!.image).into(profile_image)
+                    username.text = user!!.name.toString();
+                    status.text = user!!.status.toString()
+                }
+            }
+            if (!isNetworkConnected()) {
+
+                userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
+                    user = it;
+                    Glide.with(requireContext()).load(user!!.image).into(profile_image)
+                    username.text = user!!.name;
+                    status.visibility = View.GONE
+                    Log.e("USSSSSSSSSR", it.toString());
+                }
             }
             option.setOnClickListener { v ->
                 val pupMenu = PopupMenu(requireContext(), v);
