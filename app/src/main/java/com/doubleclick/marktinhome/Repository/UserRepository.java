@@ -47,6 +47,7 @@ public class UserRepository extends BaseRepository {
                     if (isNetworkConnected()) {
                         if (snapshot.exists()) {
                             User user = snapshot.getValue(User.class);
+                            assert user != null;
                             userInter.ItemUser(user);
                         }
                     } else {

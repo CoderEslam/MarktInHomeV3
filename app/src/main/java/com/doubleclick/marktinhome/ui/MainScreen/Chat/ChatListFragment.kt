@@ -11,6 +11,7 @@ import com.doubleclick.UserInter
 import com.doubleclick.ViewModel.ChatListViewModel
 import com.doubleclick.marktinhome.Adapters.AllUserChatListAdapter
 import com.doubleclick.marktinhome.BaseFragment
+import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListViewModelDatabase
 import com.doubleclick.marktinhome.Database.UserDatabase.UserViewModelDatabase
 import com.doubleclick.marktinhome.Model.User
 import com.doubleclick.marktinhome.R

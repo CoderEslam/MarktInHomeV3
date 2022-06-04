@@ -1,15 +1,21 @@
 package com.doubleclick.marktinhome.Model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
 /**
  * Created By Eslam Ghazy on 3/18/2022
  */
+@Entity
 public class ChatList {
 
+
     @NonNull
+    @PrimaryKey()
     private String id;
     private long time;
 

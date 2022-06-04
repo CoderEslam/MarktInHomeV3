@@ -169,7 +169,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         continer_attacht = rootView.findViewById(R.id.continer_attacht);
         chatRecycler = rootView.findViewById(R.id.chatRecycler);
         chatRecycler.setHasFixedSize(true);
-        chatRecycler.itemAnimator = DefaultItemAnimator();
         sendRecord = rootView.findViewById(R.id.sendRecord);
         recordView = rootView.findViewById(R.id.recordView);
         emotion = rootView.findViewById(R.id.emotion);
@@ -193,13 +192,17 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
          * @param run
          * is responsible for run record or not
          * */
-        runRecord(run = true);
+        runRecord(run = false);
         userViewModel.userInfo.observe(viewLifecycleOwner) {
             user = it
+            userViewModelDatabase.update(user)
             Glide.with(requireContext()).load(user!!.image).into(profile_image)
             username.text = user!!.name;
             status.text = user!!.status;
         }
+        /**
+         * if no internet connection
+         * */
         if (!isNetworkConnected()) {
             val userViewModelDatabase: UserViewModelDatabase =
                 ViewModelProvider(this)[UserViewModelDatabase::class.java]
@@ -463,8 +466,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         et_text_message.setText("")
         makeChatList();
         sendNotifiaction(text);
-
-
     }
 
     private fun upload(id: String, map: HashMap<String, Any>) {
@@ -1261,7 +1262,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             }
 
             chatRecycler = containerView.findViewById(R.id.chatRecycler)
-            chatRecycler.setHasFixedSize(true)
             chatRecycler.scrollToPosition(chats.size - 1)
             audioRecordView.recordingListener = this
             audioRecordView.messageView.requestFocus()
