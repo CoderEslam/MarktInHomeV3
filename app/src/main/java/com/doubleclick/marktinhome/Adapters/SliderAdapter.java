@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -42,12 +43,15 @@ public class SliderAdapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.slider_image_layout, container, false);
         PhotoView banner = view.findViewById(R.id.banner_sliderImageView);
+        TextView text = view.findViewById(R.id.text);
         Glide.with(view).load(advertisements.get(position).getImage()).into(banner);
+        text.setText(advertisements.get(position).getText());
         container.addView(view, 0);
         return view;
     }

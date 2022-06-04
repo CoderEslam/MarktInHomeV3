@@ -3,12 +3,16 @@ package com.doubleclick.ViewHolder;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
 import com.doubleclick.marktinhome.Adapters.SliderAdapter;
 import com.doubleclick.marktinhome.Model.Advertisement;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Views.imageslider.ImageSlider;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -27,6 +31,7 @@ public class BannerSliderViewholder extends RecyclerView.ViewHolder {
     public BannerSliderViewholder(@NonNull View itemView) {
         super(itemView);
         bannerSliderViewPager = itemView.findViewById(R.id.banner_slier_view_pager);
+
     }
 
     public void setBannerSliderViewPager(ArrayList<Advertisement> advertisements) {

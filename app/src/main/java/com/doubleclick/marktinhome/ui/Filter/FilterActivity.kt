@@ -2,6 +2,7 @@ package com.doubleclick.marktinhome.ui.Filter
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,7 +26,7 @@ class FilterActivity : AppCompatActivity(), OnProduct {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
         FilterRecycler = findViewById(R.id.FilterRecycler)
-        productViewModel =ViewModelProvider(this)[ProductViewModel::class.java]
+        productViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
         id = intent.getStringExtra("id")!!.toString();
         type = intent.getStringExtra("type")!!.toString()
 
@@ -46,10 +47,14 @@ class FilterActivity : AppCompatActivity(), OnProduct {
         }
         if (type.equals("ShareUrl")) {
             productViewModel.getSearchByIdProduct(id)
-            productViewModel.searchByIdProductLiveData.observe(this, Observer {
-                var productAdapter = ProductAdapter(it, this);
+            productViewModel.searchByIdProductLiveData.observe(this) {
+                Log.e("ShareUrl", it.toString());
+                val intent= Intent(this,productActivity::class.java)
+                intent.putExtra("product", it[0]);
+                startActivity(intent)
+                val productAdapter = ProductAdapter(it, this);
                 FilterRecycler.adapter = productAdapter
-            })
+            }
         }
     }
 

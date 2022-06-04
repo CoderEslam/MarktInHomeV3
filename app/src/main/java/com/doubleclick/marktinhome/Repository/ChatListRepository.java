@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class ChatListRepository extends BaseRepository {
 
     private UserInter userInter;
+    ArrayList<ChatList> chatLists = new ArrayList<>();
 
     public ChatListRepository(UserInter userInter) {
         this.userInter = userInter;
@@ -45,12 +46,14 @@ public class ChatListRepository extends BaseRepository {
                         if (snapshot.exists()) {
                             ChatList chatList = snapshot.getValue(ChatList.class);
                             assert chatList != null;
+                            chatLists.add(chatList);
                             reference.child(USER).child(chatList.getId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                                     if (task.getResult().exists()) {
                                         DataSnapshot dataSnapshot = task.getResult();
                                         User user = dataSnapshot.getValue(User.class);
+                                        assert user != null;
                                         userInter.ItemUser(user);
                                     }
                                 }

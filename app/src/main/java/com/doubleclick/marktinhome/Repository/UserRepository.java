@@ -24,6 +24,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -88,7 +89,7 @@ public class UserRepository extends BaseRepository {
 
                 }
             });
-        } catch (DatabaseException e) {
+        } catch (DatabaseException ignored) {
 
         }
 

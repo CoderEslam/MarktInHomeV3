@@ -115,8 +115,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         });
         search.setOnKeyListener((v, keyCode, event) -> {
             if (search.getText().toString().contains("https://www.market.doublethink.com/product/")) {
-                String[] url = search.getText().toString().split("com.doubleclick.marktinhome/product/");
+                String[] url = search.getText().toString().split("www.market.doublethink.com/product/");
                 String idProduct = url[1];
+                Log.e("idProduct", idProduct);
                 Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);
                 intent.putExtra("type", "ShareUrl");
                 intent.putExtra("id", idProduct);
