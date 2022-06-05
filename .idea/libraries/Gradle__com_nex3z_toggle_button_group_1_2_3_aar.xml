@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.nex3z:toggle-button-group:1.2.3@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ec4893014fe73e7400b41fab38bcfa77/transformed/jetified-toggle-button-group-1.2.3/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/ec4893014fe73e7400b41fab38bcfa77/transformed/jetified-toggle-button-group-1.2.3/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/ec4893014fe73e7400b41fab38bcfa77/transformed/jetified-toggle-button-group-1.2.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1257b279149bd81865a81c03ee996841/transformed/jetified-toggle-button-group-1.2.3/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/1257b279149bd81865a81c03ee996841/transformed/jetified-toggle-button-group-1.2.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1257b279149bd81865a81c03ee996841/transformed/jetified-toggle-button-group-1.2.3/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nex3z/toggle-button-group/1.2.3/98ac17eec2d9e6bed93017175ce766d168e0311a/toggle-button-group-1.2.3-javadoc.jar!/" />

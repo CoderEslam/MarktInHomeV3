@@ -21,6 +21,7 @@ import com.doubleclick.marktinhome.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -33,14 +34,17 @@ import java.util.List;
 /**
  * Created By Eslam Ghazy on 2/7/2022
  */
-public class LocationViewHolder extends BaseViewHolder {
+public class LocationViewHolder extends BaseViewHolder implements OnMapReadyCallback {
     //    private LottieAnimationView location_lotte;
     private ImageView seen;
     private OnMessageClick onMessageClick;
     private String myId;
     private TextView time;
-    private SupportMapFragment supportMapFragment;
+    //    private SupportMapFragment supportMapFragment;
     private MapView map;
+    private GoogleMap mGoogleMap;
+    private LatLng mMapLocation;
+
 
     public LocationViewHolder(@NonNull View itemView, OnMessageClick onMessageClick, String myId) {
         super(itemView);
@@ -50,7 +54,9 @@ public class LocationViewHolder extends BaseViewHolder {
         seen = itemView.findViewById(R.id.seen);
         time = itemView.findViewById(R.id.time);
         map = itemView.findViewById(R.id.map);
-        supportMapFragment = (SupportMapFragment) ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().findFragmentById(R.id.map);
+        map.onCreate(null);
+        map.getMapAsync(this);
+//        supportMapFragment = (SupportMapFragment) ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().findFragmentById(R.id.map);
     }
 
     @SuppressLint({"UseCompatLoadingForDrawables", "SimpleDateFormat"})
@@ -58,16 +64,17 @@ public class LocationViewHolder extends BaseViewHolder {
         time.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
         List<String> list = Arrays.asList(chat.getMessage().replace("[", "").replace("]", "").replace(" ", "").split(","));
         LatLng latLng = new LatLng(Double.parseDouble(list.get(0)), Double.parseDouble(list.get(1)));
+        setMapLocation(latLng);
 //        MapChatFragment mapChatFragment = new MapChatFragment(latLng);
 //        ((FragmentActivity) itemView.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.google_map, mapChatFragment).commit();
-        OnMapReadyCallback callback = googleMap -> {
-            googleMap.addMarker(new MarkerOptions().position(latLng).title("location of you friend"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
-        };
-        map.getMapAsync(googleMap -> {
-            googleMap.addMarker(new MarkerOptions().position(latLng).title("location of you friend"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
-        });
+//        OnMapReadyCallback callback = googleMap -> {
+//            googleMap.addMarker(new MarkerOptions().position(latLng).title("location of you friend"));
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
+//        };
+//        map.getMapAsync(googleMap -> {
+//            googleMap.addMarker(new MarkerOptions().position(latLng).title("location of you friend"));
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 9));
+//        });
 //        supportMapFragment.getMapAsync(callback);
         if (chat.getReceiver().equals(myId)) {
             seen.setVisibility(View.INVISIBLE);
@@ -114,5 +121,34 @@ public class LocationViewHolder extends BaseViewHolder {
             });
             popupMenu.show();
         });
+    }
+
+    private void updateMapContents() {
+        mGoogleMap.clear();
+        mGoogleMap.addMarker(new MarkerOptions().position(mMapLocation).title("location of you friend"));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMapLocation, 17f));
+    }
+
+    private void setMapLocation(LatLng latLng) {
+        mMapLocation = latLng;
+        // If the mapView is ready, update its content.
+        if (mGoogleMap != null) {
+            updateMapContents();
+        }
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        MapsInitializer.initialize(itemView.getContext());
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setRotateGesturesEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
+        // If we have mapView data, update the mapView content.
+        if (mMapLocation != null) {
+            updateMapContents();
+        }
     }
 }

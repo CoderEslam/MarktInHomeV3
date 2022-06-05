@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.divyanshu.colorseekbar:colorseekbar:1.0.2@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/87be166793d994292942ba56e1ae0d68/transformed/jetified-colorseekbar-1.0.2/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/87be166793d994292942ba56e1ae0d68/transformed/jetified-colorseekbar-1.0.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/87be166793d994292942ba56e1ae0d68/transformed/jetified-colorseekbar-1.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f42ba445807fdb089d0a209abdc5fcb0/transformed/jetified-colorseekbar-1.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/f42ba445807fdb089d0a209abdc5fcb0/transformed/jetified-colorseekbar-1.0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/f42ba445807fdb089d0a209abdc5fcb0/transformed/jetified-colorseekbar-1.0.2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.divyanshu.colorseekbar/colorseekbar/1.0.2/30e3a40541a35c7dd0415b2d726d2e48aa1fb076/colorseekbar-1.0.2-javadoc.jar!/" />

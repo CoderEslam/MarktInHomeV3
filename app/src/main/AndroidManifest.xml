@@ -42,7 +42,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MarktInHome">
 
-
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -167,7 +166,6 @@
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
             android:name=".ui.MainScreen.ViewMore.ViewMoreCategoryActivity"
             android:exported="false" />
@@ -186,7 +184,6 @@
         </service>
 
         <receiver android:name="com.doubleclick.Servies.NotificationReceiver" />
-
     </application>
 
 </manifest>

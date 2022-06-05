@@ -9,9 +9,10 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/23ce491490e57f15ea18d710aa9b3875/transformed/jetified-grpc-android-1.41.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/51270de4fe20dbcb917088758ac87362/transformed/jetified-grpc-android-1.41.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4c4f6e686c251a2fc7f4e58f40912ec4/transformed/jetified-grpc-android-1.41.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/58fb5267dec329688647c334c9c608c1/transformed/jetified-grpc-android-1.41.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/58fb5267dec329688647c334c9c608c1/transformed/jetified-grpc-android-1.41.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/58fb5267dec329688647c334c9c608c1/transformed/jetified-grpc-android-1.41.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/52765b85435fbbd398b595b4c3579f3b/transformed/jetified-grpc-android-1.41.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/52765b85435fbbd398b595b4c3579f3b/transformed/jetified-grpc-android-1.41.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/52765b85435fbbd398b595b4c3579f3b/transformed/jetified-grpc-android-1.41.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-android/1.41.0/cc329773bf6f7b88ebf9e9d5da32a7e42820f226/grpc-android-1.41.0-javadoc.jar!/" />

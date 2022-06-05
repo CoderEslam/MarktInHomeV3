@@ -6,9 +6,10 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/24ef921af00751acb492ad0e9f84c91c/transformed/jetified-library-1.2.4/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1f6a9ef6fdd6619fe23debcf83072a21/transformed/jetified-library-1.2.4/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/e2d7aa8feecae67aa6f84e4b1b18fc87/transformed/jetified-library-1.2.4/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4514613a29eac75fcbf58e6de798a34b/transformed/jetified-library-1.2.4/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/4514613a29eac75fcbf58e6de798a34b/transformed/jetified-library-1.2.4/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/4514613a29eac75fcbf58e6de798a34b/transformed/jetified-library-1.2.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/432d471e4e2a4454c5882c15fb53c9f4/transformed/jetified-library-1.2.4/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/432d471e4e2a4454c5882c15fb53c9f4/transformed/jetified-library-1.2.4/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/432d471e4e2a4454c5882c15fb53c9f4/transformed/jetified-library-1.2.4/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.chrisbanes.photoview/library/1.2.4/cff145757884600da82c5ec8ff04bbef5078b6d5/library-1.2.4-javadoc.jar!/" />
