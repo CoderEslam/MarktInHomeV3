@@ -1,5 +1,7 @@
 package com.doubleclick.marktinhome.Model;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -10,9 +12,9 @@ import java.util.Objects;
 /**
  * Created By Eslam Ghazy on 3/18/2022
  */
+//@Entity(foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "id", onUpdate = ForeignKey.CASCADE, onDelete = ForeignKey.CASCADE)})
 @Entity
 public class ChatList {
-
 
     @NonNull
     @PrimaryKey()

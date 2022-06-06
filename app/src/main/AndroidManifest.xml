@@ -145,7 +145,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="www.market.doublethink.com"
+                    android:host="www.market.doubleclick.com"
                     android:scheme="https" />
             </intent-filter>
         </activity>

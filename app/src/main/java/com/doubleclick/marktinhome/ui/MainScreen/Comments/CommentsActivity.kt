@@ -90,17 +90,17 @@ class CommentsActivity : AppCompatActivity(), CommentAdapter.OnDeleteComment {
         val id = "$myId:$idproduct"
         map["comment"] = comment
         map["id"] = id
-        map["image"] = user.image
         map["date"] = Date().time
         map["userId"] = user.id
-        map["idProduct"] = idproduct
-        reference.child(COMMENTS_PRODUCT).child(id).updateChildren(map).addOnCanceledListener {
-            textComment.setText("")
-        }
+        reference.child(COMMENTS_PRODUCT).child(idproduct).child(id).updateChildren(map)
+            .addOnCanceledListener {
+                textComment.setText("")
+            }
     }
 
     override fun DeleteComment(commentsProductData: CommentsProductData?) {
-        reference.child(COMMENTS_PRODUCT).child(commentsProductData!!.comments.id).removeValue()
+        reference.child(COMMENTS_PRODUCT).child(idproduct).child(commentsProductData!!.comments.id)
+            .removeValue()
             .addOnCompleteListener {
                 Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
             }

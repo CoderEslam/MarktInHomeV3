@@ -21,7 +21,6 @@ public class ChatListDatabaseRepository {
 
     private ChatListDao chatListDao;
     private List<ChatList> getAllUser;
-    private ChatList chatList;
 
     public ChatListDatabaseRepository(Application application) {
         ChatListDatabase db = ChatListDatabase.getInstance(application);

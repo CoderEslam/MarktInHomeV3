@@ -35,7 +35,7 @@ public class CommentsRepository extends BaseRepository {
     }
 
     public void getAllComments(String idproduct) {
-        reference.child(COMMENTS_PRODUCT).orderByChild("idProduct").equalTo(idproduct).addChildEventListener(new ChildEventListener() {
+        reference.child(COMMENTS_PRODUCT).child(idproduct).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 try {

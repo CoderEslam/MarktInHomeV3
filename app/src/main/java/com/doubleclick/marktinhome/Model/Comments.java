@@ -16,14 +16,11 @@ public class Comments {
     private long date;
     @NonNull
     private String userId;
-    @NonNull
-    private String idProduct;
 
     public Comments() {
         id = "";
         comment = "";
         userId = "";
-        idProduct = "";
         date = 0;
     }
 
@@ -52,14 +49,6 @@ public class Comments {
         this.date = date;
     }
 
-    public String getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -73,11 +62,11 @@ public class Comments {
         if (this == o) return true;
         if (!(o instanceof Comments)) return false;
         Comments comments = (Comments) o;
-        return getDate() == comments.getDate() && getId().equals(comments.getId()) && getComment().equals(comments.getComment()) && getUserId().equals(comments.getUserId()) && getIdProduct().equals(comments.getIdProduct());
+        return getDate() == comments.getDate() && getId().equals(comments.getId()) && getComment().equals(comments.getComment()) && getUserId().equals(comments.getUserId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getComment(), getDate(), getUserId(), getIdProduct());
+        return Objects.hash(getId(), getComment(), getDate(), getUserId());
     }
 }

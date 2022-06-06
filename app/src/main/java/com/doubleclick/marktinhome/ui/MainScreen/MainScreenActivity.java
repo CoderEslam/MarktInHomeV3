@@ -114,8 +114,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
             drawerLayout.openMenu(true);
         });
         search.setOnKeyListener((v, keyCode, event) -> {
-            if (search.getText().toString().contains("https://www.market.doublethink.com/product/")) {
-                String[] url = search.getText().toString().split("www.market.doublethink.com/product/");
+            if (search.getText().toString().contains("https://www.market.doubleclick.com/product/")) {
+                String[] url = search.getText().toString().split("www.market.doubleclick.com/product/");
                 String idProduct = url[1];
                 Log.e("idProduct", idProduct);
                 Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);

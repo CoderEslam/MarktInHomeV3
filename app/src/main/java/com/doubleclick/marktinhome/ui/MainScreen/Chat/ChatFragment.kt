@@ -76,6 +76,7 @@ import com.iceteck.silicompressorr.SiliCompressor
 import com.paypal.android.sdk.u
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
+import id.zelory.compressor.Compressor.compress
 import kotlinx.android.synthetic.main.fragment_menu_profile.*
 import kotlinx.android.synthetic.main.fragment_upload.view.*
 import kotlinx.android.synthetic.main.keyword_layout.view.*
@@ -677,7 +678,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                             .toString() + "/MarketEslam/Images/"
                     )
                 )
-
             }
             if (fileType.equals("video")) {
                 sendFileData(data.data!!)
