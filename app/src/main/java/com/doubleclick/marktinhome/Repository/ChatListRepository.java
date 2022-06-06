@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.doubleclick.ChatListInter;
 import com.doubleclick.UserInter;
 import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
@@ -31,10 +32,12 @@ import java.util.ArrayList;
 public class ChatListRepository extends BaseRepository {
 
     private UserInter userInter;
+    private ChatListInter chatListInter;
     ArrayList<ChatList> chatLists = new ArrayList<>();
 
-    public ChatListRepository(UserInter userInter) {
+    public ChatListRepository(UserInter userInter, ChatListInter chatListInter) {
         this.userInter = userInter;
+        this.chatListInter = chatListInter;
     }
 
     public void ChatList() {
@@ -46,6 +49,7 @@ public class ChatListRepository extends BaseRepository {
                         if (snapshot.exists()) {
                             ChatList chatList = snapshot.getValue(ChatList.class);
                             assert chatList != null;
+                            chatListInter.insert(chatList);
                             chatLists.add(chatList);
                             reference.child(USER).child(chatList.getId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
@@ -75,6 +79,7 @@ public class ChatListRepository extends BaseRepository {
                         if (snapshot.exists()) {
                             ChatList chatList = snapshot.getValue(ChatList.class);
                             assert chatList != null;
+                            chatListInter.update(chatList);
                             Log.e("chatList", chatList.toString());
                             reference.child(USER).child(chatList.getId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
@@ -105,6 +110,7 @@ public class ChatListRepository extends BaseRepository {
                         if (snapshot.exists()) {
                             ChatList chatList = snapshot.getValue(ChatList.class);
                             assert chatList != null;
+                            chatListInter.delete(chatList);
                             reference.child(USER).child(chatList.getId()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DataSnapshot> task) {

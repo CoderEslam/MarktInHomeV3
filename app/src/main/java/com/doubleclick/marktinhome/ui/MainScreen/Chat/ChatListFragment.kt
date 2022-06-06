@@ -11,6 +11,7 @@ import com.doubleclick.UserInter
 import com.doubleclick.ViewModel.ChatListViewModel
 import com.doubleclick.marktinhome.Adapters.AllUserChatListAdapter
 import com.doubleclick.marktinhome.BaseFragment
+import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListDatabaseRepository
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListViewModelDatabase
 import com.doubleclick.marktinhome.Database.UserDatabase.UserViewModelDatabase
 import com.doubleclick.marktinhome.Model.User
@@ -28,6 +29,7 @@ class ChatListFragment : BaseFragment(), UserInter {
     private lateinit var userViewModelDatabase: UserViewModelDatabase;
     private var allUsers: ArrayList<User> = ArrayList();
     private lateinit var allUserChatListAdapter: AllUserChatListAdapter
+    private lateinit var chatListViewModelDatabase: ChatListViewModelDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,11 +50,13 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatUser = view.findViewById(R.id.chatUser);
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
         userViewModelDatabase = ViewModelProvider(this)[UserViewModelDatabase::class.java]
+        chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
         allUserChatListAdapter = AllUserChatListAdapter(allUsers, this);
         allUser.adapter = allUserChatListAdapter;
         allUsers.clear()
         allUsers.addAll(userViewModelDatabase.allUsers);
         chatListViewModel.UserInserted().observe(viewLifecycleOwner) {
+            Log.e("USER", it.toString());
             if (!allUsers.contains(it)) {
                 Log.e("USER", it.toString());
                 userViewModelDatabase.insert(it)
@@ -72,11 +76,30 @@ class ChatListFragment : BaseFragment(), UserInter {
             allUserChatListAdapter.notifyItemChanged(allUsers.indexOf(it))
         }
 
+        chatListViewModelDatabase.allUsers.observe(viewLifecycleOwner) {
+            Log.e("CHATLIST", it.toString());
+        }
+
+        chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
+            chatListViewModelDatabase.insert(it)
+        }
+
+        chatListViewModel.ChatListUpdate().observe(viewLifecycleOwner) {
+            chatListViewModelDatabase.update(it)
+
+        }
+
+        chatListViewModel.ChatListDeleted().observe(viewLifecycleOwner) {
+            chatListViewModelDatabase.delete(it)
+        }
+
 
 
         chatUser.setOnClickListener {
             findNavController().navigate(ChatListFragmentDirections.actionChatListFragmentToAllUsersFragment())
         }
+
+
         return view;
     }
 

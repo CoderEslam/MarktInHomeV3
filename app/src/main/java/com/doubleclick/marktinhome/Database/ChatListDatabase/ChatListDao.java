@@ -32,7 +32,7 @@ public interface ChatListDao {
     void deleteAllData();
 
     @Query("SELECT * FROM ChatList  ORDER BY time ASC")
-    List<ChatList> getList();
+    LiveData<List<ChatList>> getList();
 
     @Query("SELECT * FROM ChatList WHERE id==:id")
     LiveData<ChatList> getUserById(String id);

@@ -2,15 +2,19 @@ package com.doubleclick.marktinhome.Database.ChatListDatabase;
 
 import android.app.Application;
 
+import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.doubleclick.marktinhome.Database.UserDatabase.UserDao;
 import com.doubleclick.marktinhome.Database.UserDatabase.UserDatabase;
+import com.doubleclick.marktinhome.Model.Chat;
+import com.doubleclick.marktinhome.Model.ChatList;
 
 /**
  * Created By Eslam Ghazy on 6/4/2022
  */
+@Database(entities = ChatList.class, version = 1)
 public abstract class ChatListDatabase extends RoomDatabase {
 
     private static ChatListDatabase instance;

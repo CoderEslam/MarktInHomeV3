@@ -19,7 +19,7 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
 
     private ChatListDatabaseRepository mRepositry;
     private Application context;
-    private List<ChatList> mAllUsers;
+    private LiveData<List<ChatList>> mAllUsers;
 
     public ChatListViewModelDatabase(@NonNull Application application) {
         super(application);
@@ -49,7 +49,7 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
     }
 
 
-    public List<ChatList> getAllUsers() {
+    public LiveData<List<ChatList>> getAllUsers() {
         return mAllUsers;
     }
 
