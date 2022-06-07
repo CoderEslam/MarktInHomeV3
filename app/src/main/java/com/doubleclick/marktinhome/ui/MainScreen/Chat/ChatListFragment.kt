@@ -30,6 +30,7 @@ class ChatListFragment : BaseFragment(), UserInter {
     lateinit var chatListViewModel: ChatListViewModel
     lateinit var chatUser: FloatingActionButton
     private var sharePost: String = "null"
+    private var allUsers: ArrayList<ChatListData> = ArrayList();
     private lateinit var allUserChatListAdapter: AllUserChatListAdapter
     private lateinit var chatListViewModelDatabase: ChatListViewModelDatabase
     private lateinit var userViewModel: UserViewModel
@@ -55,12 +56,14 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
         chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
+        allUserChatListAdapter = AllUserChatListAdapter(this, allUsers);
+        allUser.adapter = allUserChatListAdapter;
 
 
         chatListViewModelDatabase.chatListData.observe(viewLifecycleOwner) {
-            allUserChatListAdapter = AllUserChatListAdapter(this, it);
-            allUser.adapter = allUserChatListAdapter;
+            allUsers.clear()
+            allUsers.addAll(it)
+            allUserChatListAdapter.notifyDataSetChanged()
         }
 
         chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
