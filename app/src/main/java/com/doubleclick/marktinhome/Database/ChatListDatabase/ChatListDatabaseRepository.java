@@ -20,7 +20,7 @@ import java.util.List;
 public class ChatListDatabaseRepository {
 
     private ChatListDao chatListDao;
-    private LiveData<List<ChatList>> getAllUser;
+    private List<ChatList> getAllUser;
 
     public ChatListDatabaseRepository(Application application) {
         ChatListDatabase db = ChatListDatabase.getInstance(application);
@@ -51,7 +51,7 @@ public class ChatListDatabaseRepository {
     }
 
     //getAllWords
-    public LiveData<List<ChatList>> getAllChatList() {
+    public List<ChatList> getAllChatList() {
         return getAllUser;
     }
 

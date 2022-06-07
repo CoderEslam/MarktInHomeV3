@@ -76,10 +76,7 @@ class ChatListFragment : BaseFragment(), UserInter {
             allUserChatListAdapter.notifyItemChanged(allUsers.indexOf(it))
         }
 
-        chatListViewModelDatabase.allUsers.observe(viewLifecycleOwner) {
-            Log.e("CHATLIST", it.toString());
-        }
-
+        Log.e("CHATLIST", chatListViewModelDatabase.allUsers.toString());
         chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
             chatListViewModelDatabase.insert(it)
         }
