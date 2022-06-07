@@ -1,5 +1,6 @@
 package com.doubleclick.marktinhome.ui.MainScreen.Chat
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +10,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.doubleclick.UserInter
 import com.doubleclick.ViewModel.ChatListViewModel
+import com.doubleclick.ViewModel.UserViewModel
 import com.doubleclick.marktinhome.Adapters.AllUserChatListAdapter
 import com.doubleclick.marktinhome.BaseFragment
+import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListData
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListDatabaseRepository
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListViewModelDatabase
-import com.doubleclick.marktinhome.Database.UserDatabase.UserViewModelDatabase
+import com.doubleclick.marktinhome.Model.ChatList
 import com.doubleclick.marktinhome.Model.User
 import com.doubleclick.marktinhome.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.paypal.android.sdk.v
 import com.todkars.shimmer.ShimmerRecyclerView
 
 
@@ -26,10 +30,10 @@ class ChatListFragment : BaseFragment(), UserInter {
     lateinit var chatListViewModel: ChatListViewModel
     lateinit var chatUser: FloatingActionButton
     private var sharePost: String = "null"
-    private lateinit var userViewModelDatabase: UserViewModelDatabase;
-    private var allUsers: ArrayList<User> = ArrayList();
+    private var allUsers: ArrayList<ChatListData> = ArrayList();
     private lateinit var allUserChatListAdapter: AllUserChatListAdapter
     private lateinit var chatListViewModelDatabase: ChatListViewModelDatabase
+    private lateinit var userViewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,6 +43,7 @@ class ChatListFragment : BaseFragment(), UserInter {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,45 +54,50 @@ class ChatListFragment : BaseFragment(), UserInter {
         allUser.showShimmer();
         chatUser = view.findViewById(R.id.chatUser);
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
-        userViewModelDatabase = ViewModelProvider(this)[UserViewModelDatabase::class.java]
         chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
-        allUserChatListAdapter = AllUserChatListAdapter(allUsers, this);
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        allUserChatListAdapter = AllUserChatListAdapter(this, allUsers);
         allUser.adapter = allUserChatListAdapter;
-        allUsers.clear()
-        allUsers.addAll(userViewModelDatabase.allUsers);
-        chatListViewModel.UserInserted().observe(viewLifecycleOwner) {
-            Log.e("USER", it.toString());
-            if (!allUsers.contains(it)) {
-                Log.e("USER", it.toString());
-                userViewModelDatabase.insert(it)
-                allUsers.add(it);
-                allUser.hideShimmer()
+
+        chatListViewModelDatabase.allChatList.observe(viewLifecycleOwner) {
+            Log.e("ALLCHATLIST", it.toString());
+        }
+
+        chatListViewModelDatabase.chatListData.observe(viewLifecycleOwner) {
+            allUsers.clear()
+            allUsers.addAll(it)
+            Log.e("allUsers", it.toString());
+            allUserChatListAdapter.notifyDataSetChanged()
+        }
+
+        chatListViewModelDatabase.userList.observe(viewLifecycleOwner) {
+            Log.e("ALLUSERINDATABASE", it.toString());
+            allUserChatListAdapter.notifyDataSetChanged()
+        }
+
+        chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
+            try {
+                chatListViewModelDatabase.insertChatList(it)
+            } catch (e: Exception) {
+
+            }
+            try {
+                insertUser(it.id);
+                updateUser(it.id);
+            } catch (e: Exception) {
+
             }
         }
 
-        chatListViewModel.UserDeleted().observe(viewLifecycleOwner) {
-            allUserChatListAdapter.notifyItemRemoved(allUsers.indexOf(it))
-            userViewModelDatabase.delete(it)
-            allUsers.remove(it)
-        }
-        chatListViewModel.UserChanged().observe(viewLifecycleOwner) {
-            allUsers[allUsers.indexOf(it)] = it
-            userViewModelDatabase.update(it)
-            allUserChatListAdapter.notifyItemChanged(allUsers.indexOf(it))
-        }
-
-        Log.e("CHATLIST", chatListViewModelDatabase.allUsers.toString());
-        chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
-            chatListViewModelDatabase.insert(it)
-        }
-
         chatListViewModel.ChatListUpdate().observe(viewLifecycleOwner) {
-            chatListViewModelDatabase.update(it)
-
+            chatListViewModelDatabase.updateChatList(it)
+            updateUser(it.id);
+            Log.e("ChatListUpdate", it.toString());
         }
 
         chatListViewModel.ChatListDeleted().observe(viewLifecycleOwner) {
-            chatListViewModelDatabase.delete(it)
+            chatListViewModelDatabase.deleteChatList(it)
+            deleteUser(it.id);
         }
 
 
@@ -95,7 +105,6 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatUser.setOnClickListener {
             findNavController().navigate(ChatListFragmentDirections.actionChatListFragmentToAllUsersFragment())
         }
-
 
         return view;
     }
@@ -129,6 +138,27 @@ class ChatListFragment : BaseFragment(), UserInter {
             }
         } catch (e: Exception) {
 
+        }
+    }
+
+    private fun insertUser(id: String) {
+        userViewModel.getUserById(id)
+        userViewModel.userInfo.observe(viewLifecycleOwner) {
+            chatListViewModelDatabase.insertUser(it)
+        }
+    }
+
+    private fun updateUser(id: String) {
+        userViewModel.getUserById(id)
+        userViewModel.userInfo.observe(viewLifecycleOwner) {
+            chatListViewModelDatabase.updateUser(it)
+        }
+    }
+
+    private fun deleteUser(id: String) {
+        userViewModel.getUserById(id)
+        userViewModel.userInfo.observe(viewLifecycleOwner) {
+            chatListViewModelDatabase.deleteUser(it)
         }
     }
 

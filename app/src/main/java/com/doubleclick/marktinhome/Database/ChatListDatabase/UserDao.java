@@ -1,10 +1,12 @@
-package com.doubleclick.marktinhome.Database.UserDatabase;
+package com.doubleclick.marktinhome.Database.ChatListDatabase;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.doubleclick.marktinhome.Model.Chat;
@@ -18,7 +20,7 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-    @Insert
+    @Insert()
     void insert(User user);
 
     @Update
@@ -31,9 +33,11 @@ public interface UserDao {
         // to delete all data in table
     void deleteAllData();
 
-    @Query("SELECT * FROM User  ORDER BY date ASC")
-    List<User> getList();
+    @Query("SELECT * FROM User")
+    LiveData<List<User>> getUserList();
 
     @Query("SELECT * FROM User WHERE id==:id")
+    @Transaction
     LiveData<User> getUserById(String id);
+
 }

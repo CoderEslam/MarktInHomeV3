@@ -5,6 +5,7 @@ import static androidx.room.ForeignKey.CASCADE;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
@@ -12,14 +13,24 @@ import java.util.Objects;
 /**
  * Created By Eslam Ghazy on 3/18/2022
  */
-//@Entity(foreignKeys = {@ForeignKey(entity = User.class, parentColumns = "id", childColumns = "id", onUpdate = ForeignKey.CASCADE, onDelete = ForeignKey.CASCADE)})
-@Entity
+@Entity(foreignKeys =
+        {
+                @ForeignKey(
+                        entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "id",
+                        onUpdate = CASCADE,
+                        onDelete = CASCADE
+                )
+        }
+)
 public class ChatList {
 
+    private long time;
     @NonNull
     @PrimaryKey()
     private String id;
-    private long time;
+
 
     public ChatList() {
         id = "";

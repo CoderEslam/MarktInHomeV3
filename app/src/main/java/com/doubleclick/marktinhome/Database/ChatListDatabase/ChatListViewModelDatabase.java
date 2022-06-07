@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.doubleclick.marktinhome.Database.UserDatabase.UserDatabaseReopsitory;
 import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
 
@@ -18,40 +17,77 @@ import java.util.List;
 public class ChatListViewModelDatabase extends AndroidViewModel {
 
     private ChatListDatabaseRepository mRepositry;
-    private Application context;
-    private List<ChatList> mAllUsers;
+    private LiveData<List<ChatList>> mAllChatList;
+    private LiveData<List<User>> userList;
+    private LiveData<List<ChatListData>> chatListData;
 
     public ChatListViewModelDatabase(@NonNull Application application) {
         super(application);
         mRepositry = new ChatListDatabaseRepository(application);
-        mAllUsers = mRepositry.getAllChatList();
+        mAllChatList = mRepositry.getAllChatList();
+        userList = mRepositry.getUserList();
+        chatListData = mRepositry.getChatListData();
     }
 
 
-    public void insert(ChatList chatList) {
-        mRepositry.insert(chatList);
+    ////////////////////////////////////////CHATLIST//////////////////////////////////////////////
+    public void insertChatList(ChatList chatList) {
+        mRepositry.insertChatList(chatList);
     }
 
-    public void update(ChatList chatList) {
-        mRepositry.update(chatList);
+    public void updateChatList(ChatList chatList) {
+        mRepositry.updateChatList(chatList);
     }
 
-    public void delete(ChatList chatList) {
-        mRepositry.delete(chatList);
+    public void deleteChatList(ChatList chatList) {
+        mRepositry.deleteChatList(chatList);
+    }
+
+
+    public void deleteAllChatList() {
+        mRepositry.deleteAllUsers();
+    }
+
+    public LiveData<List<ChatListData>> getChatListData() {
+        return chatListData;
+    }
+
+
+    public LiveData<List<ChatList>> getAllChatList() {
+        return mAllChatList;
+    }
+
+    ///////////////////////////////////////////////////CHATLIST///////////////////////////////////////
+
+
+    ///////////////////////////////////////////USER/////////////////////////////////////////////////////
+
+
+    public void insertUser(User user) {
+        mRepositry.insertUser(user);
+    }
+
+    public void updateUser(User user) { //done
+        mRepositry.updateUser(user);
+    }
+
+    public void deleteUser(User user) {
+        mRepositry.deleteUser(user);
     }
 
     public LiveData<User> getUserById(String id) {
         return mRepositry.getUserById(id);
     }
 
-    public void deleteAll() {
+    public void deleteAllUser() {
         mRepositry.deleteAllUsers();
     }
 
-
-    public List<ChatList> getAllUsers() {
-        return mAllUsers;
+    public LiveData<List<User>> getUserList() {
+        return userList;
     }
 
+
+    /////////////////////////////////////////USER/////////////////////////////////////////////////////
 
 }

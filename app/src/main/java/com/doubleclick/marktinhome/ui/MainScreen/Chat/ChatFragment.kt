@@ -51,7 +51,6 @@ import com.doubleclick.marktinhome.BaseApplication
 import com.doubleclick.marktinhome.BaseApplication.isNetworkConnected
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatDatabase.ChatViewModelDatabase
-import com.doubleclick.marktinhome.Database.UserDatabase.UserViewModelDatabase
 import com.doubleclick.marktinhome.Model.*
 import com.doubleclick.marktinhome.Model.Constantes.CHATS
 import com.doubleclick.marktinhome.Model.Constantes.USER
@@ -140,7 +139,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private var time: Long = 0
     private lateinit var rootView: View
     private lateinit var emojiPopup: EmojiPopup
-    private lateinit var userViewModelDatabase: UserViewModelDatabase;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -187,7 +185,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         status = rootView.findViewById(R.id.status)
         toolbar = rootView.findViewById(R.id.toolbar)
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        userViewModelDatabase = ViewModelProvider(this)[UserViewModelDatabase::class.java]
         userViewModel.getUserById(userId)
         /**
          * @param run
@@ -196,7 +193,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         runRecord(run = false);
         userViewModel.userInfo.observe(viewLifecycleOwner) {
             user = it
-            userViewModelDatabase.update(user)
+//            userViewModelDatabase.update(user)
             Glide.with(requireContext()).load(user!!.image).into(profile_image)
             username.text = user!!.name;
             status.text = user!!.status;
@@ -205,15 +202,13 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
          * if no internet connection
          * */
         if (!isNetworkConnected()) {
-            val userViewModelDatabase: UserViewModelDatabase =
-                ViewModelProvider(this)[UserViewModelDatabase::class.java]
-            userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
-                user = it;
-                Glide.with(requireContext()).load(user!!.image).into(profile_image)
-                username.text = user!!.name;
-                status.text = user!!.status;
-                Log.e("USSSSSSSSSR", it.toString());
-            }
+//            userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
+//                user = it;
+//                Glide.with(requireContext()).load(user!!.image).into(profile_image)
+//                username.text = user!!.name;
+//                status.text = user!!.status;
+//                Log.e("USSSSSSSSSR", it.toString());
+//            }
         }
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true);
@@ -1229,9 +1224,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                 userViewModel.getUserById(userId)
                 userViewModel.userInfo.observe(viewLifecycleOwner) {
                     user = it
-                    userViewModelDatabase.getUserById(user!!.id).observe(viewLifecycleOwner) {
-                        userViewModelDatabase.update(it)
-                    }
+//                    userViewModelDatabase.getUserById(user!!.id).observe(viewLifecycleOwner) {
+//                        userViewModelDatabase.update(it)
+//                    }
                     Glide.with(requireContext()).load(user!!.image).into(profile_image)
                     username.text = user!!.name.toString();
                     status.text = user!!.status.toString()
@@ -1239,13 +1234,13 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             }
             if (!isNetworkConnected()) {
 
-                userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
+               /* userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
                     user = it;
                     Glide.with(requireContext()).load(user!!.image).into(profile_image)
                     username.text = user!!.name;
                     status.visibility = View.GONE
                     Log.e("USSSSSSSSSR", it.toString());
-                }
+                }*/
             }
             option.setOnClickListener { v ->
                 val pupMenu = PopupMenu(requireContext(), v);

@@ -13,9 +13,6 @@ import java.util.Objects;
 @Entity
 public class User implements Serializable {
 
-    @PrimaryKey()
-    @NonNull
-    private String id;
     @NonNull
     private String name;
     @NonNull
@@ -30,13 +27,20 @@ public class User implements Serializable {
     private String image;
     @NonNull
     private String token;
-    public Long date;
 
-    public Long getDate() {
+    private long date;
+    @NonNull
+    private String status;
+    @PrimaryKey()
+    @NonNull
+    private String id;
+
+
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -50,6 +54,8 @@ public class User implements Serializable {
         phone = "";
         image = "";
         token = "";
+        status = "";
+        date = 0;
     }
 
 
@@ -60,8 +66,6 @@ public class User implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    private String status;
 
 
     public String getToken() {

@@ -6,9 +6,6 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.doubleclick.marktinhome.Database.UserDatabase.UserDao;
-import com.doubleclick.marktinhome.Database.UserDatabase.UserDatabase;
-import com.doubleclick.marktinhome.Database.UserDatabase.UserDatabaseReopsitory;
 import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
 
@@ -20,53 +17,57 @@ import java.util.List;
 public class ChatListDatabaseRepository {
 
     private ChatListDao chatListDao;
-    private List<ChatList> getAllUser;
+    private UserDao userDao;
+    private LiveData<List<ChatList>> getAllChatList;
+    private LiveData<List<User>> userList;
+    private LiveData<List<ChatListData>> chatListData;
 
     public ChatListDatabaseRepository(Application application) {
         ChatListDatabase db = ChatListDatabase.getInstance(application);
-        chatListDao = db.EntitiesDAO();
-        getAllUser = chatListDao.getList();
+        chatListDao = db.EntitiesChatListDAO();
+        userDao = db.EntitiesUserDaoDAO();
+        getAllChatList = chatListDao.getChatList();
+        userList = userDao.getUserList();
+        chatListData = chatListDao.getChatListWithUser();
     }
 
 
+    ///////////////////////////////////ChatList///////////////////////////////////////
     //insert
-    public void insert(ChatList chatList) {
-        new InsertAsyncTask(chatListDao).execute(chatList);
+    public void insertChatList(ChatList chatList) {
+        new InsertChatListAsyncTask(chatListDao).execute(chatList);
     }
 
     //delete
-    public void delete(ChatList chatList) {
-        new DeleteAsyncTask(chatListDao).execute(chatList);
+    public void deleteChatList(ChatList chatList) {
+        new DeleteChatListAsyncTask(chatListDao).execute(chatList);
     }
 
-    public LiveData<User> getUserById(String id) {
-        return getUserById(id);
-    }
 
     //update
-    public void update(ChatList chatList) { //done
+    public void updateChatList(ChatList chatList) { //done
 
-        new UpdatetAsyncTask(chatListDao).execute(chatList);
-
-    }
-
-    //getAllWords
-    public List<ChatList> getAllChatList() {
-        return getAllUser;
-    }
-
-    //deleteAllWords
-    public void deleteAllUsers() {
-
-        new DeleteAllAsyncTask(chatListDao).execute();
+        new UpdatetChatListAsyncTask(chatListDao).execute(chatList);
 
     }
 
-    private static class InsertAsyncTask extends AsyncTask<ChatList, Void, Void> {
+    public LiveData<List<ChatList>> getAllChatList() {
+        return getAllChatList;
+    }
+
+    public LiveData<List<ChatListData>> getChatListData() {
+        return chatListData;
+    }
+
+    public void deleteAllChatList() {
+        new DeleteAllChatListAsyncTask(chatListDao).execute();
+    }
+
+    private static class InsertChatListAsyncTask extends AsyncTask<ChatList, Void, Void> {
 
         private ChatListDao chatListDao;
 
-        public InsertAsyncTask(ChatListDao chatListDao) {
+        public InsertChatListAsyncTask(ChatListDao chatListDao) {
             this.chatListDao = chatListDao;
         }
 
@@ -82,11 +83,11 @@ public class ChatListDatabaseRepository {
         }
     }
 
-    private static class DeleteAsyncTask extends AsyncTask<ChatList, Void, Void> {
+    private static class DeleteChatListAsyncTask extends AsyncTask<ChatList, Void, Void> {
 
         private ChatListDao chatListDao;
 
-        public DeleteAsyncTask(ChatListDao chatListDao) {
+        public DeleteChatListAsyncTask(ChatListDao chatListDao) {
             this.chatListDao = chatListDao;
         }
 
@@ -101,11 +102,11 @@ public class ChatListDatabaseRepository {
         }
     }
 
-    private static class UpdatetAsyncTask extends AsyncTask<ChatList, Void, Void> {
+    private static class UpdatetChatListAsyncTask extends AsyncTask<ChatList, Void, Void> {
 
         private ChatListDao chatListDao;
 
-        public UpdatetAsyncTask(ChatListDao chatListDao) {
+        public UpdatetChatListAsyncTask(ChatListDao chatListDao) {
             this.chatListDao = chatListDao;
         }
 
@@ -120,11 +121,11 @@ public class ChatListDatabaseRepository {
         }
     }
 
-    private static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+    private static class DeleteAllChatListAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private ChatListDao chatListDao;
 
-        public DeleteAllAsyncTask(ChatListDao chatListDao) {
+        public DeleteAllChatListAsyncTask(ChatListDao chatListDao) {
             this.chatListDao = chatListDao;
         }
 
@@ -140,5 +141,124 @@ public class ChatListDatabaseRepository {
             return null;
         }
     }
+
+    ///////////////////////////////////ChatList///////////////////////////////////////
+
+    /////////////////////////////////////////USER///////////////////////////
+
+
+    //insert
+    public void insertUser(User user) {
+        new InsertUserAsyncTask(userDao).execute(user);
+    }
+
+    //delete
+    public void deleteUser(User user) {
+        new DeleteUserAsyncTask(userDao).execute(user);
+    }
+
+    public LiveData<User> getUserById(String id) {
+        return userDao.getUserById(id);
+    }
+
+    //update
+    public void updateUser(User user) { //done
+
+        new UpdatetUserAsyncTask(userDao).execute(user);
+
+    }
+
+    public LiveData<List<User>> getUserList() {
+        return userList;
+    }
+
+    //deleteAllWords
+    public void deleteAllUsers() {
+
+        new DeleteAllUserAsyncTask(userDao).execute();
+
+    }
+
+    private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
+
+        private UserDao userDao;
+
+        public InsertUserAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            try {
+                userDao.insert(users[0]);
+            } catch (Exception e) {
+                Log.e("ExceptionInsert", e.getMessage());
+            }
+
+            return null;
+        }
+    }
+
+    private static class DeleteUserAsyncTask extends AsyncTask<User, Void, Void> {
+
+        private UserDao userDao;
+
+        public DeleteUserAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            try {
+                userDao.delete(users[0]);
+            } catch (Exception e) {
+                Log.e("ExceptionDelete", e.getMessage());
+            }
+            return null;
+        }
+    }
+
+    private static class UpdatetUserAsyncTask extends AsyncTask<User, Void, Void> {
+
+        private UserDao userDao;
+
+        public UpdatetUserAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            try {
+                userDao.update(users[0]);
+            } catch (Exception e) {
+                Log.e("ExceptionUpdate", e.getMessage());
+            }
+            return null;
+        }
+    }
+
+    private static class DeleteAllUserAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private UserDao userDao;
+
+        public DeleteAllUserAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                userDao.deleteAllData();
+            } catch (Exception e) {
+                Log.e("ExceptionDeleteAll", e.getMessage());
+            }
+
+
+            return null;
+        }
+    }
+
+
+    ////////////////////////////////////////USER////////////////////////////
 
 }

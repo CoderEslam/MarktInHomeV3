@@ -72,11 +72,11 @@ public class UserViewModel extends ViewModel implements UserInter {
 
     @Override
     public void ItemUserChanged(@NonNull User user) {
-
+        // non
     }
 
     @Override
     public void ItemUserDeleted(@NonNull User user) {
-
+        //non
     }
 }
