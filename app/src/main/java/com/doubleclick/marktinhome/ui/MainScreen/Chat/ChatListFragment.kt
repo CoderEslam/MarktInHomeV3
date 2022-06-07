@@ -30,7 +30,6 @@ class ChatListFragment : BaseFragment(), UserInter {
     lateinit var chatListViewModel: ChatListViewModel
     lateinit var chatUser: FloatingActionButton
     private var sharePost: String = "null"
-    private var allUsers: ArrayList<ChatListData> = ArrayList();
     private lateinit var allUserChatListAdapter: AllUserChatListAdapter
     private lateinit var chatListViewModelDatabase: ChatListViewModelDatabase
     private lateinit var userViewModel: UserViewModel
@@ -56,23 +55,12 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
         chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        allUserChatListAdapter = AllUserChatListAdapter(this, allUsers);
-        allUser.adapter = allUserChatListAdapter;
 
-        chatListViewModelDatabase.allChatList.observe(viewLifecycleOwner) {
-            Log.e("ALLCHATLIST", it.toString());
-        }
+
 
         chatListViewModelDatabase.chatListData.observe(viewLifecycleOwner) {
-            allUsers.clear()
-            allUsers.addAll(it)
-            Log.e("allUsers", it.toString());
-            allUserChatListAdapter.notifyDataSetChanged()
-        }
-
-        chatListViewModelDatabase.userList.observe(viewLifecycleOwner) {
-            Log.e("ALLUSERINDATABASE", it.toString());
-            allUserChatListAdapter.notifyDataSetChanged()
+            allUserChatListAdapter = AllUserChatListAdapter(this, it);
+            allUser.adapter = allUserChatListAdapter;
         }
 
         chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
@@ -92,7 +80,6 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatListViewModel.ChatListUpdate().observe(viewLifecycleOwner) {
             chatListViewModelDatabase.updateChatList(it)
             updateUser(it.id);
-            Log.e("ChatListUpdate", it.toString());
         }
 
         chatListViewModel.ChatListDeleted().observe(viewLifecycleOwner) {
