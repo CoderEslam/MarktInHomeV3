@@ -12,6 +12,7 @@ import com.doubleclick.UserInter
 import com.doubleclick.ViewModel.ChatListViewModel
 import com.doubleclick.ViewModel.UserViewModel
 import com.doubleclick.marktinhome.Adapters.AllUserChatListAdapter
+import com.doubleclick.marktinhome.Adapters.MyUserChatListAdapter
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListData
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListDatabaseRepository
@@ -31,7 +32,7 @@ class ChatListFragment : BaseFragment(), UserInter {
     lateinit var chatUser: FloatingActionButton
     private var sharePost: String = "null"
     private var allUsers: ArrayList<ChatListData> = ArrayList();
-    private lateinit var allUserChatListAdapter: AllUserChatListAdapter
+    private lateinit var allUserChatListAdapter: MyUserChatListAdapter
     private lateinit var chatListViewModelDatabase: ChatListViewModelDatabase
     private lateinit var userViewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,7 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
         chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        allUserChatListAdapter = AllUserChatListAdapter(this, allUsers);
+        allUserChatListAdapter = MyUserChatListAdapter(this, allUsers);
         allUser.adapter = allUserChatListAdapter;
 
 
@@ -66,6 +67,14 @@ class ChatListFragment : BaseFragment(), UserInter {
             allUserChatListAdapter.notifyDataSetChanged()
         }
 
+        chatListViewModelDatabase.limitation.observe(viewLifecycleOwner) {
+            Log.e("Limitation", it.toString())
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         *if something happen in ChatList update , insert , delete
+         * -> store in database
+         * */
         chatListViewModel.ChatListInserted().observe(viewLifecycleOwner) {
             try {
                 chatListViewModelDatabase.insertChatList(it)
@@ -79,7 +88,6 @@ class ChatListFragment : BaseFragment(), UserInter {
 
             }
         }
-
         chatListViewModel.ChatListUpdate().observe(viewLifecycleOwner) {
             chatListViewModelDatabase.updateChatList(it)
             updateUser(it.id);
@@ -89,7 +97,7 @@ class ChatListFragment : BaseFragment(), UserInter {
             chatListViewModelDatabase.deleteChatList(it)
             deleteUser(it.id);
         }
-
+        ///////////////////////////////////////////////////////////////////////////////////
 
 
         chatUser.setOnClickListener {

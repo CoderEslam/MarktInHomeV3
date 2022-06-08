@@ -7,6 +7,7 @@ import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created By Eslam Ghazy on 6/6/2022
@@ -41,5 +42,18 @@ public class ChatListData {
                 "user=" + user +
                 ", chatList=" + chatList +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChatListData)) return false;
+        ChatListData that = (ChatListData) o;
+        return getUser().equals(that.getUser()) && getChatList().equals(that.getChatList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUser(), getChatList());
     }
 }

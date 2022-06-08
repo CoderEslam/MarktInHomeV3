@@ -40,8 +40,11 @@ public interface ChatListDao {
     LiveData<ChatList> getUserById(String id);
 
 
+    @Query("SELECT * FROM ChatList  inner join User on User.id = ChatList.id order by ChatList.time  LIMIT 1")
+    LiveData<ChatListData> Limitation();
+
     @Query("SELECT * FROM ChatList  inner join User on User.id = ChatList.id order by ChatList.time ")
     @Transaction
-    LiveData<List<ChatListData>> getChatListWithUser(); //-1654564174939
+    LiveData<List<ChatListData>> getChatListWithUser();
 
 }

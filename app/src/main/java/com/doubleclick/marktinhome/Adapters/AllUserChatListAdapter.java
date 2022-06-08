@@ -40,23 +40,15 @@ public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatList
 
     private List<User> userArrayList = new ArrayList<>();
     private UserInter onUser;
-    private DatabaseReference reference;
-    private List<ChatListData> chatListData = new ArrayList<>();
 
     public AllUserChatListAdapter(List<User> userArrayList, UserInter onUser) {
         this.userArrayList = userArrayList;
         this.onUser = onUser;
     }
 
-    public AllUserChatListAdapter(UserInter onUser, List<ChatListData> chatListData) {
-        this.onUser = onUser;
-        this.chatListData = chatListData;
-    }
-
     @NonNull
     @Override
     public AllUserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        reference = FirebaseDatabase.getInstance().getReference().child(CHATS);
         return new AllUserViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.user_chat_layout, parent, false));
     }
 
@@ -71,78 +63,20 @@ public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatList
                 }
             });
         }
-        if (chatListData.size() != 0) {
-            holder.name.setText(chatListData.get(position).getUser().getName());
-            Glide.with(holder.itemView.getContext()).load(chatListData.get(position).getUser().getImage()).into(holder.image);
-            holder.itemView.setOnClickListener(v -> {
-                if (chatListData.get(position) != null) {
-                    onUser.OnUserLisitner(chatListData.get(position).getUser());
-                }
-            });
-            if (chatListData.get(holder.getAdapterPosition()).getUser().getId() != null) {
-                holder.Messageunread(chatListData.get(holder.getAdapterPosition()).getUser().getId());
-            }
-        }
-
     }
 
     @Override
     public int getItemCount() {
-        if (userArrayList.size() == 0) {
-            return chatListData.size();
-        } else if (chatListData.size() == 0) {
-            return userArrayList.size();
-        } else {
-            return 0;
-        }
+        return userArrayList.size();
     }
 
     public class AllUserViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView image;
-        private TextView name, countMessage;
-
-
+        private TextView name;
         public AllUserViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
-            countMessage = itemView.findViewById(R.id.countMessage);
-        }
-
-        private void Messageunread(String id /* friend id*/) {
-            try {
-                if (!id.equals("")) {
-                    reference.child(BaseFragment.myId).child(id).addValueEventListener(new ValueEventListener() {
-                        @SuppressLint({"DefaultLocale", "UseCompatLoadingForDrawables", "NotifyDataSetChanged"})
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            try {
-                                int i = 0;
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    Chat chat = snapshot.getValue(Chat.class);
-                                    assert chat != null;
-                                    if (chat.getStatusMessage().equals("Uploaded") && !chat.getSender().equals(BaseFragment.myId) && !chat.isSeen()) {
-                                        i++;
-                                        countMessage.setText(String.format("%d", i));
-                                        countMessage.setBackground(itemView.getContext().getResources().getDrawable(R.drawable.bg_green));
-                                    }
-                                }
-                            } catch (Exception e) {
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            } catch (NullPointerException e) {
-                Log.e("NullPointerException", e.getMessage());
-            }
-
         }
     }
 

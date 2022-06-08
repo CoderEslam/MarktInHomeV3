@@ -21,6 +21,7 @@ public class ChatListDatabaseRepository {
     private LiveData<List<ChatList>> getAllChatList;
     private LiveData<List<User>> userList;
     private LiveData<List<ChatListData>> chatListData;
+    private LiveData<ChatListData> Limitation;
 
     public ChatListDatabaseRepository(Application application) {
         ChatListDatabase db = ChatListDatabase.getInstance(application);
@@ -29,6 +30,7 @@ public class ChatListDatabaseRepository {
         getAllChatList = chatListDao.getChatList();
         userList = userDao.getUserList();
         chatListData = chatListDao.getChatListWithUser();
+        Limitation = chatListDao.Limitation();
     }
 
 
@@ -58,6 +60,11 @@ public class ChatListDatabaseRepository {
     public LiveData<List<ChatListData>> getChatListData() {
         return chatListData;
     }
+
+    public LiveData<ChatListData> getLimitation() {
+        return Limitation;
+    }
+
 
     public void deleteAllChatList() {
         new DeleteAllChatListAsyncTask(chatListDao).execute();

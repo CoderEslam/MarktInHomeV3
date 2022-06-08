@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.airbnb.lottie.L;
 import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
 
@@ -20,6 +21,7 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
     private LiveData<List<ChatList>> mAllChatList;
     private LiveData<List<User>> userList;
     private LiveData<List<ChatListData>> chatListData;
+    private LiveData<ChatListData> Limitation;
 
     public ChatListViewModelDatabase(@NonNull Application application) {
         super(application);
@@ -27,6 +29,7 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
         mAllChatList = mRepositry.getAllChatList();
         userList = mRepositry.getUserList();
         chatListData = mRepositry.getChatListData();
+        Limitation = mRepositry.getLimitation();
     }
 
 
@@ -52,6 +55,9 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
         return chatListData;
     }
 
+    public LiveData<ChatListData> getLimitation(){
+        return Limitation;
+    }
 
     public LiveData<List<ChatList>> getAllChatList() {
         return mAllChatList;
