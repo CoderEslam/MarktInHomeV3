@@ -30,9 +30,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.databinding.adapters.ViewGroupBindingAdapter.setListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.devlomi.record_view.OnRecordListener
@@ -47,7 +48,6 @@ import com.doubleclick.downloader.OnDownloadListener
 import com.doubleclick.downloader.PRDownloader
 import com.doubleclick.downloader.PRDownloaderConfig
 import com.doubleclick.marktinhome.Adapters.BaseMessageAdapter
-import com.doubleclick.marktinhome.BaseApplication
 import com.doubleclick.marktinhome.BaseApplication.isNetworkConnected
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatDatabase.ChatViewModelDatabase
@@ -60,6 +60,8 @@ import com.doubleclick.marktinhome.Repository.ChatReopsitory
 import com.doubleclick.marktinhome.Views.audio_record_view.AttachmentOption
 import com.doubleclick.marktinhome.Views.audio_record_view.AttachmentOptionsListener
 import com.doubleclick.marktinhome.Views.audio_record_view.AudioRecordView
+import com.doubleclick.marktinhome.Views.swipetoreply.ISwipeControllerActions
+import com.doubleclick.marktinhome.Views.swipetoreply.SwipeController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -72,10 +74,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.iceteck.silicompressorr.SiliCompressor
-import com.paypal.android.sdk.u
 import com.vanniktech.emoji.EmojiPopup
 import de.hdodenhof.circleimageview.CircleImageView
-import id.zelory.compressor.Compressor.compress
 import kotlinx.android.synthetic.main.fragment_menu_profile.*
 import kotlinx.android.synthetic.main.fragment_upload.view.*
 import kotlinx.android.synthetic.main.keyword_layout.view.*
@@ -139,6 +139,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private var time: Long = 0
     private lateinit var rootView: View
     private lateinit var emojiPopup: EmojiPopup
+    private var reply: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -441,7 +442,12 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             }
             pupMenu.show()
         }
-
+        val swipeController = SwipeController(requireContext(), ISwipeControllerActions { pos ->
+            reply = chats[pos].message.toString();
+            Log.e("reply", reply.toString());
+        })
+        val itemTouchHelper = ItemTouchHelper(swipeController)
+        itemTouchHelper.attachToRecyclerView(chatRecycler)
         return rootView;
     }
 
@@ -456,7 +462,10 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         map["date"] = time
         map["id"] = id
         map["StatusMessage"] = "Uploaded"
-        val chat = Chat(text, "", type, myId, userId, time, id, "Uploaded", false);
+        if (!reply.equals("")) {
+            map["reply"] = reply.toString()
+        }
+        val chat = Chat(text, "", type, myId, userId, time, id, "Uploaded", false, reply);
         chatViewModelDatabase.insert(chat);
         upload(id, map);
         et_text_message.setText("")
@@ -611,6 +620,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                             map["date"] = time
                             map["StatusMessage"] = "Uploaded" // "Stored" , "beenSeen"
                             map["uri"] = audioPath;
+                            if (!reply.equals("")) {
+                                map["reply"] = reply.toString()
+                            }
                             val chat = Chat(
                                 url,
                                 audioPath,
@@ -620,7 +632,8 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                                 time,
                                 id,
                                 "Uploaded",
-                                false
+                                false,
+                                reply
                             );
                             chatViewModelDatabase.insert(chat);
 //                            reference.child(CHATS).child(id).setValue(map)
@@ -790,6 +803,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                         map["date"] = time
                         map["StatusMessage"] = "Uploaded" // "Stored" , "beenSeen"
                         map["uri"] = uri.toString()
+                        if (!reply.equals("")) {
+                            map["reply"] = reply.toString()
+                        }
                         val chat =
                             Chat(
                                 url,
@@ -800,7 +816,8 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                                 time,
                                 id,
                                 "Uploaded",
-                                false
+                                false,
+                                reply
                             );
                         //Chat{id='-N30jeKZgiyyHFSSKP6H1653591678996', message='https://firebasestorage.googleapis.com/v0/b/marketinhome-99d25.appspot.com/o/ChatData%2FFiles%2F1653591666788.mp4?alt=media&token=bca7773d-f434-48ee-8a1f-e273593906ca', type='video', sender='WoWDlmZx7lUwRr9ZD2LAkHRwkoi1', receiver='FkyB9ppQAlQcPQZ3F8tN24kLzbg1', date=1653591678996, StatusMessage='Uploaded', seen=false, uri='content://com.android.providers.media.documents/document/video%3A380701'}
                         Log.e("FileSent", chat.toString());
@@ -1234,13 +1251,13 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             }
             if (!isNetworkConnected()) {
 
-               /* userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
-                    user = it;
-                    Glide.with(requireContext()).load(user!!.image).into(profile_image)
-                    username.text = user!!.name;
-                    status.visibility = View.GONE
-                    Log.e("USSSSSSSSSR", it.toString());
-                }*/
+                /* userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
+                     user = it;
+                     Glide.with(requireContext()).load(user!!.image).into(profile_image)
+                     username.text = user!!.name;
+                     status.visibility = View.GONE
+                     Log.e("USSSSSSSSSR", it.toString());
+                 }*/
             }
             option.setOnClickListener { v ->
                 val pupMenu = PopupMenu(requireContext(), v);

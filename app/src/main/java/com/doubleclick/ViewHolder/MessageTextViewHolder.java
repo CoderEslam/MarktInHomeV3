@@ -29,6 +29,7 @@ public class MessageTextViewHolder extends BaseViewHolder {
     private ImageView seen;
     private OnMessageClick onMessageClick;
     private String myId;
+    private TextView reply;
 //    public ImageView profile_image;
 //    public TextView txt_seen;
 //    public ImageView image_message;
@@ -40,12 +41,18 @@ public class MessageTextViewHolder extends BaseViewHolder {
         textMessage = itemView.findViewById(R.id.textMessage);
         textTime = itemView.findViewById(R.id.textTime);
         seen = itemView.findViewById(R.id.seen);
+        reply = itemView.findViewById(R.id.reply);
 
     }
 
     @SuppressLint({"SimpleDateFormat", "UseCompatLoadingForDrawables"})
     public void SetTextMessage(Chat chat, int postion) {
         textMessage.setText(chat.getMessage());
+        if (!chat.getReply().equals("")){
+            reply.setText(chat.getReply());
+        }else {
+            reply.setVisibility(View.GONE);
+        }
         textTime.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
         if (chat.getReceiver().equals(myId)) {
             seen.setVisibility(View.INVISIBLE);

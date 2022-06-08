@@ -11,7 +11,7 @@ import com.doubleclick.marktinhome.Model.Chat;
 /**
  * Created By Eslam Ghazy on 12/11/2021
  */
-@Database(entities = Chat.class, version = 1)
+@Database(entities = Chat.class, version = 2)
 public abstract class ChatDatabase extends RoomDatabase {
 
     private static ChatDatabase instance;
@@ -22,7 +22,7 @@ public abstract class ChatDatabase extends RoomDatabase {
     public static synchronized ChatDatabase getInstance(Application application) {
         if (instance == null) {
             instance = Room.databaseBuilder(application.getApplicationContext(),
-                    ChatDatabase.class, "Chat-database")
+                            ChatDatabase.class, "Chat-database")
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();

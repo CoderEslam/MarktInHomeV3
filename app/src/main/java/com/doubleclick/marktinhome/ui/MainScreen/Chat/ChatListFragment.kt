@@ -64,6 +64,7 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatListViewModelDatabase.chatListData.observe(viewLifecycleOwner) {
             allUsers.clear()
             allUsers.addAll(it)
+            Log.e("UPDATE",it.toString());
             allUserChatListAdapter.notifyDataSetChanged()
         }
 

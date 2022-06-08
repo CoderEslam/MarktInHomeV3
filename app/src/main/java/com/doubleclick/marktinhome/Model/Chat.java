@@ -33,6 +33,8 @@ public class Chat implements Serializable {
     private boolean seen;
     @NonNull
     private String uri;
+    @NonNull
+    private String reply;
 
     public Chat() {
         uri = "";
@@ -44,9 +46,10 @@ public class Chat implements Serializable {
         receiver = "";
         date = 0;
         StatusMessage = "";
+        reply = "";
     }
 
-    public Chat(String message, String uri, String type, String sender, String receiver, long date, String id, String statusMessage, boolean seen) {
+    public Chat(String message, String uri, String type, String sender, String receiver, long date, String id, String statusMessage, boolean seen, String reply) {
         this.message = message;
         this.uri = uri;
         this.type = type;
@@ -56,6 +59,7 @@ public class Chat implements Serializable {
         this.id = id;
         StatusMessage = statusMessage;
         this.seen = seen;
+        this.reply = reply;
     }
 
     public String getType() {
@@ -153,5 +157,14 @@ public class Chat implements Serializable {
         if (!(obj instanceof Chat)) return false;
         Chat chat = (Chat) obj;
         return chat.getId().equals(this.getId());
+    }
+
+    @NonNull
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(@NonNull String reply) {
+        this.reply = reply;
     }
 }
