@@ -64,6 +64,9 @@ public class MyUserChatListAdapter extends RecyclerView.Adapter<MyUserChatListAd
             if (chatListData.get(holder.getAdapterPosition()).getUser().getId() != null) {
                 holder.Messageunread(chatListData.get(holder.getAdapterPosition()).getUser().getId());
             }
+            holder.image.setOnClickListener(v -> {
+                onUser.OnImageListnerLoad(chatListData.get(position).getUser(), holder.image);
+            });
         }
     }
 

@@ -1,5 +1,7 @@
 package com.doubleclick.ViewModel;
 
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -77,6 +79,11 @@ public class UserViewModel extends ViewModel implements UserInter {
 
     @Override
     public void ItemUserDeleted(@NonNull User user) {
+        //non
+    }
+
+    @Override
+    public void OnImageListnerLoad(@NonNull User user, @NonNull ImageView image) {
         //non
     }
 }

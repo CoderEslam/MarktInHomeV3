@@ -1,5 +1,6 @@
 package com.doubleclick
 
+import android.widget.ImageView
 import com.doubleclick.marktinhome.Model.User
 
 /**
@@ -12,5 +13,8 @@ interface UserInter {
     fun ItemUserInfoById(user: User?)
     fun AllUser(user: ArrayList<User>?)
     fun OnUserLisitner(user: User?)
+
+    fun OnImageListnerLoad(user: User,image:ImageView)
+
 
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.addTextChangedListener
@@ -101,5 +102,8 @@ class AllUsersFragment : BaseFragment(), UserInter {
                 user!!.id
             )
         )
+    }
+
+    override fun OnImageListnerLoad(user: User, image: ImageView) {
     }
 }
