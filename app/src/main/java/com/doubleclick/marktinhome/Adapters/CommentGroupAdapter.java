@@ -101,7 +101,7 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
         });
         holder.setLike(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId());
 
-        holder.replay.setOnClickListener(v -> {
+        holder.reply.setOnClickListener(v -> {
             holder.openBottomSheet(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId(), commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getGroupId());
         });
         holder.loadReply(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId(), commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getGroupId());
@@ -114,7 +114,7 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
 
     public class CommentsViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView imageUser;
-        private TextView userName, time, like, replay;
+        private TextView userName, time, like, reply;
         private ImageView img_like;
         private ShimmerRecyclerView RecyclerReplay;
         private NestedScrollView nestedScroll;
@@ -127,7 +127,7 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
             comment = itemView.findViewById(R.id.comment);
             time = itemView.findViewById(R.id.time);
             like = itemView.findViewById(R.id.like);
-            replay = itemView.findViewById(R.id.replay);
+            reply = itemView.findViewById(R.id.reply);
             img_like = itemView.findViewById(R.id.img_like);
             RecyclerReplay = itemView.findViewById(R.id.RecyclerReplay);
             nestedScroll = itemView.findViewById(R.id.nestedScroll);

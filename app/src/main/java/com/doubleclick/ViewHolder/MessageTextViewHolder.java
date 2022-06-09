@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.widget.PopupMenu;
+import androidx.cardview.widget.CardView;
 
 import com.doubleclick.OnMessageClick;
 import com.doubleclick.marktinhome.BaseApplication;
@@ -30,6 +31,7 @@ public class MessageTextViewHolder extends BaseViewHolder {
     private OnMessageClick onMessageClick;
     private String myId;
     private TextView reply;
+    private CardView cardReply;
 //    public ImageView profile_image;
 //    public TextView txt_seen;
 //    public ImageView image_message;
@@ -42,16 +44,17 @@ public class MessageTextViewHolder extends BaseViewHolder {
         textTime = itemView.findViewById(R.id.textTime);
         seen = itemView.findViewById(R.id.seen);
         reply = itemView.findViewById(R.id.reply);
-
+        cardReply = itemView.findViewById(R.id.cardReply);
     }
 
     @SuppressLint({"SimpleDateFormat", "UseCompatLoadingForDrawables"})
     public void SetTextMessage(Chat chat, int postion) {
         textMessage.setText(chat.getMessage());
-        if (!chat.getReply().equals("")){
+        if (!chat.getReply().equals("")) {
             reply.setText(chat.getReply());
-        }else {
+        } else {
             reply.setVisibility(View.GONE);
+            cardReply.setVisibility(View.GONE);
         }
         textTime.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
         if (chat.getReceiver().equals(myId)) {

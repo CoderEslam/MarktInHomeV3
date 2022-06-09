@@ -117,6 +117,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     private lateinit var continer_attacht: ConstraintLayout;
     private lateinit var username: TextView;
     private lateinit var status: TextView;
+    private lateinit var layoutReply: LinearLayout
+    private lateinit var tvReply: TextView
+    private lateinit var cancel: ImageView
     private lateinit var apiService: APIService
     private lateinit var toolbar: Toolbar
     private var sharePost: String = "null".toString()
@@ -173,6 +176,9 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         recordView = rootView.findViewById(R.id.recordView);
         emotion = rootView.findViewById(R.id.emotion);
         layout_text = rootView.findViewById(R.id.layout_text)
+        layoutReply = rootView.findViewById(R.id.layoutReply);
+        tvReply = rootView.findViewById(R.id.tvReply);
+        cancel = rootView.findViewById(R.id.cancel);
         attach_file = rootView.findViewById(R.id.attach_file);
         sendRecord.setRecordView(recordView)
         file = rootView.findViewById(R.id.file)
@@ -444,10 +450,16 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         }
         val swipeController = SwipeController(requireContext(), ISwipeControllerActions { pos ->
             reply = chats[pos].message.toString();
+            tvReply.text = reply;
+            layoutReply.visibility = View.VISIBLE
             Log.e("reply", reply.toString());
         })
         val itemTouchHelper = ItemTouchHelper(swipeController)
         itemTouchHelper.attachToRecyclerView(chatRecycler)
+        cancel.setOnClickListener {
+            layoutReply.visibility = View.GONE
+            reply = ""
+        }
         return rootView;
     }
 
@@ -465,6 +477,8 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         if (!reply.equals("")) {
             map["reply"] = reply.toString()
         }
+        layoutReply.visibility = View.GONE
+        reply = ""
         val chat = Chat(text, "", type, myId, userId, time, id, "Uploaded", false, reply);
         chatViewModelDatabase.insert(chat);
         upload(id, map);
