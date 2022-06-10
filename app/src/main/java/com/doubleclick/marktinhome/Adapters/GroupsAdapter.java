@@ -1,5 +1,6 @@
 package com.doubleclick.marktinhome.Adapters;
 
+import static com.doubleclick.marktinhome.BaseFragment.myId;
 import static com.doubleclick.marktinhome.Model.Constantes.LIKES;
 
 import android.content.ClipboardManager;
@@ -20,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.doubleclick.marktinhome.BaseFragment;
 import com.doubleclick.marktinhome.Model.PostData;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.carouselrecyclerviewReflaction.CarouselRecyclerview;
@@ -53,7 +55,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
 
     private ArrayList<PostData> postsData;
     private DatabaseReference reference;
-    String myId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().toString();
     private boolean LikeChecker = false;
     private Loadmore loadmore;
     private OptionPost optionPost;
@@ -83,25 +84,30 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
 
     @Override
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-
-        holder.option.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
-            popupMenu.getMenuInflater().inflate(R.menu.option_group, popupMenu.getMenu());
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    int id = item.getItemId();
-                    if (id == R.id.deleteOption) {
-                        optionPost.delete(postsData.get(holder.getAdapterPosition()).getPostsGroup().getId(), holder.getAdapterPosition());
+        /**
+         * todo if publisher of post is equal myId
+         * */
+        if (postsData.get(position).getUser().getId().equals(myId)) {
+            holder.option.setOnClickListener(v -> {
+                PopupMenu popupMenu = new PopupMenu(holder.itemView.getContext(), v);
+                popupMenu.getMenuInflater().inflate(R.menu.option_group, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        if (id == R.id.deleteOption) {
+                            optionPost.delete(postsData.get(holder.getAdapterPosition()).getPostsGroup().getId(), holder.getAdapterPosition());
+                        }
+                        if (id == R.id.editOption) {
+                            optionPost.edit(postsData.get(holder.getAdapterPosition()).getPostsGroup().getId(), holder.getAdapterPosition());
+                        }
+                        return true;
                     }
-                    if (id == R.id.editOption) {
-                        optionPost.edit(postsData.get(holder.getAdapterPosition()).getPostsGroup().getId(), holder.getAdapterPosition());
-                    }
-                    return true;
-                }
+                });
+                popupMenu.show();
             });
-            popupMenu.show();
-        });
+        }
+
         if (postsData.get(holder.getAdapterPosition()).getPostsGroup().getType().equals("image")) {
             List<String> image = Arrays.asList(postsData.get(holder.getAdapterPosition()).getPostsGroup().getMeme().replace("[", "").replace("]", "").replace(" ", "").split(","));
             holder.images.setAdapter(new ImagesGroupAdapter(image));
@@ -163,9 +169,11 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
             popupMenu.show();
         });
         holder.ConstraintLayoutimage_name.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), ChatActivity.class);
-            intent.putExtra("userId", postsData.get(holder.getAdapterPosition()).getUser().getId());
-            holder.itemView.getContext().startActivity(intent);
+            if (!postsData.get(position).getUser().getId().equals(myId)) {
+                Intent intent = new Intent(holder.itemView.getContext(), ChatActivity.class);
+                intent.putExtra("userId", postsData.get(holder.getAdapterPosition()).getUser().getId());
+                holder.itemView.getContext().startActivity(intent);
+            }
         });
         holder.video.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), ViewActivity.class);
@@ -184,13 +192,13 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
                     if (id == R.id.Apps) {
                         Intent intent = new Intent();
                         intent.setAction(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_TEXT, "https://www.market.doublethink.com/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getGroupId() + "/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
+                        intent.putExtra(Intent.EXTRA_TEXT, "https://www.market.doubleclick.com/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getGroupId() + "/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
                         Intent shareIntent = Intent.createChooser(intent, null);
                         holder.itemView.getContext().startActivity(shareIntent);
                     }
                     if (id == R.id.Chat) {
                         Intent intent = new Intent(holder.itemView.getContext(), ChatActivity.class);
-                        intent.putExtra("sharePost", "https://www.market.doublethink.com/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getGroupId() + "/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
+                        intent.putExtra("sharePost", "https://www.market.doubleclick.com/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getGroupId() + "/" + postsData.get(holder.getAdapterPosition()).getPostsGroup().getId());
                         holder.itemView.getContext().startActivity(intent);
                     }
                     return true;

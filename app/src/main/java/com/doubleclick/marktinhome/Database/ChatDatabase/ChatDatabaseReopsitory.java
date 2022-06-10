@@ -41,6 +41,10 @@ public class ChatDatabaseReopsitory {
         return chatDao.getLastRowMessage(FriendID, myID);
     }
 
+    public Chat getIndexOfObject(String myID, String friendID, String reply) {
+        return chatDao.getIndexOfObject(myID, friendID, reply);
+    }
+
     public List<Chat> getListData(String myID, String FriendID) {
         return chatDao.getList(myID, FriendID);
     }

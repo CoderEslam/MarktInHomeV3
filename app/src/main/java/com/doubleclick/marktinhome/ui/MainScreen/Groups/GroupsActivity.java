@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.doubleclick.ViewModel.GroupViewModel;
 import com.doubleclick.ViewModel.PostsViewModel;
 import com.doubleclick.ViewModel.UserViewModel;
@@ -55,6 +60,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.firebase.database.DatabaseReference;
@@ -76,12 +82,12 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
 
     private static final int IMAGE_REQUEST = 100;
     private String id; /* Group id */
-    private ImageView back, cover, QRCode;
+    private ImageView back, QRCode;
     private CircleImageView imageCreator;
     private CircleImageView imageGroup, selectImage;
     private LinearProgressIndicator progressIndicator;
-    private TextView name, username, history, nothing;
-    private SocialTextView discription;
+    private TextView username, history, nothing, header, tvToolbarTitle;
+    private SocialTextView title;
     private LinearLayout create_post;
     private ShimmerRecyclerView post;
     private GroupViewModel groupViewModel;
@@ -94,6 +100,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     private String type = "";
     private UserViewModel userViewModel;
     private LinearLayout creatorLayout;
+    private AppBarLayout appbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,20 +109,21 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
         // id of Group
         id = getIntent().getStringExtra("id" /* id of group*/);
         back = findViewById(R.id.back);
-        cover = findViewById(R.id.cover);
         imageGroup = findViewById(R.id.imageGroup);
         progressIndicator = findViewById(R.id.progressBar);
-        name = findViewById(R.id.name);
         username = findViewById(R.id.username);
+        tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
+        title = findViewById(R.id.title);
+        header = findViewById(R.id.header);
         creatorLayout = findViewById(R.id.creatorLayout);
         history = findViewById(R.id.history);
         option = findViewById(R.id.option);
         selectImage = findViewById(R.id.selectImage);
+        appbar = findViewById(R.id.appbar);
         imageCreator = findViewById(R.id.imageCreator);
         reference = FirebaseDatabase.getInstance().getReference();
         // todo show when there is nothing to show
         nothing = findViewById(R.id.nothing);
-        discription = findViewById(R.id.discription);
         post = findViewById(R.id.post);
         QRCode = findViewById(R.id.QRCode);
         create_post = findViewById(R.id.create_post);
@@ -128,13 +136,26 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
             @Override
             public void onChanged(GroupData groupData) {
                 Glide.with(GroupsActivity.this).load(groupData.getGroup().getImage()).into(imageGroup);
-                Glide.with(GroupsActivity.this).load(groupData.getGroup().getCover()).into(cover);
-                name.setText(groupData.getGroup().getName());
+                // reference -> https://www.tutorialspoint.com/how-does-one-use-glide-to-download-an-image-into-a-bitmap
+                Glide.with(GroupsActivity.this).asDrawable().load(groupData.getGroup().getCover()).into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        appbar.setBackground(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
+                tvToolbarTitle.setText(groupData.getGroup().getName());
+                header.setText(groupData.getGroup().getName());
                 username.setText(groupData.getUser().getName());
                 Glide.with(GroupsActivity.this).load(groupData.getUser().getImage()).into(imageCreator);
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, dd/MM/yyyy HH:mm aa");
                 history.setText(String.format("Created By %s at %s ", groupData.getUser().getName(), simpleDateFormat.format(groupData.getGroup().getTime())));
-                discription.setText(groupData.getGroup().getDetails());
+                title.setText(groupData.getGroup().getDetails());
                 creatorLayout.setOnClickListener(v -> {
                     Intent intent = new Intent(GroupsActivity.this, ChatActivity.class);
                     intent.putExtra("userId", groupData.getUser().getId());

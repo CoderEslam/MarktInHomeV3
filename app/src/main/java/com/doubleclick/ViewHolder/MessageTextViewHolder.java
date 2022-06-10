@@ -56,6 +56,10 @@ public class MessageTextViewHolder extends BaseViewHolder {
             reply.setVisibility(View.GONE);
             cardReply.setVisibility(View.GONE);
         }
+
+        cardReply.setOnClickListener(v -> {
+            onMessageClick.replyIndex(chat, postion);
+        });
         textTime.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
         if (chat.getReceiver().equals(myId)) {
             seen.setVisibility(View.INVISIBLE);

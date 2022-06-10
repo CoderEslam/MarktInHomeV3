@@ -53,6 +53,9 @@ public class ChatViewModelDatabase extends AndroidViewModel {
         return mRepositry.getLastRowMessage(myId,id);
     }
 
+    public Chat getIndexOfObject(String myID, String friendID, String reply) {
+        return mRepositry.getIndexOfObject(myID, friendID, reply);
+    }
 
     public LiveData<List<Chat>> getAllChats() {
         return mAllChats;

@@ -34,6 +34,7 @@ import androidx.databinding.adapters.ViewGroupBindingAdapter.setListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.devlomi.record_view.OnRecordListener
@@ -1143,6 +1144,14 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
         } catch (e: Exception) {
             Log.e("Exception", e.message.toString())
         }
+    }
+
+    override fun replyIndex(chat: Chat, pos: Int) {
+        chatRecycler.smoothScrollToPosition(
+            chats.indexOf(
+                chatViewModelDatabase.getIndexOfObject(myId, userId, chat.reply)
+            )
+        )
     }
 
     /*

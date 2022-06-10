@@ -14,4 +14,7 @@ interface OnMessageClick {
 
     fun deleteForAll(chat: Chat, pos: Int)
 
+    fun replyIndex(chat: Chat, pos: Int)
+
+
 }

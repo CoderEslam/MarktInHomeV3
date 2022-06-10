@@ -46,4 +46,8 @@ public interface ChatDao {
     @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID) OR (sender==:friendID AND receiver ==:myID)) ORDER BY date DESC LIMIT 1")
     LiveData<Chat> getLastRowMessage(String friendID, String myID);
 
+
+    @Query("SELECT * FROM Chat  WHERE ((sender==:myID AND receiver == :friendID AND message =:reply) OR (sender==:friendID AND receiver ==:myID AND message=:reply)) ORDER BY date DESC LIMIT 1")
+    Chat getIndexOfObject(String myID, String friendID, String reply);
+
 }

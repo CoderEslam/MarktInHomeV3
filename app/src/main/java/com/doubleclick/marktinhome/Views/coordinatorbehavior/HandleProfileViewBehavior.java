@@ -1,4 +1,4 @@
-package com.doubleclick.marktinhome.Views.coor;
+package com.doubleclick.marktinhome.Views.coordinatorbehavior;
 
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -23,9 +23,9 @@ class HandleProfileViewBehavior implements AppBarLayout.OnOffsetChangedListener 
 
     HandleProfileViewBehavior(View rootView) {
 
-        AppBarLayout appbar = (AppBarLayout) rootView.findViewById(R.id.appbar);
-        linearLayoutTitle = (LinearLayout) rootView.findViewById(R.id.llTitle);
-        textViewTitle = (TextView) rootView.findViewById(R.id.tvToolbarTitle);
+        AppBarLayout appbar =  rootView.findViewById(R.id.appbar);
+        linearLayoutTitle =  rootView.findViewById(R.id.llTitle);
+        textViewTitle =  rootView.findViewById(R.id.tvToolbarTitle);
 
         appbar.addOnOffsetChangedListener(this);
 

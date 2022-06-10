@@ -1,4 +1,4 @@
-package com.doubleclick.marktinhome.Views.coor;
+package com.doubleclick.marktinhome.Views.coordinatorbehavior;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.doubleclick.marktinhome.R;
 
+/**
+ * Created by FarshidAbz.
+ * Since 3/2/2017.
+ */
 
 public class ImageBehavior extends CoordinatorLayout.Behavior {
     private final Context context;
