@@ -187,4 +187,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
     implementation 'com.ernestoyaquello.dragdropswiperecyclerview:drag-drop-swipe-recyclerview:1.1.0'
+
+    api 'com.otaliastudios:cameraview:2.7.2'
 }

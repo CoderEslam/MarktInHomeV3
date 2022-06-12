@@ -3,18 +3,10 @@ package com.doubleclick.marktinhome.Views.bubbles;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.Gravity;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.doubleclick.marktinhome.Model.Chat;
 import com.doubleclick.marktinhome.R;
 
@@ -55,19 +47,18 @@ public class SimpleService extends FloatingBubbleService {
     @Override
     protected FloatingBubbleConfig getConfig() {
         Context context = getApplicationContext();
-        Log.e("Chhhhhhhtaaaaas",intent.getSerializableExtra("chats").toString());
         return new FloatingBubbleConfig.Builder()
                 .bubbleIcon(intent.getStringExtra("image"))
                 .removeBubbleIcon(ContextCompat.getDrawable(context, R.drawable.close_default_icon))
-                .bubbleIconDp(54)
-                .expandableView(getInflater().inflate(R.layout.sample_view, null,false))
+                .bubbleIconDp(70)
+                .expandableView(getInflater().inflate(R.layout.floating_chat_view, null,false))
                 .removeBubbleIconDp(54)
                 .setArrayListChat((ArrayList<Chat>) intent.getSerializableExtra("chats"))
                 .paddingDp(4)
                 .borderRadiusDp(0)
                 .expandableColor(Color.WHITE)
                 .triangleColor(0xFF215A64)
-                .gravity(Gravity.LEFT)
+                .gravity(Gravity.CENTER)
                 .physicsEnabled(true)
                 .moveBubbleOnTouch(false)
                 .touchClickTime(100)

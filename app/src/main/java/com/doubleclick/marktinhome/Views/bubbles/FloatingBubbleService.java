@@ -14,17 +14,21 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,8 +36,11 @@ import com.doubleclick.OnMessageClick;
 import com.doubleclick.marktinhome.Adapters.BaseMessageAdapter;
 import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.BaseFragment;
+import com.doubleclick.marktinhome.Database.ChatDatabase.ChatViewModelDatabase;
 import com.doubleclick.marktinhome.Model.Chat;
 import com.doubleclick.marktinhome.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FloatingBubbleService extends Service {
 
@@ -63,6 +70,10 @@ public class FloatingBubbleService extends Service {
     private FloatingBubbleConfig config;
     private FloatingBubblePhysics physics;
     private FloatingBubbleTouch touch;
+    private ConstraintLayout continer_attacht;
+    private CircleImageView profile_image;
+    private TextView username, status;
+    private ImageView option;
 
     @Override
     public void onCreate() {
@@ -168,7 +179,7 @@ public class FloatingBubbleService extends Service {
         // Setting up the Expandable View setup
         expandableParams = getDefaultWindowParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT);
+                WindowManager.LayoutParams.WRAP_CONTENT);
         expandableParams.height = windowSize.y - iconSize - bottomMargin;
         expandableParams.gravity = Gravity.TOP | Gravity.START;
         expandableView.setVisibility(View.GONE);
@@ -217,7 +228,25 @@ public class FloatingBubbleService extends Service {
             container.setVisibility(View.VISIBLE);
             card.setVisibility(View.VISIBLE);
             RecyclerView recyclerView = config.getExpandableView().findViewById(R.id.chatRecycler);
-//            Log.e("CHATSSSS", config.getChats().toString());
+            profile_image = config.getExpandableView().findViewById(R.id.profile_image);
+            option = config.getExpandableView().findViewById(R.id.option);
+            username = config.getExpandableView().findViewById(R.id.username);
+            status = config.getExpandableView().findViewById(R.id.status);
+            Glide.with(getContext()).load(config.getBubbleIcon()).into(profile_image);
+            option.setOnClickListener(v -> {
+                PopupMenu pupMenu = new PopupMenu(getContext(), v);
+                pupMenu.getMenuInflater().inflate(R.menu.delete_all_chat, pupMenu.getMenu());
+                pupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.delete_all) {
+                            Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
+                        }
+                        return true;
+                    }
+                });
+                pupMenu.show();
+            });
             recyclerView.setAdapter(new BaseMessageAdapter(config.getChats(), null, BaseFragment.myId));
             container.setBackgroundColor(config.getExpandableColor());
             container.removeAllViews();
