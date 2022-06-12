@@ -1,13 +1,12 @@
 package com.doubleclick.marktinhome.ui.MainScreen.Chat
 
-import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.navigation.findNavController
-import com.doubleclick.marktinhome.Model.User
+import androidx.appcompat.app.AppCompatActivity
 import com.doubleclick.marktinhome.R
+import com.doubleclick.marktinhome.Views.bubbles.FloatingBubblePermissions
+import com.doubleclick.marktinhome.Views.bubbles.SimpleService
 
 class ChatActivity : AppCompatActivity() {
 

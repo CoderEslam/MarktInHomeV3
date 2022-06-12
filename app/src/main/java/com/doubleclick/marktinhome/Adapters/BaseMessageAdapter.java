@@ -19,6 +19,7 @@ import com.doubleclick.ViewHolder.LocationViewHolder;
 import com.doubleclick.ViewHolder.MessageTextViewHolder;
 import com.doubleclick.ViewHolder.VideoViewHolder;
 import com.doubleclick.ViewHolder.VoiceViewHolder;
+import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.Model.Chat;
 import com.doubleclick.marktinhome.Model.Constantes;
 import com.doubleclick.marktinhome.R;

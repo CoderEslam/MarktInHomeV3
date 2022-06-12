@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/black"
+        app:cardCornerRadius="50dp">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/bubble_background"
+            android:layout_width="40dp"
+            android:adjustViewBounds="true"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/person" />
+
+        <ImageView
+            android:id="@+id/bubble_expansion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@android:drawable/ic_menu_edit"
+            android:visibility="gone" />
+    </androidx.cardview.widget.CardView>
+
+    <FrameLayout
+        android:id="@+id/notification_view"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/notification_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/rounded_notification_background" />
+
+        <TextView
+            android:id="@+id/counter_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="11sp" />
+    </FrameLayout>
+</FrameLayout>

@@ -177,4 +177,11 @@
 
     <bool name="is_right_to_left">false</bool>
     <string name="left">LEFT</string>
+
+    <string name="remove_bubble_description">Remove Floating Bubble</string>
+    <string name="floating_bubble_description">Floating Bubble</string>
+    <string name="text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth siddharth </string>
+    <string name="small_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth </string>
+    <string name="smaller_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth  </string>
+    <string name="tiny_text_placeholder" translatable="false">siddharth siddharth </string>
 </resources>

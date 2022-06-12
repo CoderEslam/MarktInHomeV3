@@ -58,7 +58,9 @@ public class MessageTextViewHolder extends BaseViewHolder {
         }
 
         cardReply.setOnClickListener(v -> {
-            onMessageClick.replyIndex(chat, postion);
+            if (onMessageClick != null) {
+                onMessageClick.replyIndex(chat, postion);
+            }
         });
         textTime.setText(new SimpleDateFormat("M/d/yy, h:mm a").format(chat.getDate()).toString());
         if (chat.getReceiver().equals(myId)) {
@@ -67,33 +69,36 @@ public class MessageTextViewHolder extends BaseViewHolder {
             seen.setImageDrawable(chat.isSeen() ? itemView.getContext().getResources().getDrawable(R.drawable.done_all) : itemView.getContext().getResources().getDrawable(R.drawable.done));
         }
         itemView.setOnClickListener(v -> {
-            PopupMenu popupMenu = new PopupMenu(itemView.getContext(), v);
-            popupMenu.getMenuInflater().inflate(R.menu.text_chat_option, popupMenu.getMenu());
-            popupMenu.getMenu().findItem(R.id.open).setVisible(false);
-            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.deleteForme) {
-                        onMessageClick.deleteForMe(chat, postion);
-                        return true;
-                    } else if (item.getItemId() == R.id.deleteforeveryone) {
-                        if (BaseApplication.isNetworkConnected()) {
-                            onMessageClick.deleteForAll(chat, postion);
+            if (onMessageClick != null) {
+                PopupMenu popupMenu = new PopupMenu(itemView.getContext(), v);
+                popupMenu.getMenuInflater().inflate(R.menu.text_chat_option, popupMenu.getMenu());
+                popupMenu.getMenu().findItem(R.id.open).setVisible(false);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.deleteForme) {
+                            onMessageClick.deleteForMe(chat, postion);
+                            return true;
+                        } else if (item.getItemId() == R.id.deleteforeveryone) {
+                            if (BaseApplication.isNetworkConnected()) {
+                                onMessageClick.deleteForAll(chat, postion);
+                            } else {
+                                Toast.makeText(itemView.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                            }
+                            return true;
+                        } else if (item.getItemId() == R.id.copy) {
+                            ClipboardManager clipboardManager = (ClipboardManager) itemView.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                            clipboardManager.setText(textMessage.getText());
+                            Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.text_copied), Toast.LENGTH_SHORT).show();
+                            return true;
                         } else {
-                            Toast.makeText(itemView.getContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                            return false;
                         }
-                        return true;
-                    } else if (item.getItemId() == R.id.copy) {
-                        ClipboardManager clipboardManager = (ClipboardManager) itemView.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        clipboardManager.setText(textMessage.getText());
-                        Toast.makeText(itemView.getContext(), itemView.getResources().getString(R.string.text_copied), Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else {
-                        return false;
                     }
-                }
-            });
-            popupMenu.show();
+                });
+                popupMenu.show();
+            }
+
         });
     }
 }

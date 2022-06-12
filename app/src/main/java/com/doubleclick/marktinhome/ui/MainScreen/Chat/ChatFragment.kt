@@ -30,12 +30,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import androidx.databinding.adapters.ViewGroupBindingAdapter.setListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.ServiceUtils.startService
 import com.bumptech.glide.Glide
 import com.devlomi.record_view.OnRecordListener
 import com.devlomi.record_view.RecordButton
@@ -61,6 +60,8 @@ import com.doubleclick.marktinhome.Repository.ChatReopsitory
 import com.doubleclick.marktinhome.Views.audio_record_view.AttachmentOption
 import com.doubleclick.marktinhome.Views.audio_record_view.AttachmentOptionsListener
 import com.doubleclick.marktinhome.Views.audio_record_view.AudioRecordView
+import com.doubleclick.marktinhome.Views.bubbles.FloatingBubblePermissions
+import com.doubleclick.marktinhome.Views.bubbles.SimpleService
 import com.doubleclick.marktinhome.Views.swipetoreply.ISwipeControllerActions
 import com.doubleclick.marktinhome.Views.swipetoreply.SwipeController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -235,7 +236,13 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             sendRecord.visibility = View.GONE
             sendText.visibility = View.VISIBLE
         }
-
+        FloatingBubblePermissions.startPermissionRequest(requireActivity())
+        profile_image.setOnClickListener {
+            val intent = Intent(requireContext(), SimpleService::class.java);
+            intent.putExtra("image", user!!.image);
+            intent.putExtra("chats", chats)
+            requireActivity().startService(intent)
+        }
         sendText.setOnClickListener {
             sentMessage(et_text_message.text.toString().trim(), "text")
         }
@@ -277,7 +284,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
 
         chatViewModel.deleteMessageRemotly().observe(viewLifecycleOwner) {
             try {
-
                 val c = it;
                 c!!.message = "this message deleted";
                 c.type = "text"
