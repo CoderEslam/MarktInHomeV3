@@ -12,6 +12,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -23,10 +26,17 @@ import android.widget.ImageView;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.Person;
+import androidx.core.graphics.drawable.IconCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.doubleclick.Servies.NotificationReceiver;
+import com.doubleclick.marktinhome.BaseApplication;
 import com.doubleclick.marktinhome.Model.Token;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.ui.MainScreen.Chat.ChatActivity;
@@ -38,11 +48,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class MyFirebaseMessaging extends FirebaseMessagingService {
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -57,8 +69,9 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         if (firebaseUser != null && sent.equals(firebaseUser.getUid())) {
             if (!currentUser.equals(user)) {
+                sendNotification(remoteMessage);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    sendOreoNotification(remoteMessage);
+//                    sendOreoNotification(remoteMessage);
                 } else {
                     sendNotification(remoteMessage);
                 }
@@ -120,6 +133,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     private void sendNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
@@ -128,21 +142,54 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         int j = Integer.parseInt(user.replaceAll("[\\D]", ""));
         Intent intent = new Intent(this, ChatActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("userId", user);
-//        intent.putExtras(bundle);
         intent.putExtra("userId", user);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        Notification.BubbleMetadata bubbleData = new Notification.BubbleMetadata.Builder()
+                .setIcon(Icon.createWithResource(context, R.drawable.cart))
+                .setDesiredHeight(600)
+                .setIntent(pendingIntent)
+                .setAutoExpandBubble(true)
+                .setSuppressNotification(true)
+                .build();
+
+        Person chatPartner = new Person.Builder()
+                .setName("Chat partner")
+                .setImportant(true)
+                .build();
+
+        // Create sharing shortcut
+        String shortcutId = "Market";
+        String CATEGORY_TEXT_SHARE_TARGET = "com.example.category.IMG_SHARE_TARGET";
+        ShortcutInfo shortcut = new ShortcutInfo.Builder(context, shortcutId)
+                .setCategories(Collections.singleton(CATEGORY_TEXT_SHARE_TARGET))
+                .setIntent(new Intent(Intent.ACTION_DEFAULT))
+                .setLongLived(true)
+                .setShortLabel(chatPartner.getName())
+                .build();
+
+        // Create notification, referencing the sharing shortcut
+        Notification.Builder builder1 = new Notification.Builder(context, CHANNEL_ID)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.cart)
+                .setBubbleMetadata(bubbleData)
+                .setShortcutId(shortcutId)
+                .addPerson(String.valueOf(chatPartner));
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(Integer.parseInt(icon))
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(defaultSound)
                 .setContentIntent(pendingIntent);
+
         NotificationManager noti = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         int i = 0;
@@ -166,7 +213,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        String refreshToken = FirebaseInstanceId.getInstance().getToken();
         if (firebaseUser != null) {
             updateToken(s);
         }

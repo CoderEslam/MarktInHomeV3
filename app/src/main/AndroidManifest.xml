@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.doubleclick.marktinhome">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -104,7 +105,11 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainScreen.Chat.ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:allowEmbedded="true"
+            android:resizeableActivity="true"
+            android:documentLaunchMode="always"
+            tools:targetApi="n" />
         <activity
             android:name=".ui.MainScreen.Comments.CommentsActivity"
             android:exported="false" />
