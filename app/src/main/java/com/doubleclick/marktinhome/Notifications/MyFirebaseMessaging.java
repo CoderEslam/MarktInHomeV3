@@ -69,9 +69,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         if (firebaseUser != null && sent.equals(firebaseUser.getUid())) {
             if (!currentUser.equals(user)) {
-                sendNotification(remoteMessage);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    sendOreoNotification(remoteMessage);
+                    sendOreoNotification(remoteMessage);
                 } else {
                     sendNotification(remoteMessage);
                 }
@@ -87,16 +86,13 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String body = remoteMessage.getData().get("body");
 
         RemoteViews collapsedView = new RemoteViews(getPackageName(), R.layout.notification_collapsed);
-        View view = LayoutInflater.from(context).inflate(R.layout.notification_expanded, null, false);
         RemoteViews expandedView = new RemoteViews(getPackageName(), R.layout.notification_expanded);
-        ImageView imageView = view.findViewById(R.id.image_view_expanded);
 
         Intent clickIntent = new Intent(this, NotificationReceiver.class);
         PendingIntent clickPendingIntent = PendingIntent.getBroadcast(this, 0, clickIntent, 0);
 
         collapsedView.setTextViewText(R.id.text_view_collapsed_1, body);
         Log.e("Icon", icon);
-//        Glide.with(context).load(icon).into(imageView);
 
         expandedView.setImageViewResource(R.id.image_view_expanded, R.drawable.icon_app);
         expandedView.setOnClickPendingIntent(R.id.image_view_expanded, clickPendingIntent);
@@ -183,7 +179,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(Integer.parseInt(icon))
+                .setSmallIcon(R.drawable.cart)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
