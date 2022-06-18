@@ -23,12 +23,12 @@ import com.doubleclick.marktinhome.Model.Product
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.myId
 import com.doubleclick.marktinhome.Repository.BaseRepository.reference
+import com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup
+import com.doubleclick.marktinhome.Views.togglebuttongroup.button.CircularToggle
 import com.doubleclick.marktinhome.Views.viewmoretextview.ViewMoreTextView
 import com.doubleclick.marktinhome.ui.MainScreen.Comments.CommentsActivity
 import com.github.anastr.speedviewlib.AwesomeSpeedometer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
-import com.nex3z.togglebuttongroup.button.CircularToggle
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView

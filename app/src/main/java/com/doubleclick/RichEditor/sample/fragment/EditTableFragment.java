@@ -43,8 +43,7 @@ public class EditTableFragment extends Fragment {
     }
 
     void onClickBack() {
-        assert getFragmentManager() != null;
-        getFragmentManager().beginTransaction().remove(this).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     void onClickOK() {

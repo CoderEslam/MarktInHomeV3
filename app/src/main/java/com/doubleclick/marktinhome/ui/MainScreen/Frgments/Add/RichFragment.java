@@ -1,6 +1,8 @@
 package com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add;
 
 import static com.doubleclick.marktinhome.Model.Constantes.PRODUCT;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -56,6 +58,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -96,6 +99,7 @@ public class RichFragment extends BaseFragment {
             iv_action_table;
     private WebView webView;
     private FrameLayout rootFrame;
+    private BottomSheetBehavior bottomSheetBehavior;
     private boolean isKeyboardShowing;
     private String htmlContent = "<p>" + "type here....." + "</p>";
     private RichEditorAction mRichEditorAction;
@@ -106,6 +110,7 @@ public class RichFragment extends BaseFragment {
     private ArrayList<String> downloadUri = new ArrayList<>();
     private FloatingActionButton upload;
     private String HTMLText = "";
+    private ImageView openbottomSheet;
 
 
     private String begin = "<!DOCTYPE html>\n" +

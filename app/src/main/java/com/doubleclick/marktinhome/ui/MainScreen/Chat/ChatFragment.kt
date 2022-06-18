@@ -798,7 +798,6 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
     }
 
     fun sendFileData(uri: Uri) {
-        val uploadTask: StorageTask<*>
         val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Uploading")
         progressDialog.show()
@@ -843,7 +842,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                         //Chat{id='-N30jeKZgiyyHFSSKP6H1653591678996', message='https://firebasestorage.googleapis.com/v0/b/marketinhome-99d25.appspot.com/o/ChatData%2FFiles%2F1653591666788.mp4?alt=media&token=bca7773d-f434-48ee-8a1f-e273593906ca', type='video', sender='WoWDlmZx7lUwRr9ZD2LAkHRwkoi1', receiver='FkyB9ppQAlQcPQZ3F8tN24kLzbg1', date=1653591678996, StatusMessage='Uploaded', seen=false, uri='content://com.android.providers.media.documents/document/video%3A380701'}
                         Log.e("FileSent", chat.toString());
                         chatViewModelDatabase.insert(chat);
-                        upload(id, map);
+                         upload(id, map);
                         progressDialog.dismiss()
                         makeChatList()
                         sendNotifiaction(fileType.toString())

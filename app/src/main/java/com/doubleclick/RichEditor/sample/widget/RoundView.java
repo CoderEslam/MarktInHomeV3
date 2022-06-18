@@ -40,7 +40,8 @@ public class RoundView extends View {
         mPaint.setStrokeWidth(4);
     }
 
-    @Override protected void onDraw(Canvas canvas) {
+    @Override
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         int width = canvas.getWidth();
@@ -52,8 +53,7 @@ public class RoundView extends View {
         if (isSelected) {
             mPaint.setColor(Color.WHITE);
             canvas.drawLine(5 * width / 16, height / 2, 7 * width / 16, 5 * height / 8, mPaint);
-            canvas.drawLine(7 * width / 16, 5 * height / 8, 11 * width / 16, 3 * height / 8,
-                mPaint);
+            canvas.drawLine(7 * width / 16, 5 * height / 8, 11 * width / 16, 3 * height / 8, mPaint);
         }
     }
 
@@ -61,17 +61,20 @@ public class RoundView extends View {
         return String.format("#%06X", (0xFFFFFF & backgroundColor));
     }
 
-    @Override public boolean isSelected() {
+    @Override
+    public boolean isSelected() {
         return isSelected;
     }
 
-    @Override public void setSelected(boolean selected) {
+    @Override
+    public void setSelected(boolean selected) {
         isSelected = selected;
 
         invalidate();
     }
 
-    @Override public void setBackgroundColor(int backgroundColor) {
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
         mPaint.setColor(backgroundColor);
         invalidate();

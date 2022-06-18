@@ -155,14 +155,14 @@
                                 android:padding="5dp"
                                 android:src="@drawable/add_circle" />
 
-                            <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+                            <com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup
                                 android:id="@+id/groupSize"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal">
 
 
-                            </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+                            </com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup>
 
                         </LinearLayout>
                     </androidx.core.widget.NestedScrollView>
@@ -221,13 +221,13 @@
                                 android:padding="5dp"
                                 android:src="@drawable/add_circle" />
 
-                            <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+                            <com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup
                                 android:id="@+id/groupColor"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
 
-                            </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+                            </com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup>
 
                         </LinearLayout>
 

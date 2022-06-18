@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class ColorPaletteView extends LinearLayout {
     }
 
     private void init(Context context) {
+
         final View rootView = LayoutInflater.from(context).inflate(R.layout.view_color_palette, this, true);
         llColorContainer = rootView.findViewById(R.id.ll_color_container);
 
@@ -57,6 +59,7 @@ public class ColorPaletteView extends LinearLayout {
         int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10,
                 getResources().getDisplayMetrics());
         for (int i = 0, size = mColorList.size(); i < size; i++) {
+            Log.e("WORKING", "WORKING");
             final RoundView roundView = new RoundView(context);
             LayoutParams params = new LayoutParams(width, width);
             params.setMargins(margin, 0, margin, 0);

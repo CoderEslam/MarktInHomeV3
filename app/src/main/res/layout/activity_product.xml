@@ -348,13 +348,13 @@
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal">
 
-                                <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+                                <com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup
                                     android:id="@+id/toggleSizes"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal">
 
-                                </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+                                </com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup>
                             </LinearLayout>
                         </androidx.core.widget.NestedScrollView>
 
@@ -369,13 +369,13 @@
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal">
 
-                                <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+                                <com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup
                                     android:id="@+id/toggleColors"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal">
 
-                                </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+                                </com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup>
                             </LinearLayout>
                         </androidx.core.widget.NestedScrollView>
 

@@ -71,33 +71,33 @@
     </declare-styleable>
 
 
-      <declare-styleable name="ColorPickerView">
-          <!-- sets a drawable of the palette. the default palette is HSV drawable palette built by HSV (hue, saturation, value) color model. -->
-          <attr name="palette" format="reference" />
-          <!-- sets a drawable of the selector. -->
-          <attr name="selector" format="integer" />
-          <!-- sets a width/height square size of the selector. -->
-          <attr name="selector_size" format="dimension" />
-          <!-- sets an alpha of thr selector. -->
-          <attr name="selector_alpha" format="float" />
-          <!-- sets an alpha of the flag. -->
-          <attr name="flag_alpha" format="float" />
-          <!-- sets a is flip-able or not of the flag. -->
-          <attr name="flag_isFlipAble" format="boolean" />
-          <!-- sets a preference name for persisting and restoring status of the selector and slideBars. -->
-          <attr name="preferenceName" format="string" />
-          <!-- sets a debounce duration of the invoking color listener. -->
-          <attr name="debounceDuration" format="integer" />
-          <!-- set an initial position of the selector using a specific color. This attribute will work with only a default HSV palette. -->
-          <attr name="initialColor" format="color" />
-          <!-- sets the color listener's trigger action mode. -->
-          <attr name="actionMode" format="enum">
-              <!-- trigger the listener always when tapped by a user.  -->
-              <enum name="always" value="0" />
-              <!-- trigger the listener only the last color when user release tapping. -->
-              <enum name="last" value="1" />
-          </attr>
-      </declare-styleable>
+    <declare-styleable name="ColorPickerView">
+        <!-- sets a drawable of the palette. the default palette is HSV drawable palette built by HSV (hue, saturation, value) color model. -->
+        <attr name="palette" format="reference" />
+        <!-- sets a drawable of the selector. -->
+        <attr name="selector" format="integer" />
+        <!-- sets a width/height square size of the selector. -->
+        <attr name="selector_size" format="dimension" />
+        <!-- sets an alpha of thr selector. -->
+        <attr name="selector_alpha" format="float" />
+        <!-- sets an alpha of the flag. -->
+        <attr name="flag_alpha" format="float" />
+        <!-- sets a is flip-able or not of the flag. -->
+        <attr name="flag_isFlipAble" format="boolean" />
+        <!-- sets a preference name for persisting and restoring status of the selector and slideBars. -->
+        <attr name="preferenceName" format="string" />
+        <!-- sets a debounce duration of the invoking color listener. -->
+        <attr name="debounceDuration" format="integer" />
+        <!-- set an initial position of the selector using a specific color. This attribute will work with only a default HSV palette. -->
+        <attr name="initialColor" format="color" />
+        <!-- sets the color listener's trigger action mode. -->
+        <attr name="actionMode" format="enum">
+            <!-- trigger the listener always when tapped by a user.  -->
+            <enum name="always" value="0" />
+            <!-- trigger the listener only the last color when user release tapping. -->
+            <enum name="last" value="1" />
+        </attr>
+    </declare-styleable>
     <declare-styleable name="AlphaSlideBar">
         <!-- sets a customized selector drawable. -->
         <attr name="selector_AlphaSlideBar" format="integer" />
@@ -283,8 +283,40 @@
         <attr name="iss_selected_dot" format="reference" />
         <attr name="iss_unselected_dot" format="reference" />
         <attr name="iss_title_background" format="reference" />
-        <attr name="iss_text_align" format="string"/>
-        <attr name="iss_indicator_align" format="string"/>
+        <attr name="iss_text_align" format="string" />
+        <attr name="iss_indicator_align" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="tbgFlow" format="boolean" />
+        <attr name="tbgChildSpacing" format="enum|dimension">
+            <enum name="auto" value="-65536" />
+        </attr>
+        <attr name="tbgChildSpacingForLastRow" format="enum|dimension">
+            <enum name="auto" value="-65536" />
+            <enum name="align" value="-65537" />
+        </attr>
+        <attr name="tbgRowSpacing" format="enum|dimension">
+            <enum name="auto" value="-65536" />
+        </attr>
+        <attr name="tbgRtl" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ToggleButtonGroup">
+        <attr name="android:checkedButton" />
+        <attr name="tbgCheckedButton" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="MultiSelectToggleGroup">
+        <attr name="tbgMaxSelect" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="MarkerButton">
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="tbgMarkerColor" format="color" />
+        <attr name="tbgRadioStyle" format="boolean" />
     </declare-styleable>
 
 </resources>
