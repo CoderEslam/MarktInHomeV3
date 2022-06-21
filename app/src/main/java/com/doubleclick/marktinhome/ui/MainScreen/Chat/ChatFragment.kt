@@ -207,18 +207,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             username.text = user!!.name;
             status.text = user!!.status;
         }
-        /**
-         * if no internet connection
-         * */
-        if (!isNetworkConnected()) {
-//            userViewModelDatabase.getUserById(userId).observe(viewLifecycleOwner) {
-//                user = it;
-//                Glide.with(requireContext()).load(user!!.image).into(profile_image)
-//                username.text = user!!.name;
-//                status.text = user!!.status;
-//                Log.e("USSSSSSSSSR", it.toString());
-//            }
-        }
+
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true);
         apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService::class.java)
@@ -236,13 +225,15 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
             sendRecord.visibility = View.GONE
             sendText.visibility = View.VISIBLE
         }
-        FloatingBubblePermissions.startPermissionRequest(requireActivity())
+        /**
+         * TODO -> for do bubbles view
+         *FloatingBubblePermissions.startPermissionRequest(requireActivity())
         profile_image.setOnClickListener {
-            val intent = Intent(requireContext(), SimpleService::class.java);
-            intent.putExtra("image", user!!.image);
-            intent.putExtra("chats", chats)
-            requireActivity().startService(intent)
-        }
+        val intent = Intent(requireContext(), SimpleService::class.java);
+        intent.putExtra("image", user!!.image);
+        intent.putExtra("chats", chats)
+        requireActivity().startService(intent)
+        }*/
         sendText.setOnClickListener {
             sentMessage(et_text_message.text.toString().trim(), "text")
         }
@@ -842,7 +833,7 @@ class ChatFragment : BaseFragment(), OnMapReadyCallback, OnMessageClick, ChatReo
                         //Chat{id='-N30jeKZgiyyHFSSKP6H1653591678996', message='https://firebasestorage.googleapis.com/v0/b/marketinhome-99d25.appspot.com/o/ChatData%2FFiles%2F1653591666788.mp4?alt=media&token=bca7773d-f434-48ee-8a1f-e273593906ca', type='video', sender='WoWDlmZx7lUwRr9ZD2LAkHRwkoi1', receiver='FkyB9ppQAlQcPQZ3F8tN24kLzbg1', date=1653591678996, StatusMessage='Uploaded', seen=false, uri='content://com.android.providers.media.documents/document/video%3A380701'}
                         Log.e("FileSent", chat.toString());
                         chatViewModelDatabase.insert(chat);
-                         upload(id, map);
+                        upload(id, map);
                         progressDialog.dismiss()
                         makeChatList()
                         sendNotifiaction(fileType.toString())

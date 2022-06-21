@@ -85,15 +85,15 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
-        RemoteViews collapsedView = new RemoteViews(getPackageName(), R.layout.notification_collapsed);
+        /**
+         *
+         * TODO Notification with expandedView
+         */
+        /*RemoteViews collapsedView = new RemoteViews(getPackageName(), R.layout.notification_collapsed);
         RemoteViews expandedView = new RemoteViews(getPackageName(), R.layout.notification_expanded);
-
         Intent clickIntent = new Intent(this, NotificationReceiver.class);
         PendingIntent clickPendingIntent = PendingIntent.getBroadcast(this, 0, clickIntent, 0);
-
         collapsedView.setTextViewText(R.id.text_view_collapsed_1, body);
-        Log.e("Icon", icon);
-
         expandedView.setImageViewResource(R.id.image_view_expanded, R.drawable.icon_app);
         expandedView.setOnClickPendingIntent(R.id.image_view_expanded, clickPendingIntent);
 
@@ -102,8 +102,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 .setCustomContentView(collapsedView)
                 .setCustomBigContentView(expandedView)
                 .build();
-
         notificationManager.notify(1, n);
+        */
 
 
         RemoteMessage.Notification notification = remoteMessage.getNotification();
@@ -141,42 +141,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         intent.putExtra("userId", user);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Notification.BubbleMetadata bubbleData = new Notification.BubbleMetadata.Builder()
-                .setIcon(Icon.createWithResource(context, R.drawable.cart))
-                .setDesiredHeight(600)
-                .setIntent(pendingIntent)
-                .setAutoExpandBubble(true)
-                .setSuppressNotification(true)
-                .build();
-
-        Person chatPartner = new Person.Builder()
-                .setName("Chat partner")
-                .setImportant(true)
-                .build();
-
-        // Create sharing shortcut
-        String shortcutId = "Market";
-        String CATEGORY_TEXT_SHARE_TARGET = "com.example.category.IMG_SHARE_TARGET";
-        ShortcutInfo shortcut = new ShortcutInfo.Builder(context, shortcutId)
-                .setCategories(Collections.singleton(CATEGORY_TEXT_SHARE_TARGET))
-                .setIntent(new Intent(Intent.ACTION_DEFAULT))
-                .setLongLived(true)
-                .setShortLabel(chatPartner.getName())
-                .build();
-
-        // Create notification, referencing the sharing shortcut
-        Notification.Builder builder1 = new Notification.Builder(context, CHANNEL_ID)
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.cart)
-                .setBubbleMetadata(bubbleData)
-                .setShortcutId(shortcutId)
-                .addPerson(String.valueOf(chatPartner));
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.cart)

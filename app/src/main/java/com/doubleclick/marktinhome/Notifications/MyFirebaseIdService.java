@@ -23,18 +23,6 @@ import java.util.Objects;
 
 public class MyFirebaseIdService extends FirebaseMessagingService {
 
-//    @Override
-//    public void onTokenRefresh() {
-//        super.onTokenRefresh();
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String refreshToken = FirebaseInstanceId.getInstance().getToken();
-//        if (firebaseUser != null){
-//            updateToken(refreshToken);
-//        }
-//    }
-
-
     private void updateToken(String refreshToken) {
         String myId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().toString();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(USER).child(myId);
