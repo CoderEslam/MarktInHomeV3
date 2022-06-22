@@ -53,7 +53,10 @@ public class ForgetFragment extends BaseFragment {
         send_email = view.findViewById(R.id.send_email);
         btn_reset = view.findViewById(R.id.btn_reset);
         mainFragment = getActivity().findViewById(R.id.mainLoginFragment);
-        ResetEmail(send_email.getText().toString());
+        btn_reset.setOnClickListener(view1 -> {
+            ResetEmail(send_email.getText().toString());
+        });
+
         return view;
     }
 

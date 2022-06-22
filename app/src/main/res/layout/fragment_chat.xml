@@ -37,35 +37,35 @@
                         android:id="@+id/profile_image"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/image"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/image" />
 
                     <TextView
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@string/user_name"
                         android:textColor="#fff"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/profile_image"
-                        app:layout_constraintTop_toTopOf="@+id/profile_image" />
+                        app:layout_constraintTop_toTopOf="@+id/profile_image"
+                        tools:text="@string/user_name" />
 
                     <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/offline"
                         android:textColor="#fff"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
                         app:layout_constraintEnd_toEndOf="@+id/username"
                         app:layout_constraintStart_toStartOf="@+id/username"
-                        app:layout_constraintTop_toBottomOf="@+id/username" />
+                        app:layout_constraintTop_toBottomOf="@+id/username"
+                        tools:text="@string/offline" />
 
                     <ImageView
                         android:id="@+id/option"
@@ -98,7 +98,6 @@
             tools:listitem="@layout/right_chat" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/layoutReply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,6 +105,7 @@
             android:layout_marginEnd="50dp"
             android:background="@drawable/bg_text_chat"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/chatRecycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

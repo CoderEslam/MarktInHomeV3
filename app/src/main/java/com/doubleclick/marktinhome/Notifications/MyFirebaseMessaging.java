@@ -129,7 +129,6 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     private void sendNotification(RemoteMessage remoteMessage) {
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");

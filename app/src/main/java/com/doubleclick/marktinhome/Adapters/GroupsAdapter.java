@@ -106,6 +106,8 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupViewH
                 });
                 popupMenu.show();
             });
+        } else {
+            holder.option.setVisibility(View.GONE);
         }
 
         if (postsData.get(holder.getAdapterPosition()).getPostsGroup().getType().equals("image")) {

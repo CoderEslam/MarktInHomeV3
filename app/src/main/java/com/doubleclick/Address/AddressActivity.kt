@@ -50,7 +50,7 @@ class AddressActivity : AppCompatActivity(), OnMapReadyCallback {
     var client: FusedLocationProviderClient? = null
     var googleMap: GoogleMap? = null
     var mLocationRequest: LocationRequest? = null
-    var uri: String? = null
+    private lateinit var uri: String
     lateinit var myLocation: SwitchCompat
     private lateinit var apiService: APIService
     private lateinit var reference: DatabaseReference
@@ -117,19 +117,23 @@ class AddressActivity : AppCompatActivity(), OnMapReadyCallback {
             map["name"] = name
             map["date"] = time
             map["toggleItem"] = carts[i].toggleItem
-            if (myLocation.isChecked) {
-                if (uri.toString() != "") {
-                    map["locationUri"] = uri!!
+            try {
+                if (myLocation.isChecked) {
+                    if (uri.toString() != "") {
+                        map["locationUri"] = uri!!
+                        sendNotifiaction(this, carts[i].sellerId, carts[i].productName);
+                        reference.child(ORDERS).child(id).updateChildren(map)
+                        reference.child(CART).child(carts[i].id).removeValue()
+                    } else {
+                        Toast.makeText(this, "Open your location", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
                     sendNotifiaction(this, carts[i].sellerId, carts[i].productName);
                     reference.child(ORDERS).child(id).updateChildren(map)
                     reference.child(CART).child(carts[i].id).removeValue()
-                } else {
-                    Toast.makeText(this, "Open your location", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                sendNotifiaction(this, carts[i].sellerId, carts[i].productName);
-                reference.child(ORDERS).child(id).updateChildren(map)
-                reference.child(CART).child(carts[i].id).removeValue()
+            } catch (e: Exception) {
+
             }
 
 

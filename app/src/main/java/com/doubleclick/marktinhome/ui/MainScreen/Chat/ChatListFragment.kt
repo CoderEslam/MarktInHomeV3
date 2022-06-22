@@ -83,7 +83,7 @@ class ChatListFragment : BaseFragment(), UserInter {
         }
 
         chatListViewModelDatabase.limitation.observe(viewLifecycleOwner) {
-            Log.e("Limitation", it.toString())
+
         }
         ////////////////////////////////////////////////////////////////////////////////////////
         /**

@@ -68,6 +68,13 @@ public class LoginFragment extends BaseFragment {
                 e.printStackTrace();
             }
         });
+        view.findViewById(R.id.forgetpass).setOnClickListener(view1 -> {
+            try {
+                StartFragment(mainFragment.getId(), new ForgetFragment());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         login.setOnClickListener(v -> {
             LogIn(Objects.requireNonNull(email.getText()).toString(), Objects.requireNonNull(password.getText()).toString());
@@ -78,30 +85,30 @@ public class LoginFragment extends BaseFragment {
 
     private void LogIn(String email, String password) {
         if (isAllInserted())
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Intent intent = new Intent(getContext(),MainScreenActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    requireActivity().finish();
-                    startActivity(intent);
-                    loadingAnimView.setVisibility(View.GONE);
-                } else {
-                    ShowToast( Objects.requireNonNull(task.getException()).getMessage());
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(getContext(), MainScreenActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        requireActivity().finish();
+                        startActivity(intent);
+                        loadingAnimView.setVisibility(View.GONE);
+                    } else {
+                        ShowToast(Objects.requireNonNull(task.getException()).getMessage());
+                    }
                 }
-            }
-        });
+            });
 
     }
 
     private boolean isAllInserted() {
         if (password.getText().toString().equals("")) {
-            ShowToast( "insert password");
+            ShowToast("insert password");
             return false;
         }
         if (email.getText().toString().equals("")) {
-            ShowToast( "insert email");
+            ShowToast("insert email");
             return false;
         }
         return true;

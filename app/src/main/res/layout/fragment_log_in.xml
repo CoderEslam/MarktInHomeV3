@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Login.LoginFragment"
-    android:background="#F6F6F6">
+    android:background="@color/offwhite"
+    tools:context=".ui.Login.LoginFragment">
 
     <ImageView
         android:layout_width="match_parent"
@@ -43,6 +43,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/login"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -101,12 +102,13 @@
 
 
             <TextView
-                android:padding="5dp"
+                android:id="@+id/forgetpass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:padding="5dp"
                 android:text="@string/froget_password"
-                android:textColor="#797979"
+                android:textColor="@color/gray"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -177,11 +179,11 @@
 
 
     <com.airbnb.lottie.LottieAnimationView
-        android:visibility="gone"
         android:id="@+id/loadingAnimView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:elevation="2dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
