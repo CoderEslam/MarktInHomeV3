@@ -181,4 +181,7 @@ dependencies {
     implementation 'com.ernestoyaquello.dragdropswiperecyclerview:drag-drop-swipe-recyclerview:1.1.0'
 
     api 'com.otaliastudios:cameraview:2.7.2'
+    // for shine button
+    implementation 'com.daasuu:EasingInterpolator:1.3.0'
+
 }

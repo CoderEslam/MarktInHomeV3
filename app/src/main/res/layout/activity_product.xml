@@ -59,6 +59,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
 
+                    <com.doubleclick.marktinhome.Views.shinebuttonlib.ShineButton
+                        android:id="@+id/favorite"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:elevation="10dp"
+                        app:btn_color="@android:color/darker_gray"
+                        app:btn_fill_color="@color/red"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:siShape="@raw/heart" />
+
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/banner_slier_view_pager"
                         android:layout_width="match_parent"

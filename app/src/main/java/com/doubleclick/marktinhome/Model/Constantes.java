@@ -23,6 +23,7 @@ public class Constantes {
     public static final String GROUPS = "Groups";
     public static final String POSTS = "Posts";
     public static final String LIKES = "Likes";
+    public static final String FAVORITE = "Favorite";
     public static final String LIKES_ON_COMMENTS = "LikesOnComments";
     public static final String REPLY_ON_COMMENTS = "ReplyOnComments";
     public static final int TEXT_RIGHT = 10;

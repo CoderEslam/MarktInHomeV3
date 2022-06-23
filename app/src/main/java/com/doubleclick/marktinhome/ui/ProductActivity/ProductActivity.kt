@@ -15,23 +15,33 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
+import com.doubleclick.ViewModel.FavoriteViewModel
 import com.doubleclick.ViewModel.RateViewModel
 import com.doubleclick.marktinhome.Adapters.ProductSliderAdapter
 import com.doubleclick.marktinhome.BaseApplication.ShowToast
 import com.doubleclick.marktinhome.Model.Constantes
+import com.doubleclick.marktinhome.Model.Constantes.FAVORITE
+import com.doubleclick.marktinhome.Model.Favorite
 import com.doubleclick.marktinhome.Model.Product
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.myId
 import com.doubleclick.marktinhome.Repository.BaseRepository.reference
+import com.doubleclick.marktinhome.Views.shinebuttonlib.ShineButton
 import com.doubleclick.marktinhome.Views.togglebuttongroup.SingleSelectToggleGroup
 import com.doubleclick.marktinhome.Views.togglebuttongroup.button.CircularToggle
 import com.doubleclick.marktinhome.Views.viewmoretextview.ViewMoreTextView
 import com.doubleclick.marktinhome.ui.MainScreen.Comments.CommentsActivity
 import com.github.anastr.speedviewlib.AwesomeSpeedometer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class productActivity : AppCompatActivity() {
 
@@ -60,6 +70,8 @@ class productActivity : AppCompatActivity() {
     private lateinit var speedView: AwesomeSpeedometer
     private lateinit var nestedScrollColor: NestedScrollView
     private lateinit var nestedScrollSize: NestedScrollView
+    private lateinit var favorite: ShineButton;
+    private lateinit var favoriteViewModel: FavoriteViewModel;
 
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -79,6 +91,7 @@ class productActivity : AppCompatActivity() {
         lastPrice = findViewById(R.id.lastPrice)
         TotalRating = findViewById(R.id.TotalRating)
         yourRate = findViewById(R.id.yourRate);
+        favorite = findViewById(R.id.favorite);
         comments = findViewById(R.id.comments);
         speedView = findViewById(R.id.speedView);
         toggleColors = findViewById(R.id.toggleColors);
@@ -89,6 +102,7 @@ class productActivity : AppCompatActivity() {
         toggleSizes = findViewById(R.id.toggleSizes)
         ratingSeller = findViewById(R.id.ratingSeller)
         pieChartView = findViewById(R.id.pieChartView);
+        favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
         product = intent.getParcelableExtra("product")!!
         Log.e("productproducts", product.toString());
         productName.text = product.productName
@@ -102,6 +116,21 @@ class productActivity : AppCompatActivity() {
             "utf-8",
             null
         );
+
+        favorite.setOnCheckStateChangeListener { view, checked ->
+            if (checked) {
+                val map: HashMap<String, Any> = HashMap<String, Any>();
+                map["id"] = product.productId;
+                reference.child(FAVORITE).child(myId).child(product.productId).updateChildren(map);
+            } else {
+                reference.child(FAVORITE).child(myId).child(product.productId).removeValue();
+            }
+        }
+
+        favoriteViewModel.isFavorite(product.productId).observe(this) {
+            favorite.setChecked(it, it);
+            favorite.setBtnFillColor(resources.getColor(R.color.red));
+        }
 
         productName.setAnimationDuration(500)
             .setEllipsizedText("View More")

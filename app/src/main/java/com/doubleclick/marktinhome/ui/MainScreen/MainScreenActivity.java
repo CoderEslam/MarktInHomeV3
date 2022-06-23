@@ -32,11 +32,13 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.util.view.SearchInputView;
 import com.bumptech.glide.Glide;
+import com.doubleclick.ViewModel.FavoriteViewModel;
 import com.doubleclick.ViewModel.ProductViewModel;
 import com.doubleclick.ViewModel.UserViewModel;
 import com.doubleclick.marktinhome.Adapters.NavAdapter;
@@ -47,6 +49,7 @@ import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.SmoothButtom.OnItemSelectedListener;
 import com.doubleclick.marktinhome.Views.SmoothButtom.SmoothBottomBar;
 import com.doubleclick.marktinhome.ui.Filter.FilterActivity;
+import com.doubleclick.marktinhome.ui.MainScreen.Favorite.FavoriteActivity;
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.HomeFragment;
 import com.doubleclick.marktinhome.ui.MainScreen.Groups.GroupsActivity;
 import com.doubleclick.marktinhome.ui.MainScreen.Parents.ParentActivity;
@@ -68,7 +71,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
     private ProductViewModel productViewModel;
     private EditText search;
     private FlowingDrawer drawerLayout;
-    private ImageView openDrawer;
+    private ImageView openDrawer, favorite;
     private UserViewModel userViewModel;
     private CircleImageView myImage;
     private View main_fragment;
@@ -77,6 +80,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
     private String type;
     private SwipeRefreshLayout refreshCategorical;
     private NavAdapter catecoriesAdapter;
+    private TextView count;
+    private FavoriteViewModel favoriteViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         menu_recycler_view = findViewById(R.id.menu_recycler_view);
         search = findViewById(R.id.search);
         bottomBar = findViewById(R.id.bottomBar);
+        favorite = findViewById(R.id.favorite);
+        count = findViewById(R.id.count);
         refreshCategorical = findViewById(R.id.refreshCategorical);
         refreshCategorical.setOnRefreshListener(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -98,6 +105,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         myImage = findViewById(R.id.myImage);
         drawerLayout.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         setupSmoothBottomMenu();
         loadCategorical();
         userViewModel.getUser().observe(this, new Observer<User>() {
@@ -112,6 +120,17 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         openDrawer.setOnClickListener(v -> {
             drawerLayout.openMenu(true);
+        });
+
+        favoriteViewModel.getCount().observe(this, new Observer<Long>() {
+            @Override
+            public void onChanged(Long c) {
+                count.setText(String.format("%d", c));
+            }
+        });
+
+        favorite.setOnClickListener(view -> {
+            startActivity(new Intent(this, FavoriteActivity.class));
         });
         search.setOnKeyListener((v, keyCode, event) -> {
             if (search.getText().toString().contains("https://www.market.doubleclick.com/product/")) {

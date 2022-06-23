@@ -30,6 +30,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/heart"
+                app:layout_constraintBottom_toBottomOf="@+id/myImage"
+                app:layout_constraintEnd_toStartOf="@+id/myImage"
+                app:layout_constraintTop_toTopOf="@+id/myImage" />
+
+            <TextView
+                android:id="@+id/count"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/favorite"
+                app:layout_constraintEnd_toStartOf="@+id/myImage"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/favorite"
+                app:layout_constraintTop_toTopOf="@+id/favorite"
+                app:layout_constraintVertical_bias="0.0" />
+
             <EditText
                 android:id="@+id/search"
                 android:layout_width="0dp"
@@ -47,7 +72,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/myImage"
+                app:layout_constraintEnd_toStartOf="@+id/favorite"
                 app:layout_constraintStart_toEndOf="@+id/openDrawer"
                 app:layout_constraintTop_toTopOf="parent" />
 

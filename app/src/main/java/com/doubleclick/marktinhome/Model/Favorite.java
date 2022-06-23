@@ -1,30 +1,27 @@
 package com.doubleclick.marktinhome.Model;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created By Eslam Ghazy on 3/1/2022
  */
 public class Favorite {
 
-    public Favorite() {
+    private String id;
+
+    public String getId() {
+        return id;
     }
 
-    public String getFravoritId() {
-        return FravoritId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setFravoritId(String fravoritId) {
-        FravoritId = fravoritId;
+
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "id='" + id + '\'' +
+                '}';
     }
-
-    public String getProductId() {
-        return ProductId;
-    }
-
-    public void setProductId(String productId) {
-        ProductId = productId;
-    }
-
-    private String FravoritId;
-    private String ProductId;
-
 }
