@@ -617,9 +617,8 @@ public class RichFragment extends BaseFragment {
                                 map.put("childCategoryId", product.getChildCategoryId());
                                 map.put("parentCategoryName", product.getParentCategoryName());
                                 map.put("childCategoryName", product.getChildCategoryName());
-                                map.put("totalRating", 0);
+                                map.put("totalPercentage", "0.0");
                                 map.put("discount", product.getDiscount());
-                                map.put("ratingSeller", product.getRatingSeller());
                                 map.put("images", downloadUri.toString());
                                 map.put("description", begin + HTMLText + end);
                                 map.put("sizes", product.getSizes());

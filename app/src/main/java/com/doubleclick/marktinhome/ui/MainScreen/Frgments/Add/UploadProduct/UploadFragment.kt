@@ -301,7 +301,6 @@ class UploadFragment : BaseFragment(), KeywordAdapter.OnDelete, KeywordBottomShe
             Sizes.toString(),
             colors.toString(),
             colorsName.toString(),
-            rate,
             usedOrnew
         );
         findNavController().navigate(

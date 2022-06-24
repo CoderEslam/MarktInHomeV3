@@ -7,7 +7,6 @@ public class Rate {
 
 
     private String myId;
-    private String productId;
     private String id;
     private String rate;
 
@@ -19,15 +18,6 @@ public class Rate {
     public void setMyId(String myId) {
         this.myId = myId;
     }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
 
     public String getRate() {
         return rate;
@@ -41,7 +31,6 @@ public class Rate {
     public String toString() {
         return "Rate{" +
                 "myId='" + myId + '\'' +
-                ", productId='" + productId + '\'' +
                 ", id='" + id + '\'' +
                 ", rate='" + rate + '\'' +
                 '}';

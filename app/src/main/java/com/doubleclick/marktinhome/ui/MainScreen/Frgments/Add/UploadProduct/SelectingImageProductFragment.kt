@@ -80,7 +80,6 @@ class SelectingImageProductFragment : BaseFragment(), ImageAdapter.deleteImage {
                 product.product.sizes.toString(),
                 product.product.colors.toString(),
                 product.product.colorsName.toString(),
-                product.product.ratingSeller.toFloat(),
                 product.product.type.toString()
             );
             findNavController().navigate(

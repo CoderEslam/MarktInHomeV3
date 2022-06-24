@@ -3,8 +3,10 @@ package com.doubleclick.marktinhome.ui.ProductActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.media.Rating
 import android.os.Build
 import android.os.Bundle
+import android.util.Half.toFloat
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
@@ -20,9 +22,10 @@ import com.doubleclick.ViewModel.RateViewModel
 import com.doubleclick.marktinhome.Adapters.ProductSliderAdapter
 import com.doubleclick.marktinhome.BaseApplication.ShowToast
 import com.doubleclick.marktinhome.Model.Constantes
-import com.doubleclick.marktinhome.Model.Constantes.FAVORITE
+import com.doubleclick.marktinhome.Model.Constantes.*
 import com.doubleclick.marktinhome.Model.Favorite
 import com.doubleclick.marktinhome.Model.Product
+import com.doubleclick.marktinhome.Model.Rate
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.myId
 import com.doubleclick.marktinhome.Repository.BaseRepository.reference
@@ -36,6 +39,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_product.*
+import kotlinx.android.synthetic.main.fragment_upload.*
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView
@@ -51,7 +56,7 @@ class productActivity : AppCompatActivity() {
     private lateinit var trarmark: TextView
     private lateinit var price: TextView
     private lateinit var lastPrice: TextView
-    private lateinit var TotalRating: TextView;
+    private lateinit var totalPercentage: TextView
     private lateinit var yourRate: RatingBar;
     private lateinit var rateViewModel: RateViewModel;
     lateinit var plus: ImageView
@@ -60,8 +65,8 @@ class productActivity : AppCompatActivity() {
     var qNumber: Int = 1
     lateinit var share: ImageView
     lateinit var pieChartView: PieChartView
-    lateinit var ratingSeller: TextView
-    private var ToggleItem: String? = ""
+    private var toggleItemColor: String = ""
+    private var toggleItemSize: String = ""
     lateinit var comments: TextView;
     lateinit var product: Product
     lateinit var toggleSizes: SingleSelectToggleGroup
@@ -89,7 +94,7 @@ class productActivity : AppCompatActivity() {
         price = findViewById(R.id.price)
         webView = findViewById(R.id.webView);
         lastPrice = findViewById(R.id.lastPrice)
-        TotalRating = findViewById(R.id.TotalRating)
+        totalPercentage = findViewById(R.id.totalPercentage);
         yourRate = findViewById(R.id.yourRate);
         favorite = findViewById(R.id.favorite);
         comments = findViewById(R.id.comments);
@@ -100,7 +105,6 @@ class productActivity : AppCompatActivity() {
         mins = findViewById(R.id.mins)
         share = findViewById(R.id.share);
         toggleSizes = findViewById(R.id.toggleSizes)
-        ratingSeller = findViewById(R.id.ratingSeller)
         pieChartView = findViewById(R.id.pieChartView);
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
         product = intent.getParcelableExtra("product")!!
@@ -150,10 +154,10 @@ class productActivity : AppCompatActivity() {
                 circularToggle.text = spliterSizes[i]
                 if (i == 0) {
                     circularToggle.id = 1234567890; /* to chek at first element in toggle*/
-                    ToggleItem = spliterSizes[i];
+                    toggleItemSize = spliterSizes[i];
                 }
                 circularToggle.setOnClickListener {
-                    ToggleItem = spliterSizes[i]
+                    toggleItemSize = spliterSizes[i]
                 }
                 toggleSizes.addView(circularToggle)
                 toggleSizes.check(1234567890)
@@ -177,10 +181,10 @@ class productActivity : AppCompatActivity() {
                 }
                 if (i == 0) {
                     circularToggle.id = 1234567890; /* to chek at first element in toggle*/
-                    ToggleItem = spliterColors[i];
+                    toggleItemColor = spliterColorsName[i]
                 }
                 circularToggle.setOnClickListener {
-                    ToggleItem = spliterColors[i]
+                    toggleItemColor = spliterColorsName[i]
                 }
                 toggleColors.addView(circularToggle)
                 toggleColors.check(1234567890)
@@ -188,9 +192,6 @@ class productActivity : AppCompatActivity() {
         } else {
             nestedScrollColor.visibility = View.GONE
         }
-
-        ratingSeller.text = product.ratingSeller.toInt().toString()
-        speedView.speedTo(product.ratingSeller.toFloat());
         setBannerSliderViewPager(product.images)
         rateViewModel.getMyRate(myId, product.productId)
         rateViewModel.myRateing.observe(this) {
@@ -200,12 +201,8 @@ class productActivity : AppCompatActivity() {
         }
 
         rateViewModel.getAllRate(product.productId)
-
         rateViewModel.allRateing.observe(this) {
-            TotalRating.text = it.size.toString() + " ratings"
-            val map: HashMap<String, Any> = HashMap();
-            map["TotalRating"] = (it.size);
-            reference.child(Constantes.PRODUCT).child(product.productId).updateChildren(map);
+            CalculatRate(it)
             var r1 = 0f;
             var r2 = 0f;
             var r3 = 0f;
@@ -243,8 +240,11 @@ class productActivity : AppCompatActivity() {
             pieChartView.pieChartData = data;
         }
 
+        /**
+         * for order product
+         */
         fab.setOnClickListener {
-            if (qNumber != 0 && !ToggleItem.equals("")) {
+            if (qNumber != 0) {
                 val id = myId + ":" + product.productId
                 val map: HashMap<String, Any> = HashMap();
                 map["productId"] = product.productId;
@@ -257,29 +257,27 @@ class productActivity : AppCompatActivity() {
                 map["productName"] = product.productName;
                 map["lastPrice"] = product.lastPrice
                 map["id"] = id;
-                map["toggleItem"] = ToggleItem!!
-                reference.child(Constantes.CART).child(id).setValue(map);
+                map["toggleItemColor"] = toggleItemColor!!
+                map["toggleItemSize"] = toggleItemSize!!
+                reference.child(CART).child(myId).child(id).setValue(map);
+                ShowToast("check your cart");
             } else {
                 ShowToast("you can't order less than one!");
             }
 
 
         }
-
+        /**
+         * put rate for product
+         * */
         yourRate.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             val id = myId + ":" + product.productId
-            if (rating > 0f) {
-                val map: HashMap<String, Any> = HashMap();
-                map["id"] = id
-                map["rate"] = rating.toString()
-                map["productId"] = product.productId
-                map["myId"] = myId
-                reference.child(Constantes.RATE).child(id).updateChildren(map);
-            }
-            if (rating == 0f) {
-                reference.child(Constantes.RATE).child(id).removeValue();
-
-            }
+            val map: HashMap<String, Any> = HashMap();
+            map["id"] = id
+            map["rate"] = rating.toString()
+            map["myId"] = myId
+            reference.child(RATE).child(product.productId).child(id)
+                .updateChildren(map);
         }
 
         plus.setOnClickListener {
@@ -309,6 +307,28 @@ class productActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    private fun CalculatRate(rate: ArrayList<Rate>) {
+        speedView.maxSpeed = rate.size.toFloat()
+        var count = 0;
+        for (r in rate) {
+            if (r.rate.toFloat() > 2.0f) {
+                count++;
+            }
+        }
+        // for indicate NeedleIndicator to good rating
+        speedView.speedTo(count.toFloat());
+        CaculatePercentageTotalRate(count.toLong(), rate.size.toLong());
+    }
+
+    private fun CaculatePercentageTotalRate(c: Long, all: Long) {
+        val unit: Double = (all / 5.0)
+        val percentage: Double = (c / unit)
+        totalPercentage.text = percentage.toString()
+        val map: HashMap<String, Any> = HashMap();
+        map["totalPercentage"] = percentage.toString();
+        reference.child(PRODUCT).child(product.productId).updateChildren(map);
     }
 
 

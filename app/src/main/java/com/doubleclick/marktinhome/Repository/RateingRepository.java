@@ -12,6 +12,8 @@ import com.doubleclick.marktinhome.Model.Rate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -30,18 +32,22 @@ public class RateingRepository extends BaseRepository {
     }
 
     public void getMyRate(String myId, String productId) {
-        reference.child(RATE).child(myId + ":" + productId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(RATE).child(productId).child(myId + ":" + productId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    if (isNetworkConnected() && task.isComplete() && task.getResult().exists()) {
-                        DataSnapshot dataSnapshot = task.getResult();
-                        Rate rate = dataSnapshot.getValue(Rate.class);
+                    if (isNetworkConnected() && snapshot.exists()) {
+                        Rate rate = snapshot.getValue(Rate.class);
                         rateing.MyRate(rate);
                     }
                 } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -49,28 +55,30 @@ public class RateingRepository extends BaseRepository {
 
 
     public void getAllRate(String productId) {
-        reference.child(RATE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(RATE).child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot dataSnapshot = task.getResult();
-                            rates.clear();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Rate rate = snapshot.getValue(Rate.class);
-                                if (productId.equals(Objects.requireNonNull(rate).getProductId())) {
-                                    rates.add(rate);
-                                }
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                Rate rate = dataSnapshot.getValue(Rate.class);
+                                rates.add(rate);
                             }
+                            rateing.AllRate(rates);
                         }
                     } else {
                         ShowToast("No Internet Connection");
                     }
-                    rateing.AllRate(rates);
+
                 } catch (Exception e) {
                     Log.e("ExceptionRating", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 

@@ -55,6 +55,31 @@
                 app:layout_constraintTop_toTopOf="@+id/favorite"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <ImageView
+                android:id="@+id/myOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/shopping_cart"
+                app:layout_constraintBottom_toBottomOf="@+id/favorite"
+                app:layout_constraintEnd_toStartOf="@+id/favorite"
+                app:layout_constraintTop_toTopOf="@+id/favorite" />
+
+            <TextView
+                android:id="@+id/countOrder"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/circle"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/myOrder"
+                app:layout_constraintEnd_toEndOf="@+id/myOrder"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/myOrder"
+                app:layout_constraintTop_toTopOf="@+id/myOrder"
+                app:layout_constraintVertical_bias="0.0" />
+
             <EditText
                 android:id="@+id/search"
                 android:layout_width="0dp"
@@ -72,7 +97,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/favorite"
+                app:layout_constraintEnd_toStartOf="@+id/myOrder"
                 app:layout_constraintStart_toEndOf="@+id/openDrawer"
                 app:layout_constraintTop_toTopOf="parent" />
 

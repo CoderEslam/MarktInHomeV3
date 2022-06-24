@@ -2,6 +2,7 @@ package com.doubleclick
 
 import com.doubleclick.marktinhome.Model.Cart
 import com.doubleclick.marktinhome.Model.Orders
+import com.doubleclick.marktinhome.Model.OrdersDate
 import com.doubleclick.marktinhome.Model.Rate
 
 /**
@@ -9,7 +10,7 @@ import com.doubleclick.marktinhome.Model.Rate
  */
 interface OnOrder {
 
-    fun OnOKItemOrder(orders: Orders?)
-    fun OnCancelItemOrder(orders: Orders?)
+    fun OnOKItemOrder(orders: OrdersDate?)
+    fun OnCancelItemOrder(orders: OrdersDate?)
 
 }

@@ -54,7 +54,7 @@ public class ProductAdapterSmall extends RecyclerView.Adapter<ProductAdapterSmal
         holder.productPrice.setText(String.format("%s", products.get(position).getPrice()));
         holder.productLastPrice.setText(String.format("%s", products.get(position).getLastPrice()));
         holder.trademark.setText(products.get(position).getTradeMark());
-        holder.ratingBar.setRating(products.get(position).getRatingSeller());
+        holder.ratingBar.setRating(Float.parseFloat(products.get(position).getTotalPercentage()));
         Glide.with(holder.itemView.getContext()).load(products.get(position).getOnlyImage().trim()).into(holder.imageProduct);
 
         holder.itemView.setOnClickListener(v -> {

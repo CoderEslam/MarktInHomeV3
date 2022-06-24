@@ -184,4 +184,6 @@
     <string name="small_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth siddharth </string>
     <string name="smaller_text_placeholder" translatable="false">siddharth siddharth siddharth siddharth  </string>
     <string name="tiny_text_placeholder" translatable="false">siddharth siddharth </string>
+    <string name="color_selected">Color selected:</string>
+    <string name="size_selected">Size selected:</string>
 </resources>

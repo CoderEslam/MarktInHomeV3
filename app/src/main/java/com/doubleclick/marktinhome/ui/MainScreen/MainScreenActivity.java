@@ -39,6 +39,7 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.util.view.SearchInputView;
 import com.bumptech.glide.Glide;
 import com.doubleclick.ViewModel.FavoriteViewModel;
+import com.doubleclick.ViewModel.OrderViewModel;
 import com.doubleclick.ViewModel.ProductViewModel;
 import com.doubleclick.ViewModel.UserViewModel;
 import com.doubleclick.marktinhome.Adapters.NavAdapter;
@@ -46,6 +47,7 @@ import com.doubleclick.marktinhome.Model.ChildCategory;
 import com.doubleclick.marktinhome.Model.ClassificationPC;
 import com.doubleclick.marktinhome.Model.User;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Seller.SellerActivity;
 import com.doubleclick.marktinhome.Views.SmoothButtom.OnItemSelectedListener;
 import com.doubleclick.marktinhome.Views.SmoothButtom.SmoothBottomBar;
 import com.doubleclick.marktinhome.ui.Filter.FilterActivity;
@@ -71,7 +73,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
     private ProductViewModel productViewModel;
     private EditText search;
     private FlowingDrawer drawerLayout;
-    private ImageView openDrawer, favorite;
+    private ImageView openDrawer, favorite, myOrder;
     private UserViewModel userViewModel;
     private CircleImageView myImage;
     private View main_fragment;
@@ -80,8 +82,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
     private String type;
     private SwipeRefreshLayout refreshCategorical;
     private NavAdapter catecoriesAdapter;
-    private TextView count;
+    private TextView count, countOrder;
     private FavoriteViewModel favoriteViewModel;
+    private OrderViewModel orderViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         bottomBar = findViewById(R.id.bottomBar);
         favorite = findViewById(R.id.favorite);
         count = findViewById(R.id.count);
+        myOrder = findViewById(R.id.myOrder);
+        countOrder = findViewById(R.id.countOrder);
         refreshCategorical = findViewById(R.id.refreshCategorical);
         refreshCategorical.setOnRefreshListener(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -106,6 +111,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         drawerLayout.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         setupSmoothBottomMenu();
         loadCategorical();
         userViewModel.getUser().observe(this, new Observer<User>() {
@@ -120,6 +126,14 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         openDrawer.setOnClickListener(v -> {
             drawerLayout.openMenu(true);
+        });
+
+        myOrder.setOnClickListener(view -> {
+            startActivity(new Intent(this, SellerActivity.class));
+        });
+
+        orderViewModel.getMyOrderCountLiveData().observe(this, c -> {
+            countOrder.setText(String.format("%d", c));
         });
 
         favoriteViewModel.getCount().observe(this, new Observer<Long>() {

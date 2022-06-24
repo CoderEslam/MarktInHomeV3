@@ -8,30 +8,32 @@
 
 
     <androidx.cardview.widget.CardView
-        app:cardCornerRadius="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:cardCornerRadius="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imageCart"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
+                tools:listitem="@layout/images"
                 tools:src="@drawable/e" />
 
 
-            <TextView
+            <com.doubleclick.marktinhome.Views.viewmoretextview.ViewMoreTextView
                 android:id="@+id/CartName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +41,8 @@
                 android:text="@string/product_name"
                 android:textColor="@color/textclor"
                 app:layout_constraintStart_toEndOf="@+id/imageCart"
-                app:layout_constraintTop_toTopOf="@+id/imageCart" />
+                app:layout_constraintTop_toTopOf="@+id/imageCart"
+                app:visibleLines="1" />
 
             <TextView
                 android:id="@+id/price"
@@ -69,18 +72,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
+                android:elevation="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/delete"
                 app:layout_constraintEnd_toStartOf="@+id/delete"
                 app:layout_constraintTop_toTopOf="@+id/delete">
 
                 <ImageView
-                    android:paddingRight="20dp"
-                    android:paddingLeft="20dp"
                     android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:src="@drawable/add_circle" />
 
                 <TextView
@@ -93,13 +97,13 @@
                     android:text="1" />
 
                 <ImageView
-                    android:paddingRight="20dp"
-                    android:paddingLeft="20dp"
                     android:id="@+id/mins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:src="@drawable/mins_circle" />
 
 

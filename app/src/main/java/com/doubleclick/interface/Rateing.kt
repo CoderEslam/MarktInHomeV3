@@ -10,5 +10,4 @@ interface Rateing {
     fun MyRate(rate: Rate?)
     fun AllRate(arrayRate: ArrayList<Rate?>?)
 
-
 }

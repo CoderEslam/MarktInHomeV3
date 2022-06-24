@@ -1,5 +1,7 @@
 package com.doubleclick.marktinhome.Model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,117 +10,54 @@ import java.util.List;
  */
 public class Orders {
 
+    @NonNull
     private String productId;
-    private double price;
     private long quantity;
-    private double lastPrice;
-    private String productName;
-    private String images;
+    @NonNull
     private String id;
+    @NonNull
     private String buyerId;
-    private String sellerId;
-    private double TotalPrice;
+    @NonNull
     private String phone;
+    @NonNull
     private String anotherPhone;
+    @NonNull
     private String address;
+    @NonNull
     private String name;
     private long date;
-    private String toggleItem;
-
-    public String getLocationUri() {
-        return locationUri;
-    }
-
-    public void setLocationUri(String locationUri) {
-        this.locationUri = locationUri;
-    }
-
+    @NonNull
+    private String toggleItemColor;
+    @NonNull
+    private String toggleItemSize;
+    @NonNull
+    private String someDetiles;
+    @NonNull
     private String locationUri;
 
+
     public Orders() {
+        productId = "";
+        id = "";
+        buyerId = "";
+        phone = "";
+        anotherPhone = "";
+        address = "";
+        name = "";
+        date = 0;
+        toggleItemColor = "";
+        locationUri = "";
+        someDetiles = "";
+        quantity = 0;
     }
 
+    @NonNull
     public String getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(@NonNull String productId) {
         this.productId = productId;
-    }
-
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(String buyerId) {
-        this.buyerId = buyerId;
-    }
-
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
-    }
-
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAnotherPhone() {
-        return anotherPhone;
-    }
-
-    public void setAnotherPhone(String anotherPhone) {
-        this.anotherPhone = anotherPhone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public long getQuantity() {
@@ -129,20 +68,58 @@ public class Orders {
         this.quantity = quantity;
     }
 
-    public double getLastPrice() {
-        return lastPrice;
+    @NonNull
+    public String getId() {
+        return id;
     }
 
-    public void setLastPrice(double lastPrice) {
-        this.lastPrice = lastPrice;
+    public void setId(@NonNull String id) {
+        this.id = id;
     }
 
-    public double getTotalPrice() {
-        return TotalPrice;
+    @NonNull
+    public String getBuyerId() {
+        return buyerId;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        TotalPrice = totalPrice;
+    public void setBuyerId(@NonNull String buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    @NonNull
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(@NonNull String phone) {
+        this.phone = phone;
+    }
+
+    @NonNull
+    public String getAnotherPhone() {
+        return anotherPhone;
+    }
+
+    public void setAnotherPhone(@NonNull String anotherPhone) {
+        this.anotherPhone = anotherPhone;
+    }
+
+    @NonNull
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NonNull String address) {
+        this.address = address;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
     }
 
     public long getDate() {
@@ -153,25 +130,59 @@ public class Orders {
         this.date = date;
     }
 
-    public String getImages() {
-        return images;
+    @NonNull
+    public String getToggleItemColor() {
+        return toggleItemColor;
     }
 
-    public String getOnlyImage() {
-        List<String> image = Arrays.asList(images.replace("[", "").replace("]", "").replace(" ", "").trim().split(","));
-        return image.get(0);
+    public void setToggleItemColor(@NonNull String toggleItemColor) {
+        this.toggleItemColor = toggleItemColor;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    @NonNull
+    public String getToggleItemSize() {
+        return toggleItemSize;
     }
 
-    public String getToggleItem() {
-        return toggleItem;
+    public void setToggleItemSize(@NonNull String toggleItemSize) {
+        this.toggleItemSize = toggleItemSize;
     }
 
-    public void setToggleItem(String toggleItem) {
-        this.toggleItem = toggleItem;
+    @NonNull
+    public String getSomeDetiles() {
+        return someDetiles;
     }
 
+    public void setSomeDetiles(@NonNull String someDetiles) {
+        this.someDetiles = someDetiles;
+    }
+
+    @NonNull
+    public String getLocationUri() {
+        return locationUri;
+    }
+
+    public void setLocationUri(@NonNull String locationUri) {
+        this.locationUri = locationUri;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "productId='" + productId + '\'' +
+                ", quantity=" + quantity +
+                ", id='" + id + '\'' +
+                ", buyerId='" + buyerId + '\'' +
+                ", phone='" + phone + '\'' +
+                ", anotherPhone='" + anotherPhone + '\'' +
+                ", address='" + address + '\'' +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", toggleItemColor='" + toggleItemColor + '\'' +
+                ", toggleItemSize='" + toggleItemSize + '\'' +
+                ", someDetiles='" + someDetiles + '\'' +
+                ", locationUri='" + locationUri + '\'' +
+                '}';
+    }
 }

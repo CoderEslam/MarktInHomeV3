@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import kotlinx.android.parcel.Parcelize;
 
@@ -39,7 +40,6 @@ public class Product implements Parcelable {
     private String parentCategoryId;
     @NonNull
     private String childCategoryId;
-    private int totalRating;
     private double discount;
     @NonNull
     private String keywords;
@@ -51,9 +51,10 @@ public class Product implements Parcelable {
     private String colors;
     @NonNull
     private String colorsName;
-    private float ratingSeller;
     @NonNull
-    private String type;
+    private String type; // for new or use
+    @NonNull
+    private String totalPercentage;
 
 
     public Product(String productId, double price, String description, long date, String adminId, String productName, double lastPrice, String tradeMark, String parentCategoryName, String childCategoryName, String parentCategoryId, String childCategoryId, int totalRating, double discount, String keywords, String images, String sizes, float ratingSeller) {
@@ -69,14 +70,34 @@ public class Product implements Parcelable {
         this.childCategoryName = childCategoryName;
         this.parentCategoryId = parentCategoryId;
         this.childCategoryId = childCategoryId;
-        this.totalRating = totalRating;
         this.discount = discount;
         this.keywords = keywords;
         this.images = images;
         this.sizes = sizes;
-        this.ratingSeller = ratingSeller;
+
     }
 
+    public Product(String productId, double price, String description, long date, String adminId, String productName, double lastPrice, String tradeMark, String parentCategoryName, String childCategoryName, String parentCategoryId, String childCategoryId, int totalRating, double discount, String keywords, String images, String sizes, String colors, String colorsName, String type) {
+        this.productId = productId;
+        this.price = price;
+        this.description = description;
+        this.date = date;
+        this.adminId = adminId;
+        this.productName = productName;
+        this.lastPrice = lastPrice;
+        this.tradeMark = tradeMark;
+        this.parentCategoryName = parentCategoryName;
+        this.childCategoryName = childCategoryName;
+        this.parentCategoryId = parentCategoryId;
+        this.childCategoryId = childCategoryId;
+        this.discount = discount;
+        this.keywords = keywords;
+        this.images = images;
+        this.sizes = sizes;
+        this.colors = colors;
+        this.colorsName = colorsName;
+        this.type = type;
+    }
 
     protected Product(Parcel in) {
         productId = in.readString();
@@ -91,15 +112,43 @@ public class Product implements Parcelable {
         childCategoryName = in.readString();
         parentCategoryId = in.readString();
         childCategoryId = in.readString();
-        totalRating = in.readInt();
         discount = in.readDouble();
         keywords = in.readString();
         images = in.readString();
         sizes = in.readString();
         colors = in.readString();
         colorsName = in.readString();
-        ratingSeller = in.readFloat();
         type = in.readString();
+        totalPercentage = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(productId);
+        dest.writeDouble(price);
+        dest.writeString(description);
+        dest.writeLong(date);
+        dest.writeString(adminId);
+        dest.writeString(productName);
+        dest.writeDouble(lastPrice);
+        dest.writeString(tradeMark);
+        dest.writeString(parentCategoryName);
+        dest.writeString(childCategoryName);
+        dest.writeString(parentCategoryId);
+        dest.writeString(childCategoryId);
+        dest.writeDouble(discount);
+        dest.writeString(keywords);
+        dest.writeString(images);
+        dest.writeString(sizes);
+        dest.writeString(colors);
+        dest.writeString(colorsName);
+        dest.writeString(type);
+        dest.writeString(totalPercentage);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -113,30 +162,6 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
-
-    public Product(String productId, double price, String description, long date, String adminId, String productName, double lastPrice, String tradeMark, String parentCategoryName, String childCategoryName, String parentCategoryId, String childCategoryId, int totalRating, double discount, String keywords, String images, String sizes, String colors, String colorsName, float ratingSeller, String type) {
-        this.productId = productId;
-        this.price = price;
-        this.description = description;
-        this.date = date;
-        this.adminId = adminId;
-        this.productName = productName;
-        this.lastPrice = lastPrice;
-        this.tradeMark = tradeMark;
-        this.parentCategoryName = parentCategoryName;
-        this.childCategoryName = childCategoryName;
-        this.parentCategoryId = parentCategoryId;
-        this.childCategoryId = childCategoryId;
-        this.totalRating = totalRating;
-        this.discount = discount;
-        this.keywords = keywords;
-        this.images = images;
-        this.sizes = sizes;
-        this.colors = colors;
-        this.colorsName = colorsName;
-        this.ratingSeller = ratingSeller;
-        this.type = type;
-    }
 
     public String getOnlyImage() {
         try {
@@ -164,38 +189,9 @@ public class Product implements Parcelable {
         sizes = "";
         colors = "";
         colorsName = "";
+        totalPercentage = "0.0";
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(productId);
-        dest.writeDouble(price);
-        dest.writeString(description);
-        dest.writeLong(date);
-        dest.writeString(adminId);
-        dest.writeString(productName);
-        dest.writeDouble(lastPrice);
-        dest.writeString(tradeMark);
-        dest.writeString(parentCategoryName);
-        dest.writeString(childCategoryName);
-        dest.writeString(parentCategoryId);
-        dest.writeString(childCategoryId);
-        dest.writeInt(totalRating);
-        dest.writeDouble(discount);
-        dest.writeString(keywords);
-        dest.writeString(images);
-        dest.writeString(sizes);
-        dest.writeString(colors);
-        dest.writeString(colorsName);
-        dest.writeFloat(ratingSeller);
-        dest.writeString(type);
-    }
 
     public String getProductId() {
         return productId;
@@ -293,14 +289,6 @@ public class Product implements Parcelable {
         this.childCategoryId = childCategoryId;
     }
 
-    public int getTotalRating() {
-        return totalRating;
-    }
-
-    public void setTotalRating(int totalRating) {
-        this.totalRating = totalRating;
-    }
-
     public double getDiscount() {
         return discount;
     }
@@ -349,13 +337,6 @@ public class Product implements Parcelable {
         this.colorsName = colorsName;
     }
 
-    public float getRatingSeller() {
-        return ratingSeller;
-    }
-
-    public void setRatingSeller(float ratingSeller) {
-        this.ratingSeller = ratingSeller;
-    }
 
     public String getType() {
         return type;
@@ -381,15 +362,35 @@ public class Product implements Parcelable {
                 ", childCategoryName='" + childCategoryName + '\'' +
                 ", parentCategoryId='" + parentCategoryId + '\'' +
                 ", childCategoryId='" + childCategoryId + '\'' +
-                ", totalRating=" + totalRating +
                 ", discount=" + discount +
                 ", keywords='" + keywords + '\'' +
                 ", images='" + images + '\'' +
                 ", sizes='" + sizes + '\'' +
                 ", colors=" + colors +
                 ", colorsName='" + colorsName + '\'' +
-                ", ratingSeller=" + ratingSeller +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Double.compare(product.getPrice(), getPrice()) == 0 && getDate() == product.getDate() && Double.compare(product.getLastPrice(), getLastPrice()) == 0 && Double.compare(product.getDiscount(), getDiscount()) == 0 && getProductId().equals(product.getProductId()) && getDescription().equals(product.getDescription()) && getAdminId().equals(product.getAdminId()) && getProductName().equals(product.getProductName()) && getTradeMark().equals(product.getTradeMark()) && getParentCategoryName().equals(product.getParentCategoryName()) && getChildCategoryName().equals(product.getChildCategoryName()) && getParentCategoryId().equals(product.getParentCategoryId()) && getChildCategoryId().equals(product.getChildCategoryId()) && getKeywords().equals(product.getKeywords()) && getImages().equals(product.getImages()) && getSizes().equals(product.getSizes()) && getColors().equals(product.getColors()) && getColorsName().equals(product.getColorsName()) && getType().equals(product.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductId(), getPrice(), getDescription(), getDate(), getAdminId(), getProductName(), getLastPrice(), getTradeMark(), getParentCategoryName(), getChildCategoryName(), getParentCategoryId(), getChildCategoryId(), getDiscount(), getKeywords(), getImages(), getSizes(), getColors(), getColorsName(), getType());
+    }
+
+    @NonNull
+    public String getTotalPercentage() throws NumberFormatException {
+        return totalPercentage;
+    }
+
+    public void setTotalPercentage(@NonNull String totalPercentage) {
+        this.totalPercentage = totalPercentage;
     }
 }
 

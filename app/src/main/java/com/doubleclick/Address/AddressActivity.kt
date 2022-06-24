@@ -2,6 +2,7 @@ package com.doubleclick.Address;
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.doubleclick.marktinhome.Model.Constantes.ORDERS
 import com.doubleclick.marktinhome.Notifications.Client
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.myId
+import com.doubleclick.marktinhome.ui.MainScreen.MainScreenActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -46,7 +48,7 @@ class AddressActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var address: TextInputEditText
     lateinit var confirmFinalOrderBtn: Button
     private lateinit var cartViewModel: CartViewModel
-    private var carts: ArrayList<Cart> = ArrayList()
+    private var carts: ArrayList<CartData> = ArrayList()
     var client: FusedLocationProviderClient? = null
     var googleMap: GoogleMap? = null
     var mLocationRequest: LocationRequest? = null
@@ -83,7 +85,7 @@ class AddressActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         cartViewModel.CartLiveData().observe(this) {
-            if (!it.id.equals("")) {
+            if (!it.cart.id.equals("")) {
                 carts.add(it)
                 confirmFinalOrderBtn.isEnabled = true
             }
@@ -99,38 +101,46 @@ class AddressActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun confirmOrder(name: String, phone: String, AnotherPhone: String, Address: String) {
         for (i in carts.indices) {
             val time: Long = Date().time
-            val id = myId + ":" + carts[i].productId + ":" + time;
+            val id = myId + ":" + carts[i].cart.productId + ":" + time;
             val map: HashMap<String, Any> = HashMap();
-            map["productId"] = carts[i].productId
-            map["price"] = carts[i].price
-            map["quantity"] = carts[i].quantity
-            map["lastPrice"] = carts[i].lastPrice
-            map["productName"] = carts[i].productName
-            map["images"] = carts[i].images
+            map["productId"] = carts[i].cart.productId
+            map["quantity"] = carts[i].cart.quantity
             map["id"] = id
-            map["buyerId"] = carts[i].buyerId
-            map["sellerId"] = carts[i].sellerId
-            map["totalPrice"] = carts[i].totalPrice
+            map["sellerId"] = carts[i].product.adminId
+            map["buyerId"] = myId
             map["phone"] = phone
             map["anotherPhone"] = AnotherPhone
             map["address"] = Address
             map["name"] = name
             map["date"] = time
-            map["toggleItem"] = carts[i].toggleItem
+            map["toggleItemColor"] = carts[i].cart.toggleItemColor
+            map["toggleItemSize"] = carts[i].cart.toggleItemSize
             try {
                 if (myLocation.isChecked) {
-                    if (uri.toString() != "") {
+                    if (uri != "") {
                         map["locationUri"] = uri!!
-                        sendNotifiaction(this, carts[i].sellerId, carts[i].productName);
-                        reference.child(ORDERS).child(id).updateChildren(map)
-                        reference.child(CART).child(carts[i].id).removeValue()
+                        sendNotifiaction(
+                            this,
+                            carts[i].product.adminId,
+                            carts[i].product.productName
+                        );
+                        reference.child(ORDERS).child(carts[i].product.adminId).child(id)
+                            .updateChildren(map)
+                        reference.child(CART).child(carts[i].cart.buyerId).child(carts[i].cart.id)
+                            .removeValue()
+                        startActivity(Intent(this, MainScreenActivity::class.java))
+                        finish()
                     } else {
                         Toast.makeText(this, "Open your location", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    sendNotifiaction(this, carts[i].sellerId, carts[i].productName);
-                    reference.child(ORDERS).child(id).updateChildren(map)
-                    reference.child(CART).child(carts[i].id).removeValue()
+                    sendNotifiaction(this, carts[i].product.adminId, carts[i].product.productName);
+                    reference.child(ORDERS).child(carts[i].product.adminId).child(id)
+                        .updateChildren(map)
+                    reference.child(CART).child(carts[i].cart.buyerId).child(carts[i].cart.id)
+                        .removeValue()
+                    startActivity(Intent(this, MainScreenActivity::class.java))
+                    finish()
                 }
             } catch (e: Exception) {
 

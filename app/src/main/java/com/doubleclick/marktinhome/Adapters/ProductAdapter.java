@@ -54,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.productPrice.setText(String.format("%s", products.get(position).getPrice()));
         holder.productLastPrice.setText(String.format("%s", products.get(position).getLastPrice()));
         holder.trademark.setText(products.get(position).getTradeMark());
-        holder.ratingBar.setRating(products.get(position).getRatingSeller());
+        holder.ratingBar.setRating(Float.parseFloat(products.get(position).getTotalPercentage()));
         String list = products.get(position).getImages();
         holder.setBannerSliderViewPager(list);
         holder.itemView.setOnClickListener(v -> {

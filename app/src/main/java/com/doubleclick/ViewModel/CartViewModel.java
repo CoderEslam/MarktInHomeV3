@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.doubleclick.OnCartLisnter;
 import com.doubleclick.marktinhome.Model.Cart;
+import com.doubleclick.marktinhome.Model.CartData;
 import com.doubleclick.marktinhome.Repository.CartRepository;
 
 import java.util.ArrayList;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
  */
 public class CartViewModel extends ViewModel implements OnCartLisnter {
 
-    MutableLiveData<Cart> mutableLiveData = new MutableLiveData<>();
+    MutableLiveData<CartData> mutableLiveData = new MutableLiveData<>();
 
-    MutableLiveData<Cart> mutableLiveDataplusone = new MutableLiveData<>();
+    MutableLiveData<CartData> mutableLiveDataplusone = new MutableLiveData<>();
 
-    MutableLiveData<Cart> mutableLiveDataminsone = new MutableLiveData<>();
-    MutableLiveData<Cart> mutableLiveDatadelete = new MutableLiveData<>();
+    MutableLiveData<CartData> mutableLiveDataminsone = new MutableLiveData<>();
+    MutableLiveData<CartData> mutableLiveDatadelete = new MutableLiveData<>();
 
     CartRepository cartRepository = new CartRepository(this);
 
@@ -31,40 +32,40 @@ public class CartViewModel extends ViewModel implements OnCartLisnter {
     }
 
 
-    public LiveData<Cart> CartLiveData() {
+    public LiveData<CartData> CartLiveData() {
         return mutableLiveData;
     }
 
-    public LiveData<Cart> CartAddLiveData() {
+    public LiveData<CartData> CartAddLiveData() {
         return mutableLiveDataplusone;
     }
 
-    public LiveData<Cart> CartMinsLiveData() {
+    public LiveData<CartData> CartMinsLiveData() {
         return mutableLiveDataminsone;
     }
 
-    public LiveData<Cart> CartDeleteLiveData() {
+    public LiveData<CartData> CartDeleteLiveData() {
         return mutableLiveDatadelete;
     }
 
 
     @Override
-    public void getCart(@NonNull Cart cart) {
+    public void getCart(@NonNull CartData cart) {
         mutableLiveData.setValue(cart);
     }
 
     @Override
-    public void OnAddItemOrder(@Nullable Cart cart, int pos) {
+    public void OnAddItemOrder(@Nullable CartData cart, int pos) {
         mutableLiveDataplusone.setValue(cart);
     }
 
     @Override
-    public void OnMinsItemOrder(@Nullable Cart cart, int pos) {
+    public void OnMinsItemOrder(@Nullable CartData cart, int pos) {
         mutableLiveDataminsone.setValue(cart);
     }
 
     @Override
-    public void OnDeleteItemOrder(@Nullable Cart cart, int pos) {
+    public void OnDeleteItemOrder(@Nullable CartData cart, int pos) {
         mutableLiveDatadelete.setValue(cart);
     }
 }

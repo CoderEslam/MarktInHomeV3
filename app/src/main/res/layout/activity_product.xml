@@ -412,7 +412,6 @@
                             android:textColor="@color/black"
                             android:textSize="25dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.048"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -420,21 +419,23 @@
                             android:id="@+id/linearLayout5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:orientation="vertical"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView6">
 
                             <TextView
-                                android:id="@+id/ratingSeller"
-                                android:layout_width="match_parent"
+                                android:id="@+id/totalPercentage"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginRight="5dp"
-                                android:text="4.5"
+                                android:gravity="center"
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
-                                android:visibility="gone" />
+                                app:drawableStartCompat="@drawable/ic_stars_black_cercil24dp"
+                                tools:text="4.5" />
 
                             <!-- https://github.com/anastr/SpeedView -->
                             <!-- https://github.com/sathishmscict/SpeedView-->
@@ -449,16 +450,16 @@
                                 app:layout_constraintTop_toBottomOf="@+id/textView17"
                                 app:sv_backgroundCircleColor="@color/black"
                                 app:sv_indicator="NeedleIndicator"
-                                app:sv_maxSpeed="5"
-                                app:sv_minSpeed="0"
                                 app:sv_speedTextColor="@color/blueDark"
                                 app:sv_speedTextFormat="FLOAT"
                                 app:sv_speedTextPosition="CENTER"
                                 app:sv_speedTextSize="18sp"
                                 app:sv_speedometerMode="TOP"
-                                app:sv_unit="rating"
+                                app:sv_unit="total rating"
                                 app:sv_unitUnderSpeedText="true"
-                                app:sv_withTremble="false" />
+                                app:sv_withTremble="false"
+                                tools:sv_maxSpeed="1000"
+                                tools:sv_minSpeed="0" />
 
                             <ImageView
                                 android:id="@+id/imageView3"
@@ -470,27 +471,15 @@
                                 android:visibility="gone" />
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/TotalRating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="0 ratings"
-                            android:textColor="#000"
-                            app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
-                            app:layout_constraintHorizontal_bias="0.498"
-                            app:layout_constraintStart_toStartOf="@+id/linearLayout5"
-                            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
-
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/linearLayout7"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:visibility="gone"
-                            app:layout_constraintEnd_toEndOf="@+id/TotalRating"
-                            app:layout_constraintStart_toStartOf="@+id/TotalRating"
-                            app:layout_constraintTop_toBottomOf="@+id/TotalRating">
+                            app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+                            app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+                            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/constraintLayout2"
@@ -807,9 +796,9 @@
                             android:layout_marginTop="16dp"
                             android:text="Your Ratings"
                             android:textColor="@color/black"
-                            app:layout_constraintEnd_toEndOf="@+id/TotalRating"
-                            app:layout_constraintStart_toStartOf="@+id/TotalRating"
-                            app:layout_constraintTop_toBottomOf="@+id/TotalRating" />
+                            app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+                            app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+                            app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
                         <LinearLayout
                             android:id="@+id/rate_now_container"

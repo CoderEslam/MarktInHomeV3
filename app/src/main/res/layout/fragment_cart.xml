@@ -41,8 +41,9 @@
 
         <TextView
             android:id="@+id/Continue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/fram_blue"
             android:gravity="center"
             android:paddingStart="40dp"
@@ -50,17 +51,6 @@
             android:paddingEnd="40dp"
             android:paddingBottom="10dp"
             android:text="@string/Continue"
-            android:textColor="@color/textclor"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/MyOrder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="@string/my_order"
             android:textColor="@color/textclor"
             android:textSize="24sp" />
 

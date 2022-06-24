@@ -51,7 +51,7 @@ class ViewMoreTextView @JvmOverloads constructor(
         visibleLines = attributes?.getInt(R.styleable.ViewMoreTextView_visibleLines, 0)
         isExpanded = attributes?.getBoolean(R.styleable.ViewMoreTextView_isExpanded, false)
         animationDuration =
-            attributes?.getInt(R.styleable.ViewMoreTextView_duration_view_more_text, 1000)
+            attributes?.getInt(R.styleable.ViewMoreTextView_duration_view_more_text, 500)
         foregroundColor =
             attributes?.getColor(R.styleable.ViewMoreTextView_foregroundColor, Color.TRANSPARENT)
         ellipsizeText = attributes?.getString(R.styleable.ViewMoreTextView_ellipsizeText)

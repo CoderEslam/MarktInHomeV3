@@ -21,6 +21,7 @@ public class RateViewModel extends ViewModel implements Rateing {
     MutableLiveData<Rate> rateMutableLiveData = new MutableLiveData<>();
     MutableLiveData<ArrayList<Rate>> listMutableLiveData = new MutableLiveData<>();
 
+
     public RateViewModel() {
 
     }

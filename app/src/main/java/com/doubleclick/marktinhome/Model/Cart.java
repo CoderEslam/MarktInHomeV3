@@ -16,43 +16,32 @@ public class Cart implements Parcelable {
 
     @NonNull
     private String productId;
-    private double price;
     private double quantity;
-    private double lastPrice;
-    @NonNull
-    private String productName;
-    @NonNull
-    private String images;
     @NonNull
     private String id;
     @NonNull
     private String buyerId;
     @NonNull
-    private String sellerId;
-    private double totalPrice;
+    private String toggleItemColor;
     @NonNull
-    private String toggleItem;
+    private String toggleItemSize;
 
-    public String getToggleItem() {
-        return toggleItem;
+
+    public Cart() {
+        productId = "";
+        id = "";
+        buyerId = "";
+        toggleItemColor = "";
+        toggleItemSize = "";
     }
-
-    public void setToggleItem(String toggleItem) {
-        this.toggleItem = toggleItem;
-    }
-
 
     protected Cart(Parcel in) {
         productId = in.readString();
-        price = in.readLong();
-        quantity = in.readLong();
-        lastPrice = in.readDouble();
-        productName = in.readString();
-        images = in.readString();
+        quantity = in.readDouble();
         id = in.readString();
         buyerId = in.readString();
-        sellerId = in.readString();
-        totalPrice = in.readLong();
+        toggleItemColor = in.readString();
+        toggleItemSize = in.readString();
     }
 
     public static final Creator<Cart> CREATOR = new Creator<Cart>() {
@@ -66,24 +55,6 @@ public class Cart implements Parcelable {
             return new Cart[size];
         }
     };
-
-    public Cart() {
-        productId = "";
-        productName = "";
-        images = "";
-        id = "";
-        buyerId = "";
-        sellerId = "";
-        toggleItem = "";
-    }
-
-    public String getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
-    }
 
 
     public String getBuyerId() {
@@ -103,15 +74,6 @@ public class Cart implements Parcelable {
         this.productId = productId;
     }
 
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
     public String getId() {
         return id;
     }
@@ -122,47 +84,15 @@ public class Cart implements Parcelable {
 
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(productId);
-        dest.writeDouble(price);
-        dest.writeDouble(quantity);
-        dest.writeDouble(lastPrice);
-        dest.writeString(productName);
-        dest.writeString(images);
-        dest.writeString(id);
-        dest.writeString(buyerId);
-        dest.writeString(sellerId);
-        dest.writeDouble(totalPrice);
-    }
-
-    @Override
     public String toString() {
         return "Cart{" +
                 "ProductId='" + productId + '\'' +
-                ", price='" + price + '\'' +
                 ", Quantity='" + quantity + '\'' +
-                ", lastPrice='" + lastPrice + '\'' +
-                ", productName='" + productName + '\'' +
-                ", images='" + images + '\'' +
                 ", id='" + id + '\'' +
                 ", BuyerId='" + buyerId + '\'' +
-                ", SellerId='" + sellerId + '\'' +
-                ", TotalPrice='" + totalPrice + '\'' +
                 '}';
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 
     public double getQuantity() {
         return quantity;
@@ -172,34 +102,6 @@ public class Cart implements Parcelable {
         this.quantity = quantity;
     }
 
-    public double getLastPrice() {
-        return lastPrice;
-    }
-
-    public void setLastPrice(double lastPrice) {
-        this.lastPrice = lastPrice;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public String getOnlyImage() {
-        List<String> image = Arrays.asList(images.replace("[", "").replace("]", "").replace(" ", "").trim().split(","));
-        return image.get(0);
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
 
     @Override
     public boolean equals(@Nullable Object obj) {
@@ -209,4 +111,38 @@ public class Cart implements Parcelable {
         Cart cart = (Cart) obj;
         return cart.getId().equals(this.getId());
     }
+
+    @NonNull
+    public String getToggleItemColor() {
+        return toggleItemColor;
+    }
+
+    public void setToggleItemColor(@NonNull String toggleItemColor) {
+        this.toggleItemColor = toggleItemColor;
+    }
+
+    @NonNull
+    public String getToggleItemSize() {
+        return toggleItemSize;
+    }
+
+    public void setToggleItemSize(@NonNull String toggleItemSize) {
+        this.toggleItemSize = toggleItemSize;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(productId);
+        parcel.writeDouble(quantity);
+        parcel.writeString(id);
+        parcel.writeString(buyerId);
+        parcel.writeString(toggleItemColor);
+        parcel.writeString(toggleItemSize);
+    }
+
 }
