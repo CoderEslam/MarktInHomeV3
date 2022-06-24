@@ -72,10 +72,10 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
     @Override
     public void onBindViewHolder(@NonNull CommentsViewHolder holder, int position) {
 
-        Glide.with(holder.itemView.getContext()).load(commentsGroupData.get(holder.getAdapterPosition()).getUser().getImage()).into(holder.imageUser);
-        holder.userName.setText(commentsGroupData.get(holder.getAdapterPosition()).getUser().getName());
-        holder.comment.setText(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getComment());
-        holder.time.setText(String.format("%s ", simpleDateFormat.format(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getTime())));
+        Glide.with(holder.itemView.getContext()).load(commentsGroupData.get(holder.getBindingAdapterPosition()).getUser().getImage()).into(holder.imageUser);
+        holder.userName.setText(commentsGroupData.get(holder.getBindingAdapterPosition()).getUser().getName());
+        holder.comment.setText(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getComment());
+        holder.time.setText(String.format("%s ", simpleDateFormat.format(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getTime())));
         holder.like.setOnClickListener(v -> {
             LikeChecker = true;
             reference.child(LIKES_ON_COMMENTS).addValueEventListener(new ValueEventListener() {
@@ -83,11 +83,11 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //CHECKING IF THE POST IS LIKED OR NOT.....
                     if (LikeChecker == true) {
-                        if (dataSnapshot.child(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId()).hasChild(myId)) {
-                            reference.child(LIKES_ON_COMMENTS).child(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId()).child(myId).removeValue();
+                        if (dataSnapshot.child(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getId()).hasChild(myId)) {
+                            reference.child(LIKES_ON_COMMENTS).child(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getId()).child(myId).removeValue();
                             LikeChecker = false;
                         } else {
-                            reference.child(LIKES_ON_COMMENTS).child(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId()).child(myId).setValue(true);
+                            reference.child(LIKES_ON_COMMENTS).child(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getId()).child(myId).setValue(true);
                             LikeChecker = false;
                         }
                     }
@@ -102,9 +102,9 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
         holder.setLike(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId());
 
         holder.reply.setOnClickListener(v -> {
-            holder.openBottomSheet(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId(), commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getGroupId());
+            holder.openBottomSheet(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getId(), commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getGroupId());
         });
-        holder.loadReply(commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getId(), commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getGroupId());
+        holder.loadReply(commentsGroupData.get(holder.getBindingAdapterPosition()).getCommentsGroup().getId(), commentsGroupData.get(holder.getAdapterPosition()).getCommentsGroup().getGroupId());
     }
 
     @Override
@@ -170,15 +170,18 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
             reference.child(LIKES_ON_COMMENTS).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.child(PostKey).hasChild(myId)) {
-//                        like.setText("liked");
-                        like.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(commentsGroupData.get(getAdapterPosition()).getCommentsGroup().getId()).getChildrenCount())));
-                        img_like.setImageResource(R.drawable.like_thumb_up);
-                    } else {
-//                        like.setText("like");
-                        like.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(commentsGroupData.get(getAdapterPosition()).getCommentsGroup().getId()).getChildrenCount())));
-                        img_like.setImageResource(R.drawable.ic_like);
+                    try {
+                        if (dataSnapshot.child(PostKey).hasChild(myId)) {
+                            like.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(commentsGroupData.get(getBindingAdapterPosition()).getCommentsGroup().getId()).getChildrenCount())));
+                            img_like.setImageResource(R.drawable.like_thumb_up);
+                        } else {
+                            like.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(commentsGroupData.get(getBindingAdapterPosition()).getCommentsGroup().getId()).getChildrenCount())));
+                            img_like.setImageResource(R.drawable.ic_like);
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Log.e("Exption", e.getMessage());
                     }
+
                 }
 
                 @Override

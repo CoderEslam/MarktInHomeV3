@@ -43,9 +43,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Header"
                         android:textColor="@android:color/black"
-                        android:textSize="40sp" />
+                        android:textSize="40sp"
+                        tools:text="Header" />
 
                     <com.doubleclick.marktinhome.Views.socialtextview.SocialTextView
                         android:id="@id/title"
