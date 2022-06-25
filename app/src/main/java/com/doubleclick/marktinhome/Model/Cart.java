@@ -33,6 +33,7 @@ public class Cart implements Parcelable {
         buyerId = "";
         toggleItemColor = "";
         toggleItemSize = "";
+        quantity = 0.0;
     }
 
     protected Cart(Parcel in) {

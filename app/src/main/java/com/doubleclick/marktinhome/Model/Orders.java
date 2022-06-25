@@ -31,8 +31,6 @@ public class Orders {
     @NonNull
     private String toggleItemSize;
     @NonNull
-    private String someDetiles;
-    @NonNull
     private String locationUri;
 
 
@@ -47,7 +45,6 @@ public class Orders {
         date = 0;
         toggleItemColor = "";
         locationUri = "";
-        someDetiles = "";
         quantity = 0;
     }
 
@@ -149,15 +146,6 @@ public class Orders {
     }
 
     @NonNull
-    public String getSomeDetiles() {
-        return someDetiles;
-    }
-
-    public void setSomeDetiles(@NonNull String someDetiles) {
-        this.someDetiles = someDetiles;
-    }
-
-    @NonNull
     public String getLocationUri() {
         return locationUri;
     }
@@ -181,7 +169,6 @@ public class Orders {
                 ", date=" + date +
                 ", toggleItemColor='" + toggleItemColor + '\'' +
                 ", toggleItemSize='" + toggleItemSize + '\'' +
-                ", someDetiles='" + someDetiles + '\'' +
                 ", locationUri='" + locationUri + '\'' +
                 '}';
     }

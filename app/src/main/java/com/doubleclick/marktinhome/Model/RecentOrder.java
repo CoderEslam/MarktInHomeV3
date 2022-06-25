@@ -1,30 +1,56 @@
 package com.doubleclick.marktinhome.Model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created By Eslam Ghazy on 3/12/2022
  */
 public class RecentOrder {
 
+    @NonNull
     private String productId;
     private double price;
     private int quantity;
-    private String productName;
-    private String images;
+    @NonNull
     private String id;
+    @NonNull
     private String buyerId;
+    @NonNull
     private String sellerId;
     private double totalPrice;
     private long date;
+    @NonNull
     private String address;
+    @NonNull
     private String phone;
+    @NonNull
     private String anotherPhone;
+    @NonNull
     private String locationUri;
-    private String toggleItem;
+    @NonNull
+    private String toggleItemColor;
+    @NonNull
+    private String toggleItemSize;
 
     public RecentOrder() {
+        productId = "";
+        price = 0;
+        quantity = 0;
+        id = "";
+        buyerId = "";
+        sellerId = "";
+        totalPrice = 0;
+        date = 0;
+        address = "";
+        phone = "";
+        anotherPhone = "";
+        locationUri = "";
+        toggleItemColor = "";
+        toggleItemSize = "";
     }
 
     public String getProductId() {
@@ -33,15 +59,6 @@ public class RecentOrder {
 
     public void setProductId(String productId) {
         this.productId = productId;
-    }
-
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
 
 
@@ -98,18 +115,6 @@ public class RecentOrder {
         this.date = date;
     }
 
-    public String getImages() {
-        return images;
-    }
-
-    public String getOnlyImage() {
-        List<String> image = Arrays.asList(images.replace("[", "").replace("]", "").replace(" ", "").trim().split(","));
-        return image.get(0);
-    }
-
-    public void setImages(String images) {
-        this.images = images;
-    }
 
     public String getAddress() {
         return address;
@@ -143,37 +148,38 @@ public class RecentOrder {
         this.locationUri = locationUri;
     }
 
-    public String getToggleItem() {
-        return toggleItem;
-    }
-
-    public void setToggleItem(String toggleItem) {
-        this.toggleItem = toggleItem;
-    }
-
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
+    @NonNull
+    public String getToggleItemColor() {
+        return toggleItemColor;
+    }
+
+    public void setToggleItemColor(@NonNull String toggleItemColor) {
+        this.toggleItemColor = toggleItemColor;
+    }
+
+    @NonNull
+    public String getToggleItemSize() {
+        return toggleItemSize;
+    }
+
+    public void setToggleItemSize(@NonNull String toggleItemSize) {
+        this.toggleItemSize = toggleItemSize;
+    }
+
     @Override
-    public String toString() {
-        return "RecentOrder{" +
-                "ProductId='" + productId + '\'' +
-                ", price=" + price +
-                ", Quantity=" + quantity +
-                ", productName='" + productName + '\'' +
-                ", images='" + images + '\'' +
-                ", id='" + id + '\'' +
-                ", BuyerId='" + buyerId + '\'' +
-                ", SellerId='" + sellerId + '\'' +
-                ", TotalPrice=" + totalPrice +
-                ", date=" + date +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", anotherPhone='" + anotherPhone + '\'' +
-                ", locationUri='" + locationUri + '\'' +
-                ", ToggleItem='" + toggleItem + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RecentOrder)) return false;
+        RecentOrder that = (RecentOrder) o;
+        return Double.compare(that.getPrice(), getPrice()) == 0 && getQuantity() == that.getQuantity() && Double.compare(that.getTotalPrice(), getTotalPrice()) == 0 && getDate() == that.getDate() && getProductId().equals(that.getProductId()) && getId().equals(that.getId()) && getBuyerId().equals(that.getBuyerId()) && getSellerId().equals(that.getSellerId()) && getAddress().equals(that.getAddress()) && getPhone().equals(that.getPhone()) && getAnotherPhone().equals(that.getAnotherPhone()) && getLocationUri().equals(that.getLocationUri()) && getToggleItemColor().equals(that.getToggleItemColor()) && getToggleItemSize().equals(that.getToggleItemSize());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductId(), getPrice(), getQuantity(), getId(), getBuyerId(), getSellerId(), getTotalPrice(), getDate(), getAddress(), getPhone(), getAnotherPhone(), getLocationUri(), getToggleItemColor(), getToggleItemSize());
     }
 }

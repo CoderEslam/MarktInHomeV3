@@ -214,7 +214,7 @@ public class StatisticsFragment extends Fragment {
         }
 
         // Start new data animation with 300ms duration;
-        chart_top_Line.startDataAnimation(400);
+        chart_top_Line.startDataAnimation(500);
     }
 
     private class ValueTouchListener implements ColumnChartOnValueSelectListener {

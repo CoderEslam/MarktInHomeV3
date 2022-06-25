@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.doubleclick.OnProduct;
 import com.doubleclick.RecentOrderInterface;
 import com.doubleclick.marktinhome.Model.RecentOrder;
+import com.doubleclick.marktinhome.Model.RecentOrderData;
 import com.doubleclick.marktinhome.R;
 
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created By Eslam Ghazy on 3/12/2022
  */
 public class RecentOrderAdapter extends RecyclerView.Adapter<RecentOrderAdapter.RecentOrderViewHolder> {
-    private ArrayList<RecentOrder> recentOrderArrayList = new ArrayList<>();
+    private ArrayList<RecentOrderData> recentOrderArrayList = new ArrayList<>();
 
-    public RecentOrderAdapter(ArrayList<RecentOrder> recentOrderArrayList) {
+    public RecentOrderAdapter(ArrayList<RecentOrderData> recentOrderArrayList) {
         this.recentOrderArrayList = recentOrderArrayList;
     }
 
@@ -40,10 +41,10 @@ public class RecentOrderAdapter extends RecyclerView.Adapter<RecentOrderAdapter.
     public void onBindViewHolder(@NonNull RecentOrderViewHolder holder, int position) {
 
         if (recentOrderArrayList.size() != 0) {
-            holder.CartName.setText(recentOrderArrayList.get(position).getProductName());
-            holder.price.setText(String.format("%s", recentOrderArrayList.get(position).getPrice()));
-            holder.quantity.setText(String.format("%s", recentOrderArrayList.get(position).getQuantity()));
-            Glide.with(holder.itemView.getContext()).load(recentOrderArrayList.get(position).getOnlyImage()).into(holder.imageCart);
+            holder.CartName.setText(recentOrderArrayList.get(position).getProduct().getProductName());
+            holder.price.setText(String.format("%s", recentOrderArrayList.get(position).getProduct().getPrice()));
+            holder.quantity.setText(String.format("%s", recentOrderArrayList.get(position).getRecentOrder().getQuantity()));
+            holder.imageCart.setAdapter(new ImagesAdapter(recentOrderArrayList.get(position).getProduct().getImages()));
         }
 
     }
@@ -54,18 +55,15 @@ public class RecentOrderAdapter extends RecyclerView.Adapter<RecentOrderAdapter.
     }
 
     public class RecentOrderViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView imageCart;
+        private RecyclerView imageCart;
         private TextView CartName, price, quantity;
-        private ImageView add, mins, delete;
+
         public RecentOrderViewHolder(@NonNull View itemView) {
             super(itemView);
             imageCart = itemView.findViewById(R.id.imageCart);
             CartName = itemView.findViewById(R.id.CartName);
             price = itemView.findViewById(R.id.price);
             quantity = itemView.findViewById(R.id.quantity);
-            add = itemView.findViewById(R.id.add);
-            mins = itemView.findViewById(R.id.mins);
-            delete = itemView.findViewById(R.id.delete);
         }
     }
 }

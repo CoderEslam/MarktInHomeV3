@@ -1,5 +1,6 @@
 package com.doubleclick.ViewModel;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.doubleclick.RecentOrderInterface;
 import com.doubleclick.marktinhome.Model.RecentOrder;
+import com.doubleclick.marktinhome.Model.RecentOrderData;
 import com.doubleclick.marktinhome.Repository.RecentOrderRepository;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  */
 public class RecentOrderViewModel extends ViewModel implements RecentOrderInterface {
 
-    MutableLiveData<ArrayList<RecentOrder>> arrayListMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<ArrayList<RecentOrderData>> arrayListMutableLiveData = new MutableLiveData<>();
 
     RecentOrderRepository recentOrderRepository = new RecentOrderRepository(this);
 
@@ -24,12 +26,12 @@ public class RecentOrderViewModel extends ViewModel implements RecentOrderInterf
         recentOrderRepository.getRecentOrder();
     }
 
-    public LiveData<ArrayList<RecentOrder>> getMyRecentOrderLiveData() {
+    public LiveData<ArrayList<RecentOrderData>> getMyRecentOrderLiveData() {
         return arrayListMutableLiveData;
     }
 
     @Override
-    public void getMyRecentOrder(@Nullable ArrayList<RecentOrder> recentOrder) {
+    public void getMyRecentOrder(@NonNull ArrayList<RecentOrderData> recentOrder) {
         arrayListMutableLiveData.setValue(recentOrder);
     }
 }

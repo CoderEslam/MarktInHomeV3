@@ -12,6 +12,8 @@ import com.doubleclick.marktinhome.Model.RecentOrder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.time.Month;
@@ -49,22 +51,21 @@ public class RecentOrdersForSellerRepository extends BaseRepository {
     }
 
     public void getRecentOrders() {
-        reference.child(RECENTORDER).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(RECENTORDER).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            DataSnapshot dataSnapshot = task.getResult();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                RecentOrder recentOrder = snapshot.getValue(RecentOrder.class);
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                RecentOrder recentOrder = dataSnapshot.getValue(RecentOrder.class);
                                 if (Objects.requireNonNull(recentOrder).getSellerId().equals(myId)) {
                                     recentOrderArrayList.add(recentOrder);
                                 }
                             }
                             recentOrder.recentOrder(recentOrderArrayList);
-                            getDate(dataSnapshot);
-                            getMyMoney(dataSnapshot);
+                            getDate(snapshot);
+                            getMyMoney(snapshot);
                         }
                     } else {
                         ShowToast("No internet Connection");
@@ -72,18 +73,15 @@ public class RecentOrdersForSellerRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("RecentOrderException", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
 
-    public interface recentOrder {
-        void recentOrder(ArrayList<RecentOrder> recentOrderArrayList);
-
-        void ListOfYear(ArrayList<ArrayList<ArrayList<Integer>>> years);
-
-        void recentMoney(double money);
-    }
 
     public void getDate(DataSnapshot dataSnapshot) {
         ArrayList<ArrayList<ArrayList<Integer>>> years = new ArrayList<>();
@@ -118,6 +116,13 @@ public class RecentOrdersForSellerRepository extends BaseRepository {
             }
         }
         recentOrder.recentMoney(money);
+    }
+
+
+    public interface recentOrder {
+        void recentOrder(ArrayList<RecentOrder> recentOrderArrayList);
+        void ListOfYear(ArrayList<ArrayList<ArrayList<Integer>>> years);
+        void recentMoney(double money);
     }
 
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.doubleclick.ViewModel.RecentOrderViewModel;
 import com.doubleclick.marktinhome.Adapters.RecentOrderAdapter;
 import com.doubleclick.marktinhome.Model.RecentOrder;
+import com.doubleclick.marktinhome.Model.RecentOrderData;
 import com.doubleclick.marktinhome.R;
 
 import java.util.ArrayList;
@@ -26,12 +27,6 @@ public class RecentOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recent_order);
         recentOrderViewModel = new ViewModelProvider(this).get(RecentOrderViewModel.class);
         myRecentOrder = findViewById(R.id.myRecentOrder);
-        recentOrderViewModel.getMyRecentOrderLiveData().observe(this, new Observer<ArrayList<RecentOrder>>() {
-            @Override
-            public void onChanged(ArrayList<RecentOrder> recentOrderArrayList) {
-                myRecentOrder.setAdapter(new RecentOrderAdapter(recentOrderArrayList));
-            }
-        });
-
+        recentOrderViewModel.getMyRecentOrderLiveData().observe(this, recentOrderData -> myRecentOrder.setAdapter(new RecentOrderAdapter(recentOrderData)));
     }
 }
