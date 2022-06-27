@@ -8,20 +8,28 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.widget.NestedScrollView;
 
 
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Views.CircleImageView;
 
 import java.util.Arrays;
 import java.util.List;
 
 
 public class ColorPaletteView extends LinearLayout {
-    LinearLayout llColorContainer;
-
+    private LinearLayout llColorContainer;
+    private HorizontalScrollView continner;
     private String selectedColor;
     private OnColorChangeListener mOnColorChangeListener;
 
@@ -50,17 +58,14 @@ public class ColorPaletteView extends LinearLayout {
     }
 
     private void init(Context context) {
-
         final View rootView = LayoutInflater.from(context).inflate(R.layout.view_color_palette, this, true);
         llColorContainer = rootView.findViewById(R.id.ll_color_container);
+        continner = rootView.findViewById(R.id.continner);
 
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25,
-                getResources().getDisplayMetrics());
-        int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10,
-                getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, getResources().getDisplayMetrics());
+        int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         for (int i = 0, size = mColorList.size(); i < size; i++) {
-            Log.e("WORKING", "WORKING");
-            final RoundView roundView = new RoundView(context);
+            final ImageView roundView = new ImageView(context);
             LayoutParams params = new LayoutParams(width, width);
             params.setMargins(margin, 0, margin, 0);
             roundView.setLayoutParams(params);
@@ -69,8 +74,9 @@ public class ColorPaletteView extends LinearLayout {
             roundView.setBackgroundColor(Color.parseColor(color));
             roundView.setOnClickListener(v -> {
                 setSelectedColor(color);
+                continner.setBackgroundColor(Color.parseColor(color));
                 if (mOnColorChangeListener != null) {
-                    mOnColorChangeListener.onColorChange(roundView.getBackgroundColor());
+                    mOnColorChangeListener.onColorChange(color);
                 }
             });
             llColorContainer.addView(roundView);
@@ -88,7 +94,7 @@ public class ColorPaletteView extends LinearLayout {
 
         selectedColor = selectedColor.toUpperCase();
         if (!TextUtils.isEmpty(this.selectedColor)) {
-            RoundView currentSelectedView = llColorContainer.findViewWithTag(this.selectedColor);
+            ImageView currentSelectedView = llColorContainer.findViewWithTag(this.selectedColor);
             if (currentSelectedView != null) {
                 currentSelectedView.setSelected(this.selectedColor.equalsIgnoreCase(selectedColor));
             }

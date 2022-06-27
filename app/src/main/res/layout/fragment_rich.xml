@@ -191,157 +191,171 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 -->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fl_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@color/colorPrimary">
-
-            <ImageView
-                android:id="@+id/iv_get_html"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/iv_action_undo"
-                android:layout_toLeftOf="@+id/iv_action_undo"
-                android:background="@drawable/btn_colored_primary"
-                android:padding="8dp"
-                android:src="@drawable/ic_content"
-                app:tint="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/iv_action_undo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/iv_action_redo"
-                android:layout_toLeftOf="@+id/iv_action_redo"
-                android:background="@drawable/btn_colored_primary"
-                android:padding="8dp"
-                android:src="@drawable/ic_undo"
-                app:tint="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/iv_action_redo"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/btn_colored_primary"
-                android:padding="8dp"
-                android:src="@drawable/ic_redo"
-                app:tint="@android:color/white" />
-
-        </RelativeLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#e5e5e5"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_action"
-                style="@style/ActionImageView"
-                android:padding="10dp"
-                android:src="@drawable/ic_action" />
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="24dp"
-                android:background="#9E9E9E" />
-
-            <HorizontalScrollView
-                android:id="@+id/hsv_action_bar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp">
+                android:layout_height="48dp"
+                android:background="@color/colorPrimary">
 
-                <LinearLayout
-                    android:id="@+id/ll_action_bar_container"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_get_html"
+                    android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:orientation="horizontal">
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/iv_action_undo"
+                    android:layout_toLeftOf="@+id/iv_action_undo"
+                    android:background="@drawable/btn_colored_primary"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_content"
+                    app:tint="@android:color/white" />
 
-                    <ImageView
-                        android:id="@+id/iv_action_txt_color"
-                        style="@style/ActionImageView"
-                        android:padding="9dp"
-                        android:src="@drawable/ic_format_text_color"
-                        android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/iv_action_undo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/iv_action_redo"
+                    android:layout_toLeftOf="@+id/iv_action_redo"
+                    android:background="@drawable/btn_colored_primary"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_undo"
+                    app:tint="@android:color/white" />
 
-                    <ImageView
-                        android:id="@+id/iv_action_txt_bg_color"
-                        style="@style/ActionImageView"
-                        android:padding="9dp"
-                        android:src="@drawable/ic_format_text_bg_clolr"
-                        android:visibility="gone" />
+                <ImageView
+                    android:id="@+id/iv_action_redo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/btn_colored_primary"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_redo"
+                    app:tint="@android:color/white" />
 
-                    <ImageView
-                        android:id="@+id/iv_action_insert_image"
-                        style="@style/ActionImageView"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_insert_photo" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/iv_action_insert_link"
-                        style="@style/ActionImageView"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_insert_link" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#e5e5e5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/iv_action_table"
-                        style="@style/ActionImageView"
-                        android:padding="11dp"
-                        android:src="@drawable/ic_table" />
+                <ImageView
+                    android:id="@+id/iv_action"
+                    style="@style/ActionImageView"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_action" />
 
-                    <ImageView
-                        android:id="@+id/iv_action_line_height"
-                        style="@style/ActionImageView"
-                        android:padding="11dp"
-                        android:src="@drawable/ic_line_height"
-                        android:visibility="gone" />
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="24dp"
+                    android:background="#9E9E9E" />
 
-                </LinearLayout>
-            </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/hsv_action_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <LinearLayout
+                        android:id="@+id/ll_action_bar_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_action_txt_color"
+                            style="@style/ActionImageView"
+                            android:padding="9dp"
+                            android:src="@drawable/ic_format_text_color"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_action_txt_bg_color"
+                            style="@style/ActionImageView"
+                            android:padding="9dp"
+                            android:src="@drawable/ic_format_text_bg_clolr"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/iv_action_insert_image"
+                            style="@style/ActionImageView"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_insert_photo" />
+
+                        <ImageView
+                            android:id="@+id/iv_action_insert_link"
+                            style="@style/ActionImageView"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_insert_link" />
+
+                        <ImageView
+                            android:id="@+id/iv_action_table"
+                            style="@style/ActionImageView"
+                            android:padding="11dp"
+                            android:src="@drawable/ic_table" />
+
+                        <ImageView
+                            android:id="@+id/iv_action_line_height"
+                            style="@style/ActionImageView"
+                            android:padding="11dp"
+                            android:src="@drawable/ic_line_height"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <WebView
+                android:id="@+id/wv_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
 
         </LinearLayout>
 
-        <WebView
-            android:id="@+id/wv_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="50dp"
+            android:src="@drawable/arrow_up"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:id="@+id/fl_action"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
-
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/upload"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/fl_action"
+        android:name="com.doubleclick.RichEditor.sample.fragment.EditorMenuFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/arrow_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:layout="@layout/fragment_editor_menu">
+
+
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

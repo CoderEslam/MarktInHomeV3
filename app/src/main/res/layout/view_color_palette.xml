@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/continner"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
 
     <LinearLayout
         android:id="@+id/ll_color_container"
@@ -10,4 +14,5 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="16dp" />
-</androidx.core.widget.NestedScrollView>
+
+</HorizontalScrollView>

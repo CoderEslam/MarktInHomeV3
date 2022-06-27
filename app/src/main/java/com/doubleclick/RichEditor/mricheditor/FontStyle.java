@@ -93,7 +93,7 @@ public class FontStyle {
         }
 
         try {
-            height = Double.valueOf(lineHeight);
+            height = Double.parseDouble(lineHeight);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

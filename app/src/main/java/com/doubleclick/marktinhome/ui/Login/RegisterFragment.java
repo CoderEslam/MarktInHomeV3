@@ -39,6 +39,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -127,6 +128,8 @@ public class RegisterFragment extends BaseFragment {
                         user.put("password", password);
                         user.put("image", "");
                         user.put("phone", "");
+                        user.put("date", new Date().getTime());
+                        user.put("status", "offline");
                         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                             @Override
                             public void onComplete(@NonNull Task<String> task) {
@@ -141,7 +144,7 @@ public class RegisterFragment extends BaseFragment {
                             }
                         });
                     } else {
-                        ShowToast( "you don't have internet connection");
+                        ShowToast("you don't have internet connection");
                     }
                 }
             });
@@ -192,7 +195,6 @@ public class RegisterFragment extends BaseFragment {
                 if (task.isSuccessful()) {
 
                     Toast.makeText(getContext(), "Dooooooooone", Toast.LENGTH_LONG).show();
-
 
                 } else {
                     Toast.makeText(getContext(), "Exception at = " + task.getException().toString(), Toast.LENGTH_LONG).show();

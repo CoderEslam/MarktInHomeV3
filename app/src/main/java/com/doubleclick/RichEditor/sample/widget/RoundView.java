@@ -53,7 +53,8 @@ public class RoundView extends View {
         if (isSelected) {
             mPaint.setColor(Color.WHITE);
             canvas.drawLine(5 * width / 16, height / 2, 7 * width / 16, 5 * height / 8, mPaint);
-            canvas.drawLine(7 * width / 16, 5 * height / 8, 11 * width / 16, 3 * height / 8, mPaint);
+            canvas.drawLine(7 * width / 16, 5 * height / 8, 11 * width / 16, 3 * height / 8,
+                    mPaint);
         }
     }
 

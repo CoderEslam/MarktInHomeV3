@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.util.view.SearchInputView;
 import com.bumptech.glide.Glide;
+import com.doubleclick.RichEditor.sample.RichEditorActivity;
 import com.doubleclick.ViewModel.FavoriteViewModel;
 import com.doubleclick.ViewModel.OrderViewModel;
 import com.doubleclick.ViewModel.ProductViewModel;

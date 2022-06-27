@@ -1,30 +1,20 @@
 package com.doubleclick.marktinhome.ui.MainScreen.Frgments.Add;
 
 import static com.doubleclick.marktinhome.Model.Constantes.PRODUCT;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
-import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
+import androidx.fragment.app.FragmentContainerView;
 
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,18 +43,11 @@ import com.doubleclick.RichEditor.sample.interfaces.OnActionPerformListener;
 import com.doubleclick.marktinhome.BaseFragment;
 import com.doubleclick.marktinhome.Model.Product;
 import com.doubleclick.marktinhome.R;
-import com.doubleclick.marktinhome.ui.Add.AddActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.google.protobuf.Any;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -75,8 +58,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,7 +85,6 @@ public class RichFragment extends BaseFragment {
     private String htmlContent = "<p>" + "type here....." + "</p>";
     private RichEditorAction mRichEditorAction;
     private RichEditorCallback mRichEditorCallback;
-    //    private ShareHTML shareHTML;
     private EditorMenuFragment mEditorMenuFragment;
     private Product product;
     private ArrayList<String> downloadUri = new ArrayList<>();
@@ -260,6 +240,10 @@ public class RichFragment extends BaseFragment {
             });
             llActionBarContainer.addView(actionImageView);
         }
+
+        BottomSheetBehavior<FrameLayout> bottomSheetBehavior = BottomSheetBehavior.from(flAction);
+        bottomSheetBehavior.setPeekHeight(200);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         mEditorMenuFragment = new EditorMenuFragment();
         mEditorMenuFragment.setActionClickListener(new MOnActionPerformListener(mRichEditorAction));
@@ -494,8 +478,7 @@ public class RichFragment extends BaseFragment {
 
         @Override
         public void notifyFontStyleChange(ActionType type, final String value) {
-            ActionImageView actionImageView =
-                    (ActionImageView) llActionBarContainer.findViewWithTag(type);
+            ActionImageView actionImageView = (ActionImageView) llActionBarContainer.findViewWithTag(type);
             if (actionImageView != null) {
                 actionImageView.notifyFontStyleChange(type, value);
             }

@@ -27,7 +27,6 @@ public class User implements Serializable {
     private String image;
     @NonNull
     private String token;
-
     private long date;
     @NonNull
     private String status;
