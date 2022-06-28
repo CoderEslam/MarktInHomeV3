@@ -186,4 +186,5 @@
     <string name="tiny_text_placeholder" translatable="false">siddharth siddharth </string>
     <string name="color_selected">Color selected:</string>
     <string name="size_selected">Size selected:</string>
+    <string name="add_stories">Add Stories</string>
 </resources>

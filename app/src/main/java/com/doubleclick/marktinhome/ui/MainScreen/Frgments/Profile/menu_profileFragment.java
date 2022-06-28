@@ -48,6 +48,7 @@ import com.doubleclick.marktinhome.Views.ReadQRCode.journeyapps.barcodescanner.S
 import com.doubleclick.marktinhome.Views.qrgenearator.QRGEncoder;
 import com.doubleclick.marktinhome.ui.Add.AddActivity;
 import com.doubleclick.marktinhome.ui.Advertisement.AdvertisementActivity;
+import com.doubleclick.marktinhome.ui.MainScreen.AddStoryActivity.AddStoryActivity;
 import com.doubleclick.marktinhome.ui.MainScreen.Chat.ChatActivity;
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.BottomDialogComment;
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.BottomDialogQRCode;
@@ -76,7 +77,7 @@ public class menu_profileFragment extends BaseFragment {
     private ImageView editAddress, editPhone, editname;
     private AlertDialog.Builder builder;
     private FloatingActionButton fab;
-    private ConstraintLayout AddProduct, AddAdv, AddTradmark, recentOrder, chat, statistices, QRCode, ReadQRCode;
+    private ConstraintLayout AddProduct, AddAdv, AddTradmark, recentOrder, chat, statistices, QRCode, ReadQRCode, stories;
     private ConstraintLayout logout;
 
 
@@ -152,6 +153,7 @@ public class menu_profileFragment extends BaseFragment {
         QRCode = view.findViewById(R.id.QRCode);
         ReadQRCode = view.findViewById(R.id.ReadQRCode);
         chat = view.findViewById(R.id.chat);
+        stories = view.findViewById(R.id.stories);
 
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
@@ -194,6 +196,9 @@ public class menu_profileFragment extends BaseFragment {
             Intent intent = new Intent(getContext(), ChatActivity.class);
             startActivity(intent);
 //            Navigation.findNavController(v).navigate(menu_profileFragmentDirections.actionMenuProfileToAllUserFragment());
+        });
+        stories.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), AddStoryActivity.class));
         });
 
         statistices.setOnClickListener(v -> {

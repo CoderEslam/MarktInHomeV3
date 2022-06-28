@@ -15,24 +15,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.doubleclick.UserInter
 import com.doubleclick.ViewModel.ChatListViewModel
+import com.doubleclick.ViewModel.StoryViewModel
 import com.doubleclick.ViewModel.UserViewModel
-import com.doubleclick.marktinhome.Adapters.AllUserChatListAdapter
 import com.doubleclick.marktinhome.Adapters.MyUserChatListAdapter
+import com.doubleclick.marktinhome.Adapters.StoriesAdapter
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListData
-import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListDatabaseRepository
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListViewModelDatabase
-import com.doubleclick.marktinhome.Model.ChatList
 import com.doubleclick.marktinhome.Model.User
 import com.doubleclick.marktinhome.R
+import com.doubleclick.marktinhome.Views.storyview.StoryView
+import com.doubleclick.marktinhome.Views.storyview.callback.OnStoryChangedCallback
+import com.doubleclick.marktinhome.Views.storyview.callback.StoryClickListeners
+import com.doubleclick.marktinhome.Views.storyview.model.MyStory
+import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel
+import com.doubleclick.marktinhome.Views.storyview.storyview.StoryViewCircle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.paypal.android.sdk.v
 import com.todkars.shimmer.ShimmerRecyclerView
+import kotlinx.android.synthetic.main.layout_story_view.*
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 
 class ChatListFragment : BaseFragment(), UserInter {
@@ -48,6 +58,8 @@ class ChatListFragment : BaseFragment(), UserInter {
     private lateinit var chatListViewModelDatabase: ChatListViewModelDatabase
     private lateinit var userViewModel: UserViewModel
     private lateinit var rootView: View
+    private lateinit var stories: RecyclerView;
+    private lateinit var storyViewModel: StoryViewModel;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -67,9 +79,11 @@ class ChatListFragment : BaseFragment(), UserInter {
         allUser = rootView.findViewById(R.id.allUser);
         allUser.showShimmer();
         chatUser = rootView.findViewById(R.id.chatUser);
+        stories = rootView.findViewById(R.id.stories);
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
         chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        storyViewModel = ViewModelProvider(this)[StoryViewModel::class.java];
         allUserChatListAdapter = MyUserChatListAdapter(this, allUsers);
         allUser.adapter = allUserChatListAdapter;
         // Retrieve and cache the system's default "short" animation time.
@@ -84,6 +98,13 @@ class ChatListFragment : BaseFragment(), UserInter {
 
         chatListViewModelDatabase.limitation.observe(viewLifecycleOwner) {
 
+        }
+        chatListViewModelDatabase.userList.observe(viewLifecycleOwner) {
+            storyViewModel.Users(it);
+            storyViewModel.storiesLiveData.observe(viewLifecycleOwner) {
+                val storiesAdapter = StoriesAdapter(it);
+                stories.adapter = storiesAdapter;
+            }
         }
         ////////////////////////////////////////////////////////////////////////////////////////
         /**
@@ -141,7 +162,8 @@ class ChatListFragment : BaseFragment(), UserInter {
                 bundle.putString("userId", user!!.id);
                 chatFragment.arguments = bundle
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_fragment_Chat, chatFragment).commit()
+                    .replace(com.doubleclick.marktinhome.R.id.main_fragment_Chat, chatFragment)
+                    .commit()
             } else {
                 findNavController().navigate(
                     ChatListFragmentDirections.actionChatListFragmentToChatFragment(
@@ -185,7 +207,8 @@ class ChatListFragment : BaseFragment(), UserInter {
         currentAnimator?.cancel()
 
         // Load the high-resolution "zoomed-in" image.
-        val expandedImageView: ImageView = rootView.findViewById(R.id.expanded_image)
+        val expandedImageView: ImageView =
+            rootView.findViewById(com.doubleclick.marktinhome.R.id.expanded_image)
         Glide.with(requireContext()).load(image).into(expandedImageView)
 
         // Calculate the starting and ending bounds for the zoomed-in image.
@@ -200,7 +223,7 @@ class ChatListFragment : BaseFragment(), UserInter {
         // bounds, since that's the origin for the positioning animation
         // properties (X, Y).
         thumbView.getGlobalVisibleRect(startBoundsInt)
-        rootView.findViewById<View>(R.id.container)
+        rootView.findViewById<View>(com.doubleclick.marktinhome.R.id.container)
             .getGlobalVisibleRect(finalBoundsInt, globalOffset)
         startBoundsInt.offset(-globalOffset.x, -globalOffset.y)
         finalBoundsInt.offset(-globalOffset.x, -globalOffset.y)

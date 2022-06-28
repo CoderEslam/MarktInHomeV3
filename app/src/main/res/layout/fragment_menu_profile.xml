@@ -354,6 +354,42 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/stories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chat">
+
+                    <com.doubleclick.marktinhome.Views.CircleImageView
+                        android:id="@+id/imageView458"
+                        android:layout_width="30dp"
+                        android:layout_height="30sp"
+                        android:padding="5dp"
+                        android:src="@drawable/stories"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.25"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="10dp"
+                        android:text="@string/add_stories"
+                        android:textColor="@color/textclor"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView458"
+                        app:layout_constraintStart_toEndOf="@+id/imageView458"
+                        app:layout_constraintTop_toTopOf="@+id/imageView458" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/AddProduct"
@@ -363,7 +399,7 @@
                     android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chat">
+                    app:layout_constraintTop_toBottomOf="@+id/stories">
 
                     <ImageView
                         android:id="@+id/imageView55"

@@ -42,6 +42,9 @@
         android:roundIcon="@drawable/cart"
         android:supportsRtl="true"
         android:theme="@style/Theme.MarktInHome">
+        <activity
+            android:name=".ui.MainScreen.AddStoryActivity.AddStoryActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -71,6 +74,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.MainScreen.ViewMore.ViewMoreTopDealsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Views.storyview.storyview.StoryPlayer"
             android:exported="false" />
         <activity
             android:name=".ui.MainScreen.RecentOrderActivity"
