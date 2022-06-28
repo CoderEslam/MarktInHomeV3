@@ -339,4 +339,7 @@
         <attr name="siShape" format="integer|reference" />
     </declare-styleable>
 
+    <declare-styleable name="StoriesProgressView">
+        <attr name="progressCount" format="integer|reference" />
+    </declare-styleable>
 </resources>

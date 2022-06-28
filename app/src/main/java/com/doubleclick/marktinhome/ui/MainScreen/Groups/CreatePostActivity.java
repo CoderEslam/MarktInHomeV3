@@ -159,15 +159,15 @@ public class CreatePostActivity extends AppCompatActivity {
 
     private void UploadPost(String url) {
         HashMap<String, Object> map = new HashMap<>();
-        String Pushid = reference.push().getKey().toString();
+        long time = new Date().getTime();
+        String Pushid = reference.push().getKey().toString() + ":" + time;
         map.put("adminId", user.getId());
         map.put("id", Pushid);
-        map.put("time", -1 * new Date().getTime());
+        map.put("time", -1 * time);
         map.put("text", postText.getText().toString());
         map.put("type", type);
         map.put("meme", url.toString());
         map.put("groupId", id);
-
         reference.child(GROUPS).child(id).child(POSTS).child(Pushid).updateChildren(map);
     }
 

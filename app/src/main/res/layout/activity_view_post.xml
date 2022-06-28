@@ -170,7 +170,24 @@
 
                         </androidx.cardview.widget.CardView>
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reactions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/react_dialog_shape"
+                            android:elevation="10dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toTopOf="@+id/linearLayout9"
+                            app:layout_constraintEnd_toEndOf="@+id/linearLayout9"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/linearLayout9"
+                            tools:itemCount="5"
+                            tools:listitem="@layout/react_dialog_item" />
+
                         <LinearLayout
+                            android:id="@+id/linearLayout9"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -204,7 +221,7 @@
                                         android:layout_width="18dp"
                                         android:layout_height="18dp"
                                         android:contentDescription="TODO"
-                                        android:src="@drawable/ic_like"
+                                        android:src="@drawable/ic_like_circle"
                                         tools:ignore="ContentDescription,HardcodedText" />
 
                                     <TextView

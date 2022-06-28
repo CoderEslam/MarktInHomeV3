@@ -122,7 +122,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:contentDescription="TODO"
-                                android:src="@drawable/ic_like"
+                                android:src="@drawable/ic_like_circle"
                                 android:visibility="invisible"
                                 tools:ignore="ContentDescription,HardcodedText" />
 
@@ -169,7 +169,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:contentDescription="TODO"
-                                android:src="@drawable/ic_like"
+                                android:src="@drawable/ic_like_circle"
                                 android:visibility="invisible"
                                 tools:ignore="ContentDescription,HardcodedText" />
 
@@ -215,7 +215,7 @@
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:contentDescription="TODO"
-                                android:src="@drawable/ic_like"
+                                android:src="@drawable/ic_like_circle"
                                 android:visibility="invisible"
                                 tools:ignore="ContentDescription,HardcodedText" />
 

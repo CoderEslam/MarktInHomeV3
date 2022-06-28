@@ -77,4 +77,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <!--Reaction Button Style-->
+    <style name="ReactButtonIconStyle">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:cropToPadding">false</item>
+    </style>
 </resources>

@@ -1,6 +1,5 @@
 package com.doubleclick.marktinhome.Adapters;
 
-import static com.doubleclick.marktinhome.Model.Constantes.LIKES;
 import static com.doubleclick.marktinhome.Model.Constantes.LIKES_ON_COMMENTS;
 import static com.doubleclick.marktinhome.Model.Constantes.REPLY_ON_COMMENTS;
 import static com.doubleclick.marktinhome.Model.Constantes.USER;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
@@ -27,8 +25,6 @@ import com.doubleclick.marktinhome.Model.User;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.socialtextview.SocialTextView;
 import com.doubleclick.marktinhome.ui.MainScreen.Frgments.BottomDialogComment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -176,7 +172,7 @@ public class CommentGroupAdapter extends RecyclerView.Adapter<CommentGroupAdapte
                             img_like.setImageResource(R.drawable.like_thumb_up);
                         } else {
                             like.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(commentsGroupData.get(getBindingAdapterPosition()).getCommentsGroup().getId()).getChildrenCount())));
-                            img_like.setImageResource(R.drawable.ic_like);
+                            img_like.setImageResource(R.drawable.ic_like_circle);
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         Log.e("Exption", e.getMessage());

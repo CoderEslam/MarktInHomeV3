@@ -1,9 +1,17 @@
 package com.doubleclick.marktinhome.ui.MainScreen.Groups;
 
+import static com.doubleclick.marktinhome.BaseFragment.myId;
 import static com.doubleclick.marktinhome.Model.Constantes.COMMENTS_GROUP;
 import static com.doubleclick.marktinhome.Model.Constantes.GROUPS;
 import static com.doubleclick.marktinhome.Model.Constantes.LIKES;
 import static com.doubleclick.marktinhome.Model.Constantes.POSTS;
+import static com.doubleclick.marktinhome.Views.reactbutton.FbReactions.Reactions;
+import static com.doubleclick.marktinhome.Views.reactbutton.ReactConstants.ANGRY;
+import static com.doubleclick.marktinhome.Views.reactbutton.ReactConstants.LIKE;
+import static com.doubleclick.marktinhome.Views.reactbutton.ReactConstants.LOVE;
+import static com.doubleclick.marktinhome.Views.reactbutton.ReactConstants.SAD;
+import static com.doubleclick.marktinhome.Views.reactbutton.ReactConstants.SMILE;
+import static com.doubleclick.marktinhome.Views.reactbutton.ReactConstants.WOW;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,11 +37,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.doubleclick.ViewModel.CommentsGroupViewModel;
 import com.doubleclick.marktinhome.Adapters.CommentGroupAdapter;
+import com.doubleclick.marktinhome.Adapters.GroupsAdapter;
 import com.doubleclick.marktinhome.Adapters.ImagesGroupAdapter;
 import com.doubleclick.marktinhome.Model.CommentsGroupData;
 import com.doubleclick.marktinhome.Model.PostData;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.carouselrecyclerviewReflaction.CarouselRecyclerview;
+import com.doubleclick.marktinhome.Views.reactbutton.Reaction;
+import com.doubleclick.marktinhome.Views.reactbutton.ReactionAdapter;
 import com.doubleclick.marktinhome.Views.socialtextview.SocialTextView;
 import com.doubleclick.marktinhome.ui.MainScreen.Chat.ChatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,10 +61,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ViewPostActivity extends AppCompatActivity {
+public class ViewPostActivity extends AppCompatActivity implements ReactionAdapter.GetReaction {
 
     private PostData postData;
     private String postId, groupId, myId;
@@ -72,6 +85,7 @@ public class ViewPostActivity extends AppCompatActivity {
     private ArrayList<CommentsGroupData> commentsGroupDataArrayList = new ArrayList<>();
     private CommentGroupAdapter commentGroupAdapter;
     private boolean LikeChecker = true;
+    private RecyclerView reactions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +100,7 @@ public class ViewPostActivity extends AppCompatActivity {
         option = findViewById(R.id.option);
         Comments = findViewById(R.id.Comments);
         send = findViewById(R.id.send);
+        reactions = findViewById(R.id.reactions);
         images = findViewById(R.id.images);
         images.getCarouselLayoutManager();
         images.set3DItem(true);
@@ -177,7 +192,9 @@ public class ViewPostActivity extends AppCompatActivity {
                             reference.child(LIKES).child(postId).child(myId).removeValue();
                             LikeChecker = false;
                         } else {
-                            reference.child(LIKES).child(postId).child(myId).setValue(true);
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("" + myId, "Like");
+                            reference.child(LIKES).child(postId).updateChildren(map);
                             LikeChecker = false;
                         }
                     }
@@ -188,6 +205,14 @@ public class ViewPostActivity extends AppCompatActivity {
 
                 }
             });
+        });
+        likeButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                reactions.setVisibility(View.VISIBLE);
+                reactions.setAdapter(new ReactionAdapter(Reactions(), ViewPostActivity.this, 0, reactions));
+                return true;
+            }
         });
         share.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this, v);
@@ -238,20 +263,71 @@ public class ViewPostActivity extends AppCompatActivity {
     }
 
     private void setLike(String PostKey) {
-
         reference.child(LIKES).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     if (dataSnapshot.child(PostKey).hasChild(myId)) {
-                        like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
-                        like_img.setImageResource(R.drawable.like_thumb_up);
+                        Object react = dataSnapshot.child(PostKey).child(myId).getValue().toString();
+                        if (react.toString().equals(LIKE)) {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_like_circle);
+                        } else if (react.toString().equals(LOVE)) {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_heart);
+                        } else if (react.toString().equals(WOW)) {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_surprise);
+                        } else if (react.toString().equals(ANGRY)) {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_angry);
+                        } else if (react.toString().equals(SMILE)) {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_happy);
+                        } else if (react.toString().equals(SAD)) {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_sad);
+                        } else {
+                            like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
+                            like_img.setImageResource(R.drawable.ic_like);
+                        }
                     } else {
                         like_text.setText(String.format("%s Like", String.valueOf(dataSnapshot.child(postId).getChildrenCount())));
                         like_img.setImageResource(R.drawable.ic_like);
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
 
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getReact(Reaction reaction, RecyclerView recyclerView, int pos) {
+        LikeChecker = true;
+        reference.child(LIKES).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //CHECKING IF THE POST IS LIKED OR NOT.....
+                if (LikeChecker == true) {
+                    if (dataSnapshot.child(postId).hasChild(myId)) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("" + myId, reaction.getReactText());
+                        reference.child(LIKES).child(postId).updateChildren(map);
+                        LikeChecker = false;
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("" + myId, reaction.getReactText());
+                        reference.child(LIKES).child(postId).updateChildren(map);
+                        LikeChecker = false;
+                        recyclerView.setVisibility(View.GONE);
+                    }
                 }
             }
 
