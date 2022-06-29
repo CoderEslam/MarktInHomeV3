@@ -1,5 +1,6 @@
 package com.doubleclick.marktinhome.Views.storyview.storyview;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -22,13 +23,16 @@ import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Views.PhotoView.PhotoView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgressView.StoryPlayerListener {
     public static final String STORY_IMAGE_KEY = "storyImages";
     StoryPlayerProgressView storyPlayerProgressView;
-    ImageView imageView;
+    PhotoView imageView;
     TextView name;
     TextView time;
     ArrayList<StoryModel> stories;
@@ -41,7 +45,7 @@ public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgres
         storyPlayerProgressView = findViewById(R.id.progressBarView);
         name = findViewById(R.id.storyUserName);
         time = findViewById(R.id.storyTime);
-        storyPlayerProgressView.setSingleStoryDisplayTime(2000);
+        storyPlayerProgressView.setSingleStoryDisplayTime(3000);
         imageView = findViewById(R.id.storyImage);
         storyPreference = new StoryPreference(this);
         Intent intent = getIntent();
@@ -65,6 +69,7 @@ public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgres
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setTouchListener() {
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -89,7 +94,9 @@ public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgres
     public void onStartedPlaying(int index) {
         loadImage(index);
         name.setText(stories.get(index).getName());
-        time.setText(stories.get(index).getTime());
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, dd MM yyyy HH:mm:ss aaa");
+        time.setText(simpleDateFormat.format(Long.parseLong(stories.get(index).getTime())));
         storyPreference.setStoryVisited(stories.get(index).getImageUri());
     }
 

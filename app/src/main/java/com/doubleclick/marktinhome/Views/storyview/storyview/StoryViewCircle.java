@@ -10,15 +10,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.doubleclick.marktinhome.R;
@@ -138,11 +141,16 @@ public class StoryViewCircle extends View {
                     .asBitmap()
                     .circleCrop()
                     .load(storyImageUris.get(0).getImageUri())
-                    .into(new SimpleTarget<Bitmap>() {
+                    .into(new CustomTarget<Bitmap>() {
                         @Override
-                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                             mIndicatorImageBitmap = resource;
                             invalidate();
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
                         }
                     });
         } catch (IndexOutOfBoundsException e) {

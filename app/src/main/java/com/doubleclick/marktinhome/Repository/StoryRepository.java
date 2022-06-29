@@ -1,6 +1,7 @@
 package com.doubleclick.marktinhome.Repository;
 
 import static com.doubleclick.marktinhome.Model.Constantes.STORIES;
+import static com.doubleclick.marktinhome.Views.storyview.utils.Utils.getDurationBetweenDates;
 
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -29,7 +31,6 @@ public class StoryRepository extends BaseRepository {
     }
 
     public void getStories(List<User> users) {
-        Log.e("USERSSS", users.toString());
         for (User user : users) {
             reference.child(STORIES).child(user.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -38,13 +39,15 @@ public class StoryRepository extends BaseRepository {
                         ArrayList<StoryModel> storyModels = new ArrayList<>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             StoryModel storyModel = dataSnapshot.getValue(StoryModel.class);
-                            storyModels.add(storyModel);
+                            assert storyModel != null;
+                            /*if (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) > 24) {
+
+                            }*/
+                            storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId()));
                         }
                         arrayListArrayList.add(storyModels);
-
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
@@ -58,4 +61,26 @@ public class StoryRepository extends BaseRepository {
         void getStories(ArrayList<ArrayList<StoryModel>> arrayListArrayList);
     }
 
+    private long getDurationBetweenDates(long d1, long d2) {
+
+        long diff = d1 - d2;
+        long seconds = diff / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        if (days != 0) {
+            return Math.abs(days);
+        }
+        if (hours != 0) {
+            return Math.abs(hours);
+        }
+        if (minutes != 0) {
+            return Math.abs(minutes);
+        }
+        if (seconds != 0) {
+            return Math.abs(seconds);
+        }
+        return 0;
+    }
 }

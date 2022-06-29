@@ -14,16 +14,16 @@ public class Utils {
 
         StringBuilder formattedDiff = new StringBuilder();
         if (days != 0) {
-            return formattedDiff.append(Math.abs(days) + "d").toString();
+            return formattedDiff.append(Math.abs(days)).append("day").toString();
         }
         if (hours != 0) {
-            return formattedDiff.append(Math.abs(hours) + "h").toString();
+            return formattedDiff.append(Math.abs(hours)).append("hours").toString();
         }
         if (minutes != 0) {
-            return formattedDiff.append(Math.abs(minutes) + "m").toString();
+            return formattedDiff.append(Math.abs(minutes)).append("minutes").toString();
         }
         if (seconds != 0) {
-            return formattedDiff.append(Math.abs(seconds) + "s").toString();
+            return formattedDiff.append(Math.abs(seconds)).append("second").toString();
         }
 
         return "";

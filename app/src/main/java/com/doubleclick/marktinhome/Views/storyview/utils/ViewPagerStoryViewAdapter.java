@@ -64,7 +64,7 @@ public class ViewPagerStoryViewAdapter extends PagerAdapter {
 
         if (!TextUtils.isEmpty(currentStory.getName())) {
             TextView textView = view.findViewById(R.id.descriptionTextView);
-            textView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
             textView.setText(currentStory.getName());
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,8 +74,7 @@ public class ViewPagerStoryViewAdapter extends PagerAdapter {
             });
         }
 
-        Glide.with(context)
-                .load(currentStory.getImageUri())
+        Glide.with(context).load(currentStory.getImageUri())
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

@@ -40,6 +40,7 @@ import com.doubleclick.marktinhome.Views.storyview.utils.ViewPagerStoryViewAdapt
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class StoryView extends DialogFragment implements StoriesProgressView.StoriesListener,
@@ -100,7 +101,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(getDialog()).getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return inflater.inflate(R.layout.dialog_stories, container);
     }
 
@@ -108,7 +109,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         width = displaymetrics.widthPixels;
         height = displaymetrics.heightPixels;
         // Get field from view
@@ -294,9 +295,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         }
 
         if (storiesList.get(counter).getTime() != null) {
-            titleTextView.setText(titleTextView.getText()
-                    + " "
-                    + getDurationBetweenDates(Long.parseLong(storiesList.get(counter).getTime()), Calendar.getInstance().getTime().getTime())
+            titleTextView.setText(storiesList.get(counter).getName() + " " + getDurationBetweenDates(Long.parseLong(storiesList.get(counter).getTime()), Calendar.getInstance().getTime().getTime())
             );
         }
     }

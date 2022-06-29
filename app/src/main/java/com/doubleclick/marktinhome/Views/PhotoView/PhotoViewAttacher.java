@@ -63,7 +63,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
     private boolean mAllowParentInterceptOnEdge = true;
     private boolean mBlockParentIntercept = false;
 
-    private ImageView mImageView;
+    private PhotoView mImageView;
 
     // Gesture Detectors
     private GestureDetector mGestureDetector;
@@ -160,7 +160,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
         }
     };
 
-    public PhotoViewAttacher(ImageView imageView) {
+    public PhotoViewAttacher(PhotoView imageView) {
         mImageView = imageView;
         imageView.setOnTouchListener(this);
         imageView.addOnLayoutChangeListener(this);

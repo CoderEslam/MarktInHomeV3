@@ -6,8 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.doubleclick.marktinhome.Views.PhotoView.PhotoView;
+
 @SuppressLint("AppCompatCustomView")
-public class DynamicImageView extends ImageView {
+public class DynamicImageView extends PhotoView {
 
     public DynamicImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);

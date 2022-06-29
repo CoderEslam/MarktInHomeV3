@@ -19,9 +19,7 @@ import com.doubleclick.marktinhome.R;
 
 public final class PausableProgressBar extends FrameLayout {
 
-    /***
-     * progress満了タイマーのデフォルト時間
-     */
+
     private static final int DEFAULT_PROGRESS_DURATION = 2000;
 
     private View frontProgressView;

@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+
     <com.doubleclick.marktinhome.Views.storyview.storyview.StoryViewCircle
         android:id="@+id/storyView"
         android:layout_width="wrap_content"
@@ -13,6 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:elevation="@dimen/dp_10"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,4 +23,30 @@
         app:storyImageRadius="8dp"
         app:storyItemIndicatorWidth="1dp"
         tools:background="@drawable/heart" />
+
+    <com.doubleclick.marktinhome.Views.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="@dimen/dp_10"
+        android:src="@drawable/heart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.doubleclick.marktinhome.Views.storyview.progress.StoriesProgressView
+        android:id="@+id/storiesProgressView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:progressCount="2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
