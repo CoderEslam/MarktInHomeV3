@@ -19,7 +19,7 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
 
     private ChatListDatabaseRepository mRepositry;
     private LiveData<List<ChatList>> mAllChatList;
-    private LiveData<List<User>> userList;
+    private List<User> userList;
     private LiveData<List<ChatListData>> chatListData;
     private LiveData<ChatListData> Limitation;
 
@@ -89,7 +89,7 @@ public class ChatListViewModelDatabase extends AndroidViewModel {
         mRepositry.deleteAllUsers();
     }
 
-    public LiveData<List<User>> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 

@@ -35,7 +35,6 @@ import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Views.storyview.StoryView
 import com.doubleclick.marktinhome.Views.storyview.callback.OnStoryChangedCallback
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryClickListeners
-import com.doubleclick.marktinhome.Views.storyview.model.MyStory
 import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel
 import com.doubleclick.marktinhome.Views.storyview.storyview.StoryViewCircle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -99,14 +98,13 @@ class ChatListFragment : BaseFragment(), UserInter {
         chatListViewModelDatabase.limitation.observe(viewLifecycleOwner) {
 
         }
-        chatListViewModelDatabase.userList.observe(viewLifecycleOwner) {
-            storyViewModel.Users(it);
-            storyViewModel.storiesLiveData.observe(viewLifecycleOwner) {
-                val storiesAdapter = StoriesAdapter(it);
-                stories.adapter = storiesAdapter;
-            }
+        storyViewModel.Users(chatListViewModelDatabase.userList);
+        storyViewModel.storiesLiveData.observe(viewLifecycleOwner) {
+            val storiesAdapter = StoriesAdapter(it);
+            stories.adapter = storiesAdapter;
         }
-        ////////////////////////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////////////////////
         /**
          *if something happen in ChatList update , insert , delete
          * -> store in database

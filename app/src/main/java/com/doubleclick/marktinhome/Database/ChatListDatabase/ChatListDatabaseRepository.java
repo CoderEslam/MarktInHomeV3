@@ -19,7 +19,7 @@ public class ChatListDatabaseRepository {
     private ChatListDao chatListDao;
     private UserDao userDao;
     private LiveData<List<ChatList>> getAllChatList;
-    private LiveData<List<User>> userList;
+    private List<User> userList;
     private LiveData<List<ChatListData>> chatListData;
     private LiveData<ChatListData> Limitation;
 
@@ -175,7 +175,7 @@ public class ChatListDatabaseRepository {
 
     }
 
-    public LiveData<List<User>> getUserList() {
+    public List<User> getUserList() {
         return userList;
     }
 

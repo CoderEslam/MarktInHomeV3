@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.airbnb.lottie.L;
 import com.doubleclick.marktinhome.Model.User;
 import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel;
 import com.google.firebase.database.DataSnapshot;
@@ -28,17 +29,20 @@ public class StoryRepository extends BaseRepository {
     }
 
     public void getStories(List<User> users) {
+        Log.e("USERSSS", users.toString());
         for (User user : users) {
             reference.child(STORIES).child(user.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    ArrayList<StoryModel> storyModels = new ArrayList<>();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        StoryModel storyModel = dataSnapshot.getValue(StoryModel.class);
-                        storyModels.add(storyModel);
+                    if (snapshot.exists()) {
+                        ArrayList<StoryModel> storyModels = new ArrayList<>();
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            StoryModel storyModel = dataSnapshot.getValue(StoryModel.class);
+                            storyModels.add(storyModel);
+                        }
+                        arrayListArrayList.add(storyModels);
+
                     }
-                    arrayListArrayList.add(storyModels);
-                    getStories.getStories(arrayListArrayList);
                 }
 
                 @Override
@@ -47,6 +51,7 @@ public class StoryRepository extends BaseRepository {
                 }
             });
         }
+        getStories.getStories(arrayListArrayList);
     }
 
     public interface GetStories {

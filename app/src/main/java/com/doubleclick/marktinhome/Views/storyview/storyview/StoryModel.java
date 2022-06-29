@@ -3,12 +3,17 @@ package com.doubleclick.marktinhome.Views.storyview.storyview;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class StoryModel implements Parcelable {
+import androidx.annotation.NonNull;
 
-    public String imageUri;
-    public String name;
-    public String time;
-    public String id;
+public class StoryModel implements Parcelable {
+    @NonNull
+    private String imageUri;
+    @NonNull
+    private String name;
+    @NonNull
+    private String time;
+    @NonNull
+    private String id;
 
 
     public StoryModel(String imageUri, String name, String time, String id) {
@@ -30,6 +35,10 @@ public class StoryModel implements Parcelable {
     }
 
     public StoryModel() {
+        name = "";
+        imageUri = "";
+        time = "";
+        id = "";
     }
 
     protected StoryModel(Parcel in) {

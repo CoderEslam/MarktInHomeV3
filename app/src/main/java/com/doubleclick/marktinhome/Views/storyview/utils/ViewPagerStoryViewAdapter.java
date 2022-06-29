@@ -21,19 +21,19 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryCallbacks;
-import com.doubleclick.marktinhome.Views.storyview.model.MyStory;
+import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel;
 
 import java.util.ArrayList;
 
 
 public class ViewPagerStoryViewAdapter extends PagerAdapter {
 
-    private ArrayList<MyStory> images;
+    private ArrayList<StoryModel> images;
     private Context context;
     private StoryCallbacks storyCallbacks;
     private boolean storiesStarted = false;
 
-    public ViewPagerStoryViewAdapter(ArrayList<MyStory> images, Context context, StoryCallbacks storyCallbacks) {
+    public ViewPagerStoryViewAdapter(ArrayList<StoryModel> images, Context context, StoryCallbacks storyCallbacks) {
         this.images = images;
         this.context = context;
         this.storyCallbacks = storyCallbacks;
@@ -56,16 +56,16 @@ public class ViewPagerStoryViewAdapter extends PagerAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        MyStory currentStory = images.get(position);
+        StoryModel currentStory = images.get(position);
 
         final View view = inflater.inflate(R.layout.layout_story_item, collection, false);
 
         final ImageView mImageView = view.findViewById(R.id.mImageView);
 
-        if (!TextUtils.isEmpty(currentStory.getDescription())) {
+        if (!TextUtils.isEmpty(currentStory.getName())) {
             TextView textView = view.findViewById(R.id.descriptionTextView);
             textView.setVisibility(View.VISIBLE);
-            textView.setText(currentStory.getDescription());
+            textView.setText(currentStory.getName());
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,7 +75,7 @@ public class ViewPagerStoryViewAdapter extends PagerAdapter {
         }
 
         Glide.with(context)
-                .load(currentStory.getUrl())
+                .load(currentStory.getImageUri())
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {

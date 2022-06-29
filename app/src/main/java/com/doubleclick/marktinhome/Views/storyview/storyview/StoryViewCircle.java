@@ -137,7 +137,7 @@ public class StoryViewCircle extends View {
             Glide.with(this)
                     .asBitmap()
                     .circleCrop()
-                    .load(storyImageUris.get(0).imageUri)
+                    .load(storyImageUris.get(0).getImageUri())
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -188,7 +188,7 @@ public class StoryViewCircle extends View {
     }
 
     private int getIndicatorColor(int index) {
-        return storyPreference.isStoryVisited(storyImageUris.get(index).imageUri) ? mVisistedIndicatorColor : mPendingIndicatorColor;
+        return storyPreference.isStoryVisited(storyImageUris.get(index).getImageUri()) ? mVisistedIndicatorColor : mPendingIndicatorColor;
     }
 
     @Override

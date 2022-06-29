@@ -77,7 +77,7 @@ public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgres
                     //resume
                     storyPlayerProgressView.resumeProgress();
                     return true;
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -88,9 +88,9 @@ public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgres
     @Override
     public void onStartedPlaying(int index) {
         loadImage(index);
-        name.setText(stories.get(index).name);
-        time.setText(stories.get(index).time);
-        storyPreference.setStoryVisited(stories.get(index).imageUri);
+        name.setText(stories.get(index).getName());
+        time.setText(stories.get(index).getTime());
+        storyPreference.setStoryVisited(stories.get(index).getImageUri());
     }
 
     @Override
@@ -99,26 +99,26 @@ public class StoryPlayer extends AppCompatActivity implements StoryPlayerProgres
     }
 
     private void loadImage(int index) {
-        if(!this.isDestroyed()) {
+        if (!this.isDestroyed()) {
             storyPlayerProgressView.pauseProgress();
             Glide.with(this).clear(imageView);
             Glide.with(this)
-             .load(stories.get(index).imageUri)
-             .transition(DrawableTransitionOptions.withCrossFade(500))
-             .addListener(new RequestListener<Drawable>() {
-                 @Override
-                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                     storyPlayerProgressView.resumeProgress();
-                     return false;
-                 }
+                    .load(stories.get(index).getImageUri())
+                    .transition(DrawableTransitionOptions.withCrossFade(500))
+                    .addListener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            storyPlayerProgressView.resumeProgress();
+                            return false;
+                        }
 
-                 @Override
-                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                     storyPlayerProgressView.resumeProgress();
-                     return false;
-                 }
-             })
-             .into(imageView);
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            storyPlayerProgressView.resumeProgress();
+                            return false;
+                        }
+                    })
+                    .into(imageView);
         }
     }
 }

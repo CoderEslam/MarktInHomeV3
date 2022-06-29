@@ -1,3 +1,4 @@
+/*
 package com.doubleclick.marktinhome.Views.storyview.model;
 
 import java.io.Serializable;
@@ -6,9 +7,7 @@ import java.util.Date;
 public class MyStory implements Serializable {
 
     private String url;
-
     private Date date;
-
     private String description;
 
     public MyStory(String url, Date date, String description) {
@@ -53,3 +52,4 @@ public class MyStory implements Serializable {
         this.description = description;
     }
 }
+*/

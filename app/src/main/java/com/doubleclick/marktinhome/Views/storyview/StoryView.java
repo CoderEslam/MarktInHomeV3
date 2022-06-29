@@ -30,14 +30,16 @@ import com.doubleclick.marktinhome.Views.storyview.callback.OnStoryChangedCallba
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryCallbacks;
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryClickListeners;
 import com.doubleclick.marktinhome.Views.storyview.callback.TouchCallbacks;
-import com.doubleclick.marktinhome.Views.storyview.model.MyStory;
+
 import com.doubleclick.marktinhome.Views.storyview.progress.StoriesProgressView;
+import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel;
 import com.doubleclick.marktinhome.Views.storyview.utils.PullDismissLayout;
 import com.doubleclick.marktinhome.Views.storyview.utils.StoryViewHeaderInfo;
 import com.doubleclick.marktinhome.Views.storyview.utils.ViewPagerStoryViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class StoryView extends DialogFragment implements StoriesProgressView.StoriesListener,
@@ -47,7 +49,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     private static final String TAG = StoryView.class.getSimpleName();
 
-    private ArrayList<MyStory> storiesList = new ArrayList<>();
+    private ArrayList<StoryModel> storiesList = new ArrayList<>();
 
     private final static String IMAGES_KEY = "IMAGES";
 
@@ -125,7 +127,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
 
     private void readArguments() {
         assert getArguments() != null;
-        storiesList = new ArrayList<>((ArrayList<MyStory>) getArguments().getSerializable(IMAGES_KEY));
+        storiesList = new ArrayList<>((ArrayList<StoryModel>) getArguments().getSerializable(IMAGES_KEY));
         duration = getArguments().getLong(DURATION_KEY, 2000);
         startingIndex = getArguments().getInt(STARTING_INDEX_TAG, 0);
         isRtl = getArguments().getBoolean(IS_RTL_TAG, false);
@@ -291,10 +293,10 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
             subtitleTextView.setVisibility(View.GONE);
         }
 
-        if (storiesList.get(counter).getDate() != null) {
+        if (storiesList.get(counter).getTime() != null) {
             titleTextView.setText(titleTextView.getText()
                     + " "
-                    + getDurationBetweenDates(storiesList.get(counter).getDate(), Calendar.getInstance().getTime())
+                    + getDurationBetweenDates(Long.parseLong(storiesList.get(counter).getTime()), Calendar.getInstance().getTime().getTime())
             );
         }
     }
@@ -384,9 +386,9 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         if (isDownClick && elapsedTime < 500) {
             stopTimer();
             if (((int) (height - yValue) <= 0.8 * height)) {
-                if ((!TextUtils.isEmpty(storiesList.get(counter).getDescription())
+                if ((!TextUtils.isEmpty(storiesList.get(counter).getName())
                         && ((int) (height - yValue) >= 0.2 * height)
-                        || TextUtils.isEmpty(storiesList.get(counter).getDescription()))) {
+                        || TextUtils.isEmpty(storiesList.get(counter).getName()))) {
                     if ((int) xValue <= (width / 2)) {
                         //Left
                         if (isRtl) {
@@ -436,7 +438,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
             this.storyViewHeaderInfo = new StoryViewHeaderInfo();
         }
 
-        public Builder setStoriesList(ArrayList<MyStory> storiesList) {
+        public Builder setStoriesList(ArrayList<StoryModel> storiesList) {
             bundle.putSerializable(IMAGES_KEY, storiesList);
             return this;
         }

@@ -34,7 +34,7 @@ public interface UserDao {
     void deleteAllData();
 
     @Query("SELECT * FROM User")
-    LiveData<List<User>> getUserList();
+    List<User> getUserList();
 
     @Query("SELECT * FROM User WHERE id==:id")
     @Transaction

@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Utils {
 
-    public static String getDurationBetweenDates(Date d1, Date d2) {
+    public static String getDurationBetweenDates(long d1, long d2) {
 
-        long diff = d1.getTime() - d2.getTime();
+        long diff = d1 - d2;
         long seconds = diff / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
