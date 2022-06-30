@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.doubleclick.marktinhome.MainActivity;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.CircleImageView;
+import com.doubleclick.marktinhome.Views.circularstatusview.CircularStatusView;
 import com.doubleclick.marktinhome.Views.storyview.StoryView;
 import com.doubleclick.marktinhome.Views.storyview.callback.OnStoryChangedCallback;
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryClickListeners;
@@ -54,7 +55,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
             holder.storyViewCircle.resetStoryVisits();
             holder.storyViewCircle.setImageUris(storyModels.get(position));
             Glide.with(holder.itemView.getContext()).load(storyModels.get(position).get(0).getImageUri()).into(holder.image);
-            holder.storiesProgressView.setStoriesCount(storyModels.get(position).size());
+            holder.circular_status_view.setPortionsCount(storyModels.get(position).size());
             holder.itemView.setOnClickListener(view -> {
                 new StoryView.Builder(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager())
                         .setStoriesList(storyModels.get(position))
@@ -94,13 +95,13 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
     public class StoriesViewHolder extends RecyclerView.ViewHolder {
         private StoryViewCircle storyViewCircle;
         private CircleImageView image;
-        private StoriesProgressView storiesProgressView;
+        private CircularStatusView circular_status_view;
 
         public StoriesViewHolder(@NonNull View itemView) {
             super(itemView);
             storyViewCircle = itemView.findViewById(R.id.storyView);
             image = itemView.findViewById(R.id.image);
-            storiesProgressView = itemView.findViewById(R.id.storiesProgressView);
+            circular_status_view = itemView.findViewById(R.id.circular_status_view);
         }
     }
 }

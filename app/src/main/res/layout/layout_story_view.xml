@@ -40,15 +40,18 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/person" />
 
-    <com.doubleclick.marktinhome.Views.storyview.progress.StoriesProgressView
-        android:id="@+id/storiesProgressView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+    <com.doubleclick.marktinhome.Views.circularstatusview.CircularStatusView
+        android:id="@+id/circular_status_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerInParent="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:progressCount="2" />
+        app:portion_color="@color/green"
+        app:portion_spacing="4dp"
+        app:portion_width="4dp"
+        app:portions_count="10" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
