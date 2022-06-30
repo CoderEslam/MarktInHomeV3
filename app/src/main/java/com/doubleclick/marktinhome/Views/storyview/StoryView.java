@@ -26,6 +26,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.doubleclick.marktinhome.R;
+import com.doubleclick.marktinhome.Views.CircleImageView;
 import com.doubleclick.marktinhome.Views.storyview.callback.OnStoryChangedCallback;
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryCallbacks;
 import com.doubleclick.marktinhome.Views.storyview.callback.StoryClickListeners;
@@ -79,6 +80,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
     private CardView titleCardView;
     private ImageView titleIconImageView;
     private ImageButton closeImageButton;
+    private CircleImageView imageProfile;
 
     //Touch Events
     private boolean isDownClick = false;
@@ -144,6 +146,7 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         titleIconImageView = view.findViewById(R.id.title_imageView);
         titleCardView = view.findViewById(R.id.titleCardView);
         closeImageButton = view.findViewById(R.id.imageButton);
+        imageProfile = view.findViewById(R.id.imageProfile);
         storiesProgressView.setStoriesListener(this);
         mViewPager.setOnTouchListener((v, event) -> true);
         closeImageButton.setOnClickListener(v -> dismissAllowingStateLoss());
@@ -297,6 +300,9 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         if (storiesList.get(counter).getTime() != null) {
             titleTextView.setText(storiesList.get(counter).getName() + " " + getDurationBetweenDates(Long.parseLong(storiesList.get(counter).getTime()), Calendar.getInstance().getTime().getTime())
             );
+        }
+        if (!storiesList.get(counter).getImageProfile().equals("")) {
+            Glide.with(requireActivity()).load(storiesList.get(counter).getImageProfile()).into(imageProfile);
         }
     }
 

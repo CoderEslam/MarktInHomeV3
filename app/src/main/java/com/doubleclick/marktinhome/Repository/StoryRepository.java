@@ -40,14 +40,18 @@ public class StoryRepository extends BaseRepository {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             StoryModel storyModel = dataSnapshot.getValue(StoryModel.class);
                             assert storyModel != null;
-                            /*if (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) > 24) {
+                            storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId(), user.getImage()));
 
-                            }*/
-                            storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId()));
+//                            Log.e("DDDDDDDDDDDDDDDDDDDDDDD", "" + getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()));
+//                            if (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) < 24) {
+//
+//                            }
+
                         }
                         arrayListArrayList.add(storyModels);
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
@@ -69,18 +73,20 @@ public class StoryRepository extends BaseRepository {
         long hours = minutes / 60;
         long days = hours / 24;
 
-        if (days != 0) {
-            return Math.abs(days);
-        }
+//        if (days != 0) {
+//            return Math.abs(days);
+//        }
         if (hours != 0) {
             return Math.abs(hours);
+        } else {
+            return 0;
         }
-        if (minutes != 0) {
-            return Math.abs(minutes);
-        }
-        if (seconds != 0) {
-            return Math.abs(seconds);
-        }
-        return 0;
+//        if (minutes != 0) {
+//            return Math.abs(minutes);
+//        }
+//        if (seconds != 0) {
+//            return Math.abs(seconds);
+//        }
+
     }
 }

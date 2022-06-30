@@ -269,6 +269,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
+            uploadImage();
         }
     }
 

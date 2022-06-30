@@ -63,13 +63,13 @@ public class GroupRepository extends BaseRepository {
     }
 
     public void getGroupDataById(String id) {
-        reference.child(GROUPS).child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.child(GROUPS).child(id).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
                     if (isNetworkConnected()) {
-                        if (task.getResult().exists()) {
-                            Group group = task.getResult().getValue(Group.class);
+                        if (snapshot.exists()) {
+                            Group group = snapshot.getValue(Group.class);
                             assert group != null;
                             groupData.setGroup(group);
                             reference.child(USER).child(group.getCreatedBy()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -87,6 +87,11 @@ public class GroupRepository extends BaseRepository {
                 } catch (Exception e) {
                     Log.e("ExceptionGroupRep", e.getMessage());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
