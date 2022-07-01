@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,7 @@ public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatList
                     onUser.OnUserLisitner(userArrayList.get(position));
                 }
             });
+            holder.delete.setVisibility(View.GONE);
         }
     }
 
@@ -73,10 +75,13 @@ public class AllUserChatListAdapter extends RecyclerView.Adapter<AllUserChatList
     public class AllUserViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView image;
         private TextView name;
+        private ImageView delete;
+
         public AllUserViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
+            delete = itemView.findViewById(R.id.delete);
         }
     }
 

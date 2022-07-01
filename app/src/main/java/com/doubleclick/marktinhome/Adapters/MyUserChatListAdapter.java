@@ -3,10 +3,13 @@ package com.doubleclick.marktinhome.Adapters;
 import static com.doubleclick.marktinhome.Model.Constantes.CHATS;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +40,7 @@ public class MyUserChatListAdapter extends RecyclerView.Adapter<MyUserChatListAd
 
     private UserInter onUser;
     private DatabaseReference reference;
-    private List<ChatListData> chatListData = new ArrayList<>();
+    private List<ChatListData> chatListData;
 
     public MyUserChatListAdapter(UserInter onUser, List<ChatListData> chatListData) {
         this.onUser = onUser;
@@ -51,21 +54,40 @@ public class MyUserChatListAdapter extends RecyclerView.Adapter<MyUserChatListAd
         return new MyUserViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.user_chat_layout, parent, false));
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull MyUserChatListAdapter.MyUserViewHolder holder, int position) {
         if (chatListData.size() != 0) {
-            holder.name.setText(chatListData.get(position).getUser().getName());
-            Glide.with(holder.itemView.getContext()).load(chatListData.get(position).getUser().getImage()).into(holder.image);
+            holder.name.setText(chatListData.get(holder.getBindingAdapterPosition()).getUser().getName());
+            Glide.with(holder.itemView.getContext()).load(chatListData.get(holder.getBindingAdapterPosition()).getUser().getImage()).into(holder.image);
             holder.itemView.setOnClickListener(v -> {
-                if (chatListData.get(position) != null) {
-                    onUser.OnUserLisitner(chatListData.get(position).getUser());
+                if (chatListData.get(holder.getBindingAdapterPosition()) != null) {
+                    onUser.OnUserLisitner(chatListData.get(holder.getBindingAdapterPosition()).getUser());
                 }
             });
-            if (chatListData.get(holder.getAdapterPosition()).getUser().getId() != null) {
-                holder.Messageunread(chatListData.get(holder.getAdapterPosition()).getUser().getId());
+            if (chatListData.get(holder.getBindingAdapterPosition()).getUser().getId() != null) {
+                holder.Messageunread(chatListData.get(holder.getBindingAdapterPosition()).getUser().getId());
             }
             holder.image.setOnClickListener(v -> {
-                onUser.OnImageListnerLoad(chatListData.get(position).getUser(), holder.image);
+                onUser.OnImageListnerLoad(chatListData.get(holder.getBindingAdapterPosition()).getUser(), holder.image);
+            });
+            holder.delete.setOnClickListener(view -> {
+                new AlertDialog.Builder(holder.itemView.getContext())
+                        .setTitle("Delete")
+                        .setMessage("Are you sure you want to delete this chat")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                onUser.ItemUserDeleted(chatListData.get(holder.getBindingAdapterPosition()).getUser(), chatListData.get(holder.getBindingAdapterPosition()).getChatList().get(0));
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setIcon(holder.itemView.getContext().getResources().getDrawable(R.drawable.delete))
+                        .show();
             });
         }
     }
@@ -78,12 +100,14 @@ public class MyUserChatListAdapter extends RecyclerView.Adapter<MyUserChatListAd
     public class MyUserViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView image;
         private TextView name, countMessage;
+        private ImageView delete;
 
         public MyUserViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
             countMessage = itemView.findViewById(R.id.countMessage);
+            delete = itemView.findViewById(R.id.delete);
         }
 
         private void Messageunread(String id /* friend id*/) {

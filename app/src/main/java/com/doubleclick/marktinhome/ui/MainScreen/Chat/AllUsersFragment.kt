@@ -17,6 +17,7 @@ import com.doubleclick.UserInter
 import com.doubleclick.ViewModel.UserViewModel
 import com.doubleclick.marktinhome.Adapters.AllUserChatListAdapter
 import com.doubleclick.marktinhome.BaseFragment
+import com.doubleclick.marktinhome.Model.ChatList
 import com.doubleclick.marktinhome.Model.User
 import com.doubleclick.marktinhome.R
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -89,8 +90,7 @@ class AllUsersFragment : BaseFragment(), UserInter {
     override fun ItemUser(user: User) {}
 
     override fun ItemUserChanged(user: User) {}
-
-    override fun ItemUserDeleted(user: User) {}
+    override fun ItemUserDeleted(user: User, chatList: ChatList) {}
 
     override fun ItemUserInfoById(user: User?) {}
 

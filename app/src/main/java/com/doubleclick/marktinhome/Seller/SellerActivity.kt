@@ -75,7 +75,7 @@ class SellerActivity : AppCompatActivity(), OnOrder {
 
         } finally {
             reference.child(RECENTORDER).child(pushId).updateChildren(map);
-            reference.child(ORDERS).child(orders.orders.id)
+            reference.child(ORDERS).child(myId).child(orders.orders.id)
                 .removeValue()
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
@@ -86,7 +86,7 @@ class SellerActivity : AppCompatActivity(), OnOrder {
     }
 
     override fun OnCancelItemOrder(orders: OrdersDate?) {
-        reference.child(Constantes.ORDERS).child(orders!!.orders.id)
+        reference.child(ORDERS).child(myId).child(orders!!.orders.id)
             .removeValue()
             .addOnCompleteListener {
                 if (it.isSuccessful) {

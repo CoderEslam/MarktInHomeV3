@@ -30,6 +30,7 @@ import com.doubleclick.marktinhome.Adapters.StoriesAdapter
 import com.doubleclick.marktinhome.BaseFragment
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListData
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListViewModelDatabase
+import com.doubleclick.marktinhome.Model.ChatList
 import com.doubleclick.marktinhome.Model.User
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Views.CircleImageView
@@ -143,14 +144,18 @@ class ChatListFragment : BaseFragment(), UserInter {
         imageProfile.setOnClickListener {
             startActivity(Intent(requireContext(), AddStoryActivity::class.java))
         }
+
         return rootView;
     }
 
     override fun ItemUser(user: User) {}
 
     override fun ItemUserChanged(user: User) {}
+    override fun ItemUserDeleted(user: User, chatList: ChatList) {
+        chatListViewModelDatabase.deleteUser(user)
+        chatListViewModelDatabase.deleteChatList(chatList)
+    }
 
-    override fun ItemUserDeleted(user: User) {}
 
     override fun ItemUserInfoById(user: User?) {}
 

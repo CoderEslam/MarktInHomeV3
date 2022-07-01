@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.doubleclick.UserInter;
+import com.doubleclick.marktinhome.Model.ChatList;
 import com.doubleclick.marktinhome.Model.User;
 import com.doubleclick.marktinhome.Repository.UserRepository;
 
@@ -77,13 +78,14 @@ public class UserViewModel extends ViewModel implements UserInter {
         // non
     }
 
+
     @Override
-    public void ItemUserDeleted(@NonNull User user) {
+    public void OnImageListnerLoad(@NonNull User user, @NonNull ImageView image) {
         //non
     }
 
     @Override
-    public void OnImageListnerLoad(@NonNull User user, @NonNull ImageView image) {
+    public void ItemUserDeleted(@NonNull User user, @NonNull ChatList chatList) {
         //non
     }
 }

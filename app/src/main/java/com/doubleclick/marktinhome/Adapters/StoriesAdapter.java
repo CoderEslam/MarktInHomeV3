@@ -62,7 +62,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
                 holder.itemView.setOnClickListener(view -> {
                     new StoryView.Builder(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager())
                             .setStoriesList(storyModels.get(position))
-                            .setStoryDuration(5000)
+                            .setStoryDuration(2000)
                             .setTitleText(holder.itemView.getContext().getResources().getString(R.string.name))
                             .setSubtitleText(holder.itemView.getContext().getResources().getString(R.string.egypt))
                             .setStoryClickListeners(new StoryClickListeners() {
@@ -84,6 +84,9 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
                             .build()
                             .show();
                 });
+            }
+            if (storyModels.get(position).size() == 0) {
+                holder.itemView.setVisibility(View.GONE);
             }
         } catch (IndexOutOfBoundsException e) {
             Log.e("Expetion", e.getMessage());
