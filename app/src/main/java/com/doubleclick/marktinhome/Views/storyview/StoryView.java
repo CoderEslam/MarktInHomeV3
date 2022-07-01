@@ -3,6 +3,7 @@ package com.doubleclick.marktinhome.Views.storyview;
 
 import static com.doubleclick.marktinhome.Views.storyview.utils.Utils.getDurationBetweenDates;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel;
 import com.doubleclick.marktinhome.Views.storyview.utils.PullDismissLayout;
 import com.doubleclick.marktinhome.Views.storyview.utils.StoryViewHeaderInfo;
 import com.doubleclick.marktinhome.Views.storyview.utils.ViewPagerStoryViewAdapter;
+import com.doubleclick.marktinhome.ui.MainScreen.Chat.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -298,11 +300,16 @@ public class StoryView extends DialogFragment implements StoriesProgressView.Sto
         }
 
         if (storiesList.get(counter).getTime() != null) {
-            titleTextView.setText(storiesList.get(counter).getName() + " " + getDurationBetweenDates(Long.parseLong(storiesList.get(counter).getTime()), Calendar.getInstance().getTime().getTime())
+            titleTextView.setText(String.format("%s %s", storiesList.get(counter).getName(), getDurationBetweenDates(Long.parseLong(storiesList.get(counter).getTime()), Calendar.getInstance().getTime().getTime()))
             );
         }
         if (!storiesList.get(counter).getImageProfile().equals("")) {
             Glide.with(requireActivity()).load(storiesList.get(counter).getImageProfile()).into(imageProfile);
+            imageProfile.setOnClickListener(view -> {
+                Intent intent = new Intent(requireContext(), ChatActivity.class);
+                intent.putExtra("userId", storiesList.get(counter).getUserId());
+                startActivity(intent);
+            });
         }
     }
 

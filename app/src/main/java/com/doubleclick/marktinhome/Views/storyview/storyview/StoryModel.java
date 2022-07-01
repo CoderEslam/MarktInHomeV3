@@ -16,6 +16,8 @@ public class StoryModel implements Parcelable {
     private String id;
     @NonNull
     private String imageProfile;
+    @NonNull
+    private String userId;
 
 
     public StoryModel(String imageUri, String name, String time, String id) {
@@ -41,6 +43,7 @@ public class StoryModel implements Parcelable {
         imageUri = "";
         time = "";
         id = "";
+        userId = "";
     }
 
     protected StoryModel(Parcel in) {
@@ -50,12 +53,13 @@ public class StoryModel implements Parcelable {
         id = in.readString();
     }
 
-    public StoryModel(@NonNull String imageUri, @NonNull String name, @NonNull String time, @NonNull String id, @NonNull String imageProfile) {
+    public StoryModel(@NonNull String imageUri, @NonNull String name, @NonNull String time, @NonNull String id, @NonNull String imageProfile, String userId) {
         this.imageUri = imageUri;
         this.name = name;
         this.time = time;
         this.id = id;
         this.imageProfile = imageProfile;
+        this.userId = userId;
     }
 
     @Override
@@ -132,5 +136,14 @@ public class StoryModel implements Parcelable {
 
     public void setImageProfile(@NonNull String imageProfile) {
         this.imageProfile = imageProfile;
+    }
+
+    @NonNull
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(@NonNull String userId) {
+        this.userId = userId;
     }
 }

@@ -45,7 +45,7 @@ public class StoryRepository extends BaseRepository {
                             Log.e("DDDDDDDDDDDDDDDDDDDDDDD", "2=>" + (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) > 24));
 
                             if (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) < 24) {
-                                storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId(), user.getImage()));
+                                storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId(), user.getImage(), user.getId()));
                             }
 
                         }
