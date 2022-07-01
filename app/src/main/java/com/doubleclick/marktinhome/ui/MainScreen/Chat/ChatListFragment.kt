@@ -102,8 +102,8 @@ class ChatListFragment : BaseFragment(), UserInter {
         storyViewModel.storiesLiveData.observe(viewLifecycleOwner) {
             Log.e("STORUMODEL", it.toString());
 //            if (it.size != 0) {
-                val storiesAdapter = StoriesAdapter(it);
-                stories.adapter = storiesAdapter;
+            val storiesAdapter = StoriesAdapter(it);
+            stories.adapter = storiesAdapter;
 //            }
         }
 
