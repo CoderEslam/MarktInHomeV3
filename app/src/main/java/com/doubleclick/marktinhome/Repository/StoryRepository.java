@@ -40,12 +40,13 @@ public class StoryRepository extends BaseRepository {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             StoryModel storyModel = dataSnapshot.getValue(StoryModel.class);
                             assert storyModel != null;
-                            storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId(), user.getImage()));
 
-//                            Log.e("DDDDDDDDDDDDDDDDDDDDDDD", "" + getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()));
-//                            if (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) < 24) {
-//
-//                            }
+                            Log.e("DDDDDDDDDDDDDDDDDDDDDDD", "1=>" + (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) < 24));
+                            Log.e("DDDDDDDDDDDDDDDDDDDDDDD", "2=>" + (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) > 24));
+
+                            if (getDurationBetweenDates(Long.parseLong(storyModel.getTime()), Calendar.getInstance().getTime().getTime()) < 24) {
+                                storyModels.add(new StoryModel(storyModel.getImageUri(), user.getName(), storyModel.getTime(), storyModel.getId(), user.getImage()));
+                            }
 
                         }
                         arrayListArrayList.add(storyModels);

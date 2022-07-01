@@ -77,7 +77,7 @@ public class menu_profileFragment extends BaseFragment {
     private ImageView editAddress, editPhone, editname;
     private AlertDialog.Builder builder;
     private FloatingActionButton fab;
-    private ConstraintLayout AddProduct, AddAdv, AddTradmark, recentOrder, chat, statistices, QRCode, ReadQRCode, stories;
+    private ConstraintLayout AddProduct, AddAdv, AddTradmark, recentOrder, chat, statistices, QRCode, ReadQRCode;
     private ConstraintLayout logout;
 
 
@@ -153,8 +153,6 @@ public class menu_profileFragment extends BaseFragment {
         QRCode = view.findViewById(R.id.QRCode);
         ReadQRCode = view.findViewById(R.id.ReadQRCode);
         chat = view.findViewById(R.id.chat);
-        stories = view.findViewById(R.id.stories);
-
 
         userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
             if (user != null) {
@@ -196,9 +194,6 @@ public class menu_profileFragment extends BaseFragment {
             Intent intent = new Intent(getContext(), ChatActivity.class);
             startActivity(intent);
 //            Navigation.findNavController(v).navigate(menu_profileFragmentDirections.actionMenuProfileToAllUserFragment());
-        });
-        stories.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), AddStoryActivity.class));
         });
 
         statistices.setOnClickListener(v -> {

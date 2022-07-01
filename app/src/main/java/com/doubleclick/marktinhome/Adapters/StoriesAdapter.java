@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.doubleclick.ViewHolder.StoriesViewHolder;
 import com.doubleclick.marktinhome.MainActivity;
 import com.doubleclick.marktinhome.R;
 import com.doubleclick.marktinhome.Views.CircleImageView;
@@ -51,36 +52,39 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
     @Override
     public void onBindViewHolder(@NonNull StoriesAdapter.StoriesViewHolder holder, int position) {
         try {
-            holder.storyViewCircle.setActivityContext(holder.itemView.getContext());
-            holder.storyViewCircle.resetStoryVisits();
-            holder.storyViewCircle.setImageUris(storyModels.get(position));
-            Glide.with(holder.itemView.getContext()).load(storyModels.get(position).get(0).getImageUri()).into(holder.image);
-            holder.circular_status_view.setPortionsCount(storyModels.get(position).size());
-            holder.itemView.setOnClickListener(view -> {
-                new StoryView.Builder(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager())
-                        .setStoriesList(storyModels.get(position))
-                        .setStoryDuration(5000)
-                        .setTitleText(holder.itemView.getContext().getResources().getString(R.string.name))
-                        .setSubtitleText(holder.itemView.getContext().getResources().getString(R.string.egypt))
-                        .setStoryClickListeners(new StoryClickListeners() {
-                            @Override
-                            public void onDescriptionClickListener(int position) {
+            Log.e("TEXXXXXXXXXXXT", "" + storyModels.get(position));
+            if (storyModels.get(position).size() != 0) {
+                Glide.with(holder.itemView.getContext()).load(storyModels.get(position).get(0).getImageUri()).into(holder.image);
+                holder.circular_status_view.setPortionsCount(storyModels.get(position).size());
+                holder.circular_status_view.setPortionSpacing(10);
+                holder.circular_status_view.setPortionsColor(holder.itemView.getContext().getResources().getColor(R.color.green));
+                holder.circular_status_view.setPortionWidth(4f);
+                holder.itemView.setOnClickListener(view -> {
+                    new StoryView.Builder(((FragmentActivity) holder.itemView.getContext()).getSupportFragmentManager())
+                            .setStoriesList(storyModels.get(position))
+                            .setStoryDuration(5000)
+                            .setTitleText(holder.itemView.getContext().getResources().getString(R.string.name))
+                            .setSubtitleText(holder.itemView.getContext().getResources().getString(R.string.egypt))
+                            .setStoryClickListeners(new StoryClickListeners() {
+                                @Override
+                                public void onDescriptionClickListener(int position) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onTitleIconClickListener(int position) {
-                            }
-                        }).setOnStoryChangedCallback(new OnStoryChangedCallback() {
-                            @Override
-                            public void storyChanged(int position) {
+                                @Override
+                                public void onTitleIconClickListener(int position) {
+                                }
+                            }).setOnStoryChangedCallback(new OnStoryChangedCallback() {
+                                @Override
+                                public void storyChanged(int position) {
 
-                            }
-                        }).setStartingIndex(0)
-                        .setRtl(true)
-                        .build()
-                        .show();
-            });
+                                }
+                            }).setStartingIndex(0)
+                            .setRtl(true)
+                            .build()
+                            .show();
+                });
+            }
         } catch (IndexOutOfBoundsException e) {
             Log.e("Expetion", e.getMessage());
         }
@@ -93,13 +97,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<StoriesAdapter.StoriesV
     }
 
     public class StoriesViewHolder extends RecyclerView.ViewHolder {
-        private StoryViewCircle storyViewCircle;
         private CircleImageView image;
         private CircularStatusView circular_status_view;
 
         public StoriesViewHolder(@NonNull View itemView) {
             super(itemView);
-            storyViewCircle = itemView.findViewById(R.id.storyView);
             image = itemView.findViewById(R.id.image);
             circular_status_view = itemView.findViewById(R.id.circular_status_view);
         }

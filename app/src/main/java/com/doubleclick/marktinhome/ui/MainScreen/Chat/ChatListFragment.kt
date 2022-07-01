@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Point
 import android.graphics.Rect
 import android.graphics.RectF
@@ -15,8 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -32,16 +32,10 @@ import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListData
 import com.doubleclick.marktinhome.Database.ChatListDatabase.ChatListViewModelDatabase
 import com.doubleclick.marktinhome.Model.User
 import com.doubleclick.marktinhome.R
-import com.doubleclick.marktinhome.Views.storyview.StoryView
-import com.doubleclick.marktinhome.Views.storyview.callback.OnStoryChangedCallback
-import com.doubleclick.marktinhome.Views.storyview.callback.StoryClickListeners
-import com.doubleclick.marktinhome.Views.storyview.storyview.StoryModel
-import com.doubleclick.marktinhome.Views.storyview.storyview.StoryViewCircle
+import com.doubleclick.marktinhome.Views.CircleImageView
+import com.doubleclick.marktinhome.ui.MainScreen.AddStoryActivity.AddStoryActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.todkars.shimmer.ShimmerRecyclerView
-import kotlinx.android.synthetic.main.layout_story_view.*
-import java.text.ParseException
-import java.text.SimpleDateFormat
 
 
 class ChatListFragment : BaseFragment(), UserInter {
@@ -59,6 +53,7 @@ class ChatListFragment : BaseFragment(), UserInter {
     private lateinit var rootView: View
     private lateinit var stories: RecyclerView;
     private lateinit var storyViewModel: StoryViewModel;
+    private lateinit var imageProfile: CircleImageView;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -79,6 +74,7 @@ class ChatListFragment : BaseFragment(), UserInter {
         allUser.showShimmer();
         chatUser = rootView.findViewById(R.id.chatUser);
         stories = rootView.findViewById(R.id.stories);
+        imageProfile = rootView.findViewById(R.id.imageProfile);
         chatListViewModel = ViewModelProvider(this)[ChatListViewModel::class.java];
         chatListViewModelDatabase = ViewModelProvider(this)[ChatListViewModelDatabase::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
@@ -141,6 +137,12 @@ class ChatListFragment : BaseFragment(), UserInter {
             findNavController().navigate(ChatListFragmentDirections.actionChatListFragmentToAllUsersFragment())
         }
 
+        userViewModel.user.observe(viewLifecycleOwner, Observer {
+            Glide.with(requireContext()).load(it.image).into(imageProfile);
+        })
+        imageProfile.setOnClickListener {
+            startActivity(Intent(requireContext(), AddStoryActivity::class.java))
+        }
         return rootView;
     }
 
