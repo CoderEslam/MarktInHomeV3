@@ -1,6 +1,5 @@
 package com.doubleclick
 
-import com.doubleclick.marktinhome.Model.Rate
 import com.doubleclick.marktinhome.Model.Trademark
 
 /**

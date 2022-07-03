@@ -458,7 +458,7 @@
                                 app:sv_unit="total rating"
                                 app:sv_unitUnderSpeedText="true"
                                 app:sv_withTremble="false"
-                                tools:sv_maxSpeed="1000"
+                                tools:sv_maxSpeed="5"
                                 tools:sv_minSpeed="0" />
 
                             <ImageView

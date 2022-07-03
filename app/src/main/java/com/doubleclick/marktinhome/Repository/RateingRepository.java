@@ -8,7 +8,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.doubleclick.Rateing;
-import com.doubleclick.marktinhome.Model.Rate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -25,20 +24,24 @@ public class RateingRepository extends BaseRepository {
 
 
     private Rateing rateing;
-    private ArrayList<Rate> rates = new ArrayList<>();
+    private ArrayList<String> rates = new ArrayList<>();
 
     public RateingRepository(Rateing rateing) {
         this.rateing = rateing;
     }
 
     public void getMyRate(String myId, String productId) {
-        reference.child(RATE).child(productId).child(myId + ":" + productId).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child(RATE).child(productId).child(myId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    if (isNetworkConnected() && snapshot.exists()) {
-                        Rate rate = snapshot.getValue(Rate.class);
-                        rateing.MyRate(rate);
+                    if (isNetworkConnected()) {
+                        if (snapshot.exists()) {
+                            String rate = Objects.requireNonNull(snapshot.getValue()).toString();
+                            rateing.MyRate(rate);
+                        }
+                    } else {
+                        ShowToast("No internet");
                     }
                 } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
@@ -62,7 +65,7 @@ public class RateingRepository extends BaseRepository {
                     if (isNetworkConnected()) {
                         if (snapshot.exists()) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                Rate rate = dataSnapshot.getValue(Rate.class);
+                                String rate = Objects.requireNonNull(dataSnapshot.getValue()).toString();
                                 rates.add(rate);
                             }
                             rateing.AllRate(rates);

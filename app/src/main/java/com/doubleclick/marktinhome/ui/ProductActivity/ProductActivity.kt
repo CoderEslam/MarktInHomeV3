@@ -3,14 +3,14 @@ package com.doubleclick.marktinhome.ui.ProductActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
-import android.media.Rating
 import android.os.Build
 import android.os.Bundle
-import android.util.Half.toFloat
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,11 +21,8 @@ import com.doubleclick.ViewModel.FavoriteViewModel
 import com.doubleclick.ViewModel.RateViewModel
 import com.doubleclick.marktinhome.Adapters.ProductSliderAdapter
 import com.doubleclick.marktinhome.BaseApplication.ShowToast
-import com.doubleclick.marktinhome.Model.Constantes
 import com.doubleclick.marktinhome.Model.Constantes.*
-import com.doubleclick.marktinhome.Model.Favorite
 import com.doubleclick.marktinhome.Model.Product
-import com.doubleclick.marktinhome.Model.Rate
 import com.doubleclick.marktinhome.R
 import com.doubleclick.marktinhome.Repository.BaseRepository.myId
 import com.doubleclick.marktinhome.Repository.BaseRepository.reference
@@ -36,17 +33,9 @@ import com.doubleclick.marktinhome.Views.viewmoretextview.ViewMoreTextView
 import com.doubleclick.marktinhome.ui.MainScreen.Comments.CommentsActivity
 import com.github.anastr.speedviewlib.AwesomeSpeedometer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_product.*
-import kotlinx.android.synthetic.main.fragment_upload.*
 import lecho.lib.hellocharts.model.PieChartData
 import lecho.lib.hellocharts.model.SliceValue
 import lecho.lib.hellocharts.view.PieChartView
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class productActivity : AppCompatActivity() {
 
@@ -193,15 +182,13 @@ class productActivity : AppCompatActivity() {
             nestedScrollColor.visibility = View.GONE
         }
         setBannerSliderViewPager(product.images)
-        rateViewModel.getMyRate(myId, product.productId)
-        rateViewModel.myRateing.observe(this) {
+        rateViewModel.getMyRate(myId, product.productId).observe(this) {
             if (it != null) {
-                yourRate.rating = it.rate.toFloat();
+                yourRate.rating = it.toFloat();
             }
         }
 
-        rateViewModel.getAllRate(product.productId)
-        rateViewModel.allRateing.observe(this) {
+        rateViewModel.getAllRate(product.productId).observe(this) {
             CalculatRate(it)
             var r1 = 0f;
             var r2 = 0f;
@@ -210,23 +197,23 @@ class productActivity : AppCompatActivity() {
             var r5 = 0f
             val list: MutableList<SliceValue> = ArrayList();
             for (i in it) {
-                if (0.0 < i.rate.toFloat() && i.rate.toFloat() <= 1.0) {
+                if (0.0 < i.toFloat() && i.toFloat() <= 1.0) {
                     r1 += 1
                     list.add(SliceValue(r1, resources.getColor(R.color.red)))
                 }
-                if (1.0 < i.rate.toFloat() && i.rate.toFloat() <= 2.0) {
+                if (1.0 < i.toFloat() && i.toFloat() <= 2.0) {
                     r2 += 1
                     list.add(SliceValue(r2, resources.getColor(R.color.orange)))
                 }
-                if (2.0 < i.rate.toFloat() && i.rate.toFloat() <= 3.0) {
+                if (2.0 < i.toFloat() && i.toFloat() <= 3.0) {
                     r3 += 1
                     list.add(SliceValue(r3, resources.getColor(R.color.yellow)))
                 }
-                if (3.0 < i.rate.toFloat() && i.rate.toFloat() <= 4.0) {
+                if (3.0 < i.toFloat() && i.toFloat() <= 4.0) {
                     r4 += 1
                     list.add(SliceValue(r4, resources.getColor(R.color.yellowgreen)))
                 }
-                if (4.0 < i.rate.toFloat() && i.rate.toFloat() <= 5.0) {
+                if (4.0 < i.toFloat() && i.toFloat() <= 5.0) {
                     r5 += 1
                     list.add(SliceValue(r5, resources.getColor(R.color.green)))
                 }
@@ -271,13 +258,9 @@ class productActivity : AppCompatActivity() {
          * put rate for product
          * */
         yourRate.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            val id = myId + ":" + product.productId
             val map: HashMap<String, Any> = HashMap();
-            map["id"] = id
-            map["rate"] = rating.toString()
-            map["myId"] = myId
-            reference.child(RATE).child(product.productId).child(id)
-                .updateChildren(map);
+            map["" + myId] = rating.toString()
+            reference.child(RATE).child(product.productId).updateChildren(map);
         }
 
         plus.setOnClickListener {
@@ -309,23 +292,20 @@ class productActivity : AppCompatActivity() {
 
     }
 
-    private fun CalculatRate(rate: ArrayList<Rate>) {
+    private fun CalculatRate(rate: ArrayList<String>) {
         speedView.maxSpeed = rate.size.toFloat()
-        var count = 0;
+        var count = 0f;
         for (r in rate) {
-            if (r.rate.toFloat() > 2.0f) {
-                count++;
-            }
+            count += r.toFloat();
         }
         // for indicate NeedleIndicator to good rating
-        speedView.speedTo(count.toFloat());
-        CaculatePercentageTotalRate(count.toLong(), rate.size.toLong());
+        speedView.speedTo(product.totalPercentage.toFloat());
+        CaculatePercentageTotalRate(count.toLong(), rate.size.toDouble());
     }
 
-    private fun CaculatePercentageTotalRate(c: Long, all: Long) {
-        val unit: Double = (all / 5.0)
-        val percentage: Double = (c / unit)
-        totalPercentage.text = percentage.toString()
+    private fun CaculatePercentageTotalRate(c: Long, all: Double) {
+        val percentage: Double = (c / all)
+        totalPercentage.text = String.format("%.1f", percentage);
         val map: HashMap<String, Any> = HashMap();
         map["totalPercentage"] = percentage.toString();
         reference.child(PRODUCT).child(product.productId).updateChildren(map);
