@@ -323,7 +323,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupsAdapter.L
     private void Share() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.market.doublethink.com/group/" + id);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://www.market.doubleclick.com/group/" + id);
         sendIntent.setType("text/plain");
         Intent shareIntent = Intent.createChooser(sendIntent, null);
         startActivity(shareIntent);

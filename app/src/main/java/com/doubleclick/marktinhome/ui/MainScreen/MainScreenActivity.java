@@ -157,6 +157,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavAdapter.
                 intent.putExtra("id", idProduct);
                 startActivity(intent);
                 return true;
+            } else if (search.getText().toString().contains("https://www.market.doubleclick.com/group/")) {
+                String[] url = search.getText().toString().split("www.market.doubleclick.com/product/");
+                String idGroup = url[1];
+                Intent intent = new Intent(MainScreenActivity.this, GroupsActivity.class);
+                intent.putExtra("id", idGroup);
+                startActivity(intent);
+                return true;
             } else if (!search.getText().toString().equals("")) {
 //                    Sending.Check(query, MainScreenActivity.this, MainScreenActivity.this);
                 Intent intent = new Intent(MainScreenActivity.this, FilterActivity.class);
